@@ -1,7 +1,11 @@
+#ifndef __OS_CPU_H
+#define __OS_CPU_H
+
 // data type
 // compiler related
 
 #include <stdint.h>
+
 
 typedef   uint8_t   BOOLEAN;
 typedef   uint8_t   INT8U;       /* Unsigned  8 bit quantity           */
@@ -48,7 +52,5 @@ void __setPenSV();
 #define OS_TASK_SW() \
   __setPenSV();
 
-OS_STK *OSTaskStkInit(void (*task)(void *pd),
-                      void *pdata,
-                      OS_STK *ptos,
-                      INT16U opt);
+
+#endif
