@@ -1,3 +1,16 @@
+# 4.16
+    - 正在移植，到 systickISR 的时候打算先实现下 
+    SystemInit
+
+    frustrating if had to say, 
+    正在实现 SystemInit()
+    但是对于检查 PLL 是否就绪和检查 systick 是否以
+    PLL 作为时钟源的时候，会出现 PC 起飞的情况
+    而且 USAGEFUALTREG 也给出一些奇妙的报错
+
+    折磨了
+
+
 # 4.15
 
     - 根据官方手册加入了 `OS_CPU_C.c` 中关于 Hook 

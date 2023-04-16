@@ -7,6 +7,3 @@ int main() {
   }
 }
 
-void SystemInit() {
-
-}

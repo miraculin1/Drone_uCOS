@@ -1,4 +1,4 @@
-TARGET = Drone
+TARGET = os
 
 BUILD_DIR = build
 C_SRC = $(shell find . -name '*.c')
@@ -67,7 +67,8 @@ CFLAGS = $(MCU) $(C_DEFS) $(C_INC) $(OPT) -Wall -fdata-sections -ffunction-secti
 ifeq ($(DEBUG), 1)
 CFLAGS += -g3
 #optimize
-OPT = -Og
+OPT = \
+			-Og
 endif
 
 # dependency output .d file to build dir
@@ -142,7 +143,7 @@ rebuild:
 	bear --append -- make
 
 burn: all
-	openocd -f interface/stlink_v2.cfg -f target/stm32f4x.cfg -c "program $(BUILD_DIR)/$(TARGET).hex verify reset exit"
+	openocd -f interface/stlink-v2.cfg -f target/stm32f4x.cfg -c "program $(BUILD_DIR)/$(TARGET).hex verify reset exit"
 #######################################
 # dependencies
 #######################################

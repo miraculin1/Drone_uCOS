@@ -35,11 +35,11 @@ void __setPenSV();
 #if OS_CRITICAL_METHOD == 3
 
 #define OS_ENTER_CRITICAL() \
-  cpu_sr = __getPSR(); \
-  __disableirq();
+  {cpu_sr = __getPSR(); \
+  __disableirq();}
 
 #define OS_EXIT_CRITICAL() \
-  __setPSR(cpu_sr);
+  {__setPSR(cpu_sr);}
 
 #endif
 
