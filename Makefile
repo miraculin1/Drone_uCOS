@@ -52,6 +52,7 @@ C_INC = \
 				-I./Ports/stm32f401/GNU \
 				-I./Cfg/Template \
 				-I/usr/arm-none-eabi/include \
+				-I./Basic/Inc/ \
 
 
 
