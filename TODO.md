@@ -27,3 +27,6 @@ impelement systemInit
 
 - [x] **CODE**
     开始写相关代码
+
+- [x] **CODE**
+    impelement the psp things

@@ -8,7 +8,6 @@ void __setPenSV() {
   *((uint32_t *)0xE000ED04) |= (0b1 << 28);
 }
 
-
 // function exported
 //=============================================
 /*
@@ -68,7 +67,7 @@ OS_STK *OSTaskStkInit(void (*task)(void *pd), void *pdata, OS_STK *ptos,
   (*p_stk--) = (OS_STK)0x11111111;
   (*p_stk--) = (OS_STK)0x11111111;
   // r4
-  (*p_stk--) = (OS_STK)0x11111111;
+  (*p_stk) = (OS_STK)0x11111111;
 
   return p_stk;
 }
@@ -92,9 +91,9 @@ void OSTaskDelHook(OS_TCB *ptcb) {
 }
 
 // when task switch occur, right before switch
-// @global param OSTCBCur: old, gonna leave cpu 
+// @global param OSTCBCur: old, gonna leave cpu
 // (pointer to task)
-// @global param OSTCBHighRdy: new, gonna go in cpu 
+// @global param OSTCBHighRdy: new, gonna go in cpu
 // (pointer to task)
 void OSTaskSwHook() {
   // empty
@@ -109,12 +108,12 @@ void OSTaskStatHook(void) {
 // called by the OSTimeTick() right before the tick is
 // accturlly processed
 void OSTimeTickHook() {
-// empty
+  // empty
 }
 
 // called by OS_TCBInit() just before the OSTaskCreateHook()
 void OSTCBInitHook(OS_TCB *ptcb) {
-// empty
+  // empty
 }
 
 // called by OS_TaskIdle()
@@ -135,3 +134,6 @@ void OSInitHookEnd() {
   // empty
 }
 
+void OSTaskReturnHook(OS_TCB *ptcb) {
+  // empty
+}

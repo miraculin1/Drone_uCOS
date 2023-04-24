@@ -60,7 +60,7 @@ C_INC = \
 # is used to delete the dead code that not used
 # they must be used at the same time
 
-ASFLAG = $(MCU) $(AS_DEFS) $(AS_INC) $(OPT)-Wall -fdata-sections -ffunction-sections
+ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INC) -Wall -fdata-sections -ffunction-sections
 
 CFLAGS = $(MCU) $(C_DEFS) $(C_INC) $(OPT) -Wall -fdata-sections -ffunction-sections
 
@@ -118,7 +118,7 @@ $(BUILD_DIR)/%.o: %.c Makefile | $(BUILD_DIR)
 	$(CC) -c $(CFLAGS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:%.c=%.lst)) $< -o $@
 	
 $(BUILD_DIR)/%.o: %.s Makefile | $(BUILD_DIR)
-	$(AS) -c $(CFLAGS) $< -o $@
+	$(AS) -c $(ASFLAGS) $< -o $@
 
 $(BUILD_DIR)/$(TARGET).elf: $(OBJ) Makefile | $(BUILD_DIR)
 	$(CC) $(OBJ) $(LDFLAG) -o $@
