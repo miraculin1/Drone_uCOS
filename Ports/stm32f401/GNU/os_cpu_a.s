@@ -11,20 +11,16 @@
   // task in cpu
   .extern OSTCBCur
   .extern OSTaskSwHook
-  .extern TCBHighRdy
+  .extern OSTCBHighRdy
   .extern OSIntNesting
-  .extern OSPriorCur
-  .extern OSPriorHighRdy
+  .extern OSPrioCur
+  .extern OSPrioHighRdy
 
 // funcs
   .extern OSIntEnter
   .extern OSTimeTick
   .extern OSIntExit
 
-  .word back2Thread
-  .word realBack
-  .set back2Thread, 0xffffffff9
-  .set realBack, 0xfffffffd
 
   .global OSStartHighRdy
   .global OSIntCtxSw
@@ -33,6 +29,8 @@
   .global __disableirq
   .global __getPSR
   .global __setPSR
+  .global PendSV_Handler
+  .global SysTick_Handler
 
     .section .text.__enableirq
   .type __enableirq, %function
@@ -95,8 +93,15 @@ OSStartHighRdy:
   // save the EXC_RETURN to pc
 
   ldmfd r0!, {r4-r11, lr}
-  msr psp, r0
-  bx lr
+  mov r8, r0
+  ldmfd r8!, {r0-r3}
+  ldmfd r8!, {r4-r7}
+  msr psr, r7
+  msr psp, r8
+  mov r8, #2
+  msr control, r8
+  isb
+  bx r6
 
   .size OSStartHighRdy, .-OSStartHighRdy
 
@@ -109,13 +114,6 @@ OSStartHighRdy:
 OSCtxSw:
   // check EXEC_RETURN
   // make sure Thread mode use psp all the time
-  ldr r0, =back2Thread
-  ldr r0, [r0]
-  ldr r1, =realBack
-  ldr r1, [r1]
-  cmp lr, r0
-  it eq
-  moveq lr, r1
   // save regs
   ldr r0, =OSTCBCur
   ldr r0, [r0]
@@ -128,12 +126,12 @@ OSCtxSw:
 
   // TCBCur = TCBHighRdy
   ldr r0, =OSTCBCur
-  ldr r1, =TCBHighRdy
+  ldr r1, =OSTCBHighRdy
   ldr r1, [r1]
   str r1, [r0]
   // OSPriorCur = OSPriorHighRdy
-  ldr r0, =OSPriorCur
-  ldr r1, =OSPriorHighRdy
+  ldr r0, =OSPrioCur
+  ldr r1, =OSPrioHighRdy
   ldr r1, [r1]
   str r1, [r0]
 
@@ -153,13 +151,6 @@ OSCtxSw:
   .type OSTickISR, %function
 
 OSTickISR:
-  ldr r0, =back2Thread
-  ldr r0, [r0]
-  ldr r1, =realBack
-  ldr r1, [r1]
-  cmp lr, r0
-  it eq
-  moveq lr, r1
 
   bl OSIntEnter
   ldr r0, =OSIntNesting
@@ -201,7 +192,7 @@ NONESTING:
   // no higher task
   ldr r0, =OSTCBCur
   ldr r0, [r0]
-  str r1, [r0]
+  ldr r1, [r0]
   ldmfd r1!, {r4-r11, lr}
   msr psp, r1
   bx lr
@@ -221,8 +212,8 @@ OSIntCtxSw:
   str r1, [r0]
 
   // OSPriorCur = OSPriorHighRdy
-  ldr r0, =OSPriorCur
-  ldr r1, =OSPriorHighRdy
+  ldr r0, =OSPrioCur
+  ldr r1, =OSPrioHighRdy
   ldr r1, [r1]
   str r1, [r0]
 

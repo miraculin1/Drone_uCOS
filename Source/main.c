@@ -5,7 +5,6 @@
 int main() {
 
   OS_STK stk1[STK_SIZE];
-  OS_STK stkidle[20];
 
   while (1) {
     OSInit();

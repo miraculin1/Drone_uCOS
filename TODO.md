@@ -1,9 +1,5 @@
-- [ ] **DEBUG**
-    while loop in systemInit goes wild
-
-- [ ] **TEST**
-    PSR stuff
-    Write to the thumb bit is ignored?
+- [ ] **LOOK INTO**
+    MSP shall have its own stack?
 
 - [ ] **LOOK INTO**
     FPU when stack, the space allocation
@@ -11,12 +7,21 @@
 - [ ] **CODE**
     impelement the IdelHook
 
+- [ ] **DEBUG**
+    while loop in systemInit goes wild
+
+- [x] **TEST**
+    PSR stuff
+    Write to the thumb bit is ignored?
+
 - [x] **CODE**
 impelement systemInit
 
 - [x] **LOOK INTO**
     EXC_RETURN store to where
 
+- [x] **DEBUG**
+    not branch to task IDLE 
 
 - [x] **LOOK INTO**
     编程手册中提到建议在 Thread 模式下使用 PSP，在
