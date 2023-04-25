@@ -1,7 +1,4 @@
 - [ ] **LOOK INTO**
-    MSP shall have its own stack?
-
-- [ ] **LOOK INTO**
     FPU when stack, the space allocation
 
 - [ ] **CODE**
@@ -9,6 +6,9 @@
 
 - [ ] **DEBUG**
     while loop in systemInit goes wild
+
+- [x] **LOOK INTO**
+    MSP shall have its own stack?
 
 - [x] **TEST**
     PSR stuff

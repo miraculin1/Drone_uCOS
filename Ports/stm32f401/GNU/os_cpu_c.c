@@ -1,7 +1,5 @@
 #include "os_cpu.h"
-#ifndef OS_MASTER_FILE
-#include <ucos_ii.h>
-#endif
+#include "Includes.h"
 
 void __setPenSV() {
   // 0xE000 ED00 is the base add of SCB registers
@@ -87,7 +85,7 @@ void OSTaskCreateHook(OS_TCB *ptcb) {
 // @param ptcb is pointing to the deleting tcb
 // can be used as a clean up for extended tcb part
 void OSTaskDelHook(OS_TCB *ptcb) {
-  // empty
+  OSMemPut(stkpool, ptcb->OSTCBStkBase);
 }
 
 // when task switch occur, right before switch

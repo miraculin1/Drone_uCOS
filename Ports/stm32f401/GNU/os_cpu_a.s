@@ -152,7 +152,9 @@ OSCtxSw:
 
 OSTickISR:
 
+  stmfd sp!, {lr}
   bl OSIntEnter
+  ldmfd sp!, {lr}
   ldr r0, =OSIntNesting
   ldr r0, [r0]
   cmp r0, #1
