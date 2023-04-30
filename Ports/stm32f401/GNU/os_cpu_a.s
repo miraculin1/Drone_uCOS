@@ -80,7 +80,7 @@ OSStartHighRdy:
   // OSRunning = 1
   ldr r0, =OSRunning
   mov r1, #1
-  str r1, [r0]
+  strb r1, [r0]
 
   // load the sp of Highest prio task
   ldr r0, =OSTCBHighRdy

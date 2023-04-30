@@ -7,10 +7,9 @@
 #include <stdint.h>
 #include "stm32f4xx.h"
 
+#include "main.h"
+
 #define STK_SIZE 128
 #define STK_CNT 10
-
-void initProcessor();
-extern OS_MEM *stkpool;
 
 #endif
