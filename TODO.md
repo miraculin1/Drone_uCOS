@@ -1,4 +1,7 @@
 - [ ] **LOOK INTO**
+    after INTCtxSw, all int are disabled
+
+- [ ] **LOOK INTO**
     FPU when stack, the space allocation
 
 - [ ] **CODE**

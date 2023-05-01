@@ -8,5 +8,7 @@
 void initProcessor();
 extern OS_MEM *stkpool;
 void test();
+void initHardware();
+void test();
 
 #endif

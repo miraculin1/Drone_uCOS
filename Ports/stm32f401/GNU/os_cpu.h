@@ -6,7 +6,8 @@
 
 #include <stdint.h>
 
-typedef uint8_t BOOLEAN; typedef uint8_t INT8U;   /* Unsigned  8 bit quantity           */
+typedef uint8_t BOOLEAN;
+typedef uint8_t INT8U;   /* Unsigned  8 bit quantity           */
 typedef int8_t INT8S;    /* Signed    8 bit quantity           */
 typedef uint16_t INT16U; /* Unsigned 16 bit quantity           */
 typedef int16_t INT16S;  /* Signed   16 bit quantity           */
@@ -19,9 +20,7 @@ typedef INT32U OS_STK;    /* Each stack entry is 32-bit wide    */
 typedef INT32U OS_CPU_SR; /* Define size of CPU status register */
 
 // asm funcs for OS_CRITICAL_METHOD
-void __disableirq();
-void __enableirq();
-INT32U __getPSR();
+OS_CPU_SR __savePRIMASK(void);
 void __setPSR(INT32U cpu_sr);
 
 void __setPenSV();
@@ -33,10 +32,7 @@ void __setPenSV();
 #if OS_CRITICAL_METHOD == 3
 
 #define OS_ENTER_CRITICAL()                                                    \
-  {                                                                            \
-    cpu_sr = __getPSR();                                                       \
-    __disableirq();                                                            \
-  }
+  { cpu_sr = __savePRIMASK(); }
 
 #define OS_EXIT_CRITICAL()                                                     \
   { __setPSR(cpu_sr); }

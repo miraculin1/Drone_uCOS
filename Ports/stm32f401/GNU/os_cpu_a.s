@@ -25,37 +25,20 @@
   .global OSStartHighRdy
   .global OSIntCtxSw
   .global OSCtxSw
-  .global __enableirq
-  .global __disableirq
-  .global __getPSR
+  .global __savePRIMASK
   .global __setPSR
   .global PendSV_Handler
   .global SysTick_Handler
 
-    .section .text.__enableirq
-  .type __enableirq, %function
-__enableirq:
-  cpsie i
-  bx lr
-  .size __enableirq, .-__enableirq
+    .section .text.__savePRIMASK
+  .type __savePRIMASK, %function
 
-    .section .text.__disableirq
-  .type __disableirq, %function
-
-__disableirq:
+__savePRIMASK:
+  mrs r0, primask
   cpsid i
   bx lr
 
-  .size __disableirq, .-__disableirq
-
-    .section .text.__getPSR
-  .type __getPSR, %function
-
-__getPSR:
-  mrs r0, PRIMASK
-  bx lr
-
-  .size __getPSR, .-__getPSR
+  .size __savePRIMASK, .-__savePRIMASK
 
     .section .text.__setPSR
   .type __setPSR, %function
@@ -133,7 +116,7 @@ OSCtxSw:
   ldr r0, =OSPrioCur
   ldr r1, =OSPrioHighRdy
   ldr r1, [r1]
-  str r1, [r0]
+  strb r1, [r0]
 
   ldr r0, =OSTCBCur // R0->TCBCur->TCB
   ldr r0, [r0] // R0->TCB
@@ -217,13 +200,15 @@ OSIntCtxSw:
   ldr r0, =OSPrioCur
   ldr r1, =OSPrioHighRdy
   ldr r1, [r1]
-  str r1, [r0]
+  strb r1, [r0]
 
   ldr r0, =OSTCBCur
   ldr r0, [r0]
   ldr r1, [r0]
+  ldmfd sp!, {r4, lr}
   ldmfd r1!, {r4-r11, lr}
   msr psp, r1
+  cpsie i
   bx lr
 
   .size OSIntCtxSw, .-OSIntCtxSw

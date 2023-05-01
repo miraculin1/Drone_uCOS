@@ -53,6 +53,7 @@ C_INC = \
 				-I./Cfg/Template \
 				-I/usr/arm-none-eabi/include \
 				-I./Basic/Inc/ \
+				-I./Source/drivers/Inc \
 
 
 

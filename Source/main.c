@@ -20,6 +20,9 @@ int main() {
     // MUST
     OSTaskCreate(&initProcessor, NULL, &stk1[STK_SIZE - 1], 0);
 
+    stk1 = OSMemGet(stkpool, &ERROR);
+    OSTaskCreate(&test, NULL, &stk1[STK_SIZE - 1], 2);
+
     OSStart();
   }
 }
@@ -42,7 +45,19 @@ void initProcessor() {
   // pendSV set to lowest priority
   SCB->SHP[9] = 0xFF;
 
+  initHardware();
   OSTaskDel(OS_PRIO_SELF);
   while (1) {
+  }
+}
+
+void initHardware() { initLED(); }
+
+void test() {
+  while (1) {
+    LED_ON();
+    OSTimeDly(2);
+    LED_OFF();
+    OSTimeDly(2);
   }
 }
