@@ -20,6 +20,7 @@
   .extern OSIntEnter
   .extern OSTimeTick
   .extern OSIntExit
+  .extern __setPenSV
 
 
   .global OSStartHighRdy
@@ -29,6 +30,9 @@
   .global __setPSR
   .global PendSV_Handler
   .global SysTick_Handler
+
+  .word SCB_ICSR
+  .set SCB_ICSR, 0xe000ed04
 
     .section .text.__savePRIMASK
   .type __savePRIMASK, %function
@@ -189,26 +193,10 @@ NONESTING:
   .type OSIntCtxSw, %function
 
 OSIntCtxSw:
-  bl OSTaskSwHook
-  // OSTCBCur = OSTCBHighRdy
-  ldr r0, =OSTCBCur
-  ldr r1, =OSTCBHighRdy
-  ldr r1, [r1]
-  str r1, [r0]
-
-  // OSPriorCur = OSPriorHighRdy
-  ldr r0, =OSPrioCur
-  ldr r1, =OSPrioHighRdy
-  ldr r1, [r1]
-  strb r1, [r0]
-
-  ldr r0, =OSTCBCur
-  ldr r0, [r0]
-  ldr r1, [r0]
-  ldmfd sp!, {r4, lr}
-  ldmfd r1!, {r4-r11, lr}
-  msr psp, r1
-  cpsie i
+  // set PendSV
+  stmfd sp!, {lr}
+  bl __setPenSV
+  ldmfd sp!, {lr}
   bx lr
 
   .size OSIntCtxSw, .-OSIntCtxSw
