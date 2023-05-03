@@ -1,3 +1,4 @@
+@ vim:ft=armv5
 /**
   ******************************************************************************
   * @file      startup_stm32f401xe.s
@@ -32,6 +33,9 @@
 .global  g_pfnVectors
 .global  Default_Handler
 .extern main
+.extern topMainSTK
+
+.global _estack
 
 /* start address for the initialization values of the .data section. 
 defined in linker script */
@@ -92,6 +96,9 @@ LoopFillZerobss:
   cmp r2, r4
   bcc FillZerobss
 
+  ldr r0, =topMainSTK
+  ldr r0, [r0]
+  msr msp, r0
 /* Call the clock system initialization function.*/
   bl  SystemInit   
 /* Call static constructors */

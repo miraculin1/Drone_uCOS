@@ -1,4 +1,4 @@
-TARGET = Drone
+TARGET = os
 
 BUILD_DIR = build
 C_SRC = $(shell find . -name '*.c')
@@ -52,6 +52,8 @@ C_INC = \
 				-I./Ports/stm32f401/GNU \
 				-I./Cfg/Template \
 				-I/usr/arm-none-eabi/include \
+				-I./Basic/Inc/ \
+				-I./Source/drivers/Inc \
 
 
 
@@ -59,7 +61,7 @@ C_INC = \
 # is used to delete the dead code that not used
 # they must be used at the same time
 
-ASFLAG = $(MCU) $(AS_DEFS) $(AS_INC) $(OPT)-Wall -fdata-sections -ffunction-sections
+ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INC) -Wall -fdata-sections -ffunction-sections
 
 CFLAGS = $(MCU) $(C_DEFS) $(C_INC) $(OPT) -Wall -fdata-sections -ffunction-sections
 
@@ -67,7 +69,8 @@ CFLAGS = $(MCU) $(C_DEFS) $(C_INC) $(OPT) -Wall -fdata-sections -ffunction-secti
 ifeq ($(DEBUG), 1)
 CFLAGS += -g3
 #optimize
-OPT = -Og
+OPT = \
+			-Og
 endif
 
 # dependency output .d file to build dir
@@ -116,7 +119,7 @@ $(BUILD_DIR)/%.o: %.c Makefile | $(BUILD_DIR)
 	$(CC) -c $(CFLAGS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:%.c=%.lst)) $< -o $@
 	
 $(BUILD_DIR)/%.o: %.s Makefile | $(BUILD_DIR)
-	$(AS) -c $(CFLAGS) $< -o $@
+	$(AS) -c $(ASFLAGS) $< -o $@
 
 $(BUILD_DIR)/$(TARGET).elf: $(OBJ) Makefile | $(BUILD_DIR)
 	$(CC) $(OBJ) $(LDFLAG) -o $@
@@ -142,7 +145,7 @@ rebuild:
 	bear --append -- make
 
 burn: all
-	openocd -f interface/stlink_v2.cfg -f target/stm32f4x.cfg -c "program $(BUILD_DIR)/$(TARGET).hex verify reset exit"
+	openocd -f interface/stlink-v2.cfg -f target/stm32f4x.cfg -c "program $(BUILD_DIR)/$(TARGET).hex verify reset exit"
 #######################################
 # dependencies
 #######################################
