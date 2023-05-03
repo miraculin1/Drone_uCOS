@@ -3,8 +3,9 @@
 
 OS_STK __stk_Array[STK_CNT][STK_SIZE];
 OS_MEM *stkpool;
-OS_STK mainStk[STK_SIZE];
+OS_STK mainStk[STK_SIZE * 3];
 OS_STK *topMainSTK = &mainStk[STK_SIZE - 1];
+void test2();
 
 int main() {
 
@@ -22,6 +23,9 @@ int main() {
 
     stk1 = OSMemGet(stkpool, &ERROR);
     OSTaskCreate(&test, NULL, &stk1[STK_SIZE - 1], 2);
+
+    stk1 = OSMemGet(stkpool, &ERROR);
+    OSTaskCreate(&test2, NULL, &stk1[STK_SIZE - 1], 1);
 
     OSStart();
   }
@@ -59,5 +63,14 @@ void test() {
     OSTimeDly(2);
     LED_OFF();
     OSTimeDly(2);
+  }
+}
+
+void test2() {
+  while (1) {
+    LED_OFF();
+    for (int i = 0; i < 10000000; i++) {
+    }
+    OSTimeDly(100);
   }
 }

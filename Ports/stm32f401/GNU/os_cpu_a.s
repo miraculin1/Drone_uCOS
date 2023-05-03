@@ -31,9 +31,6 @@
   .global PendSV_Handler
   .global SysTick_Handler
 
-  .word SCB_ICSR
-  .set SCB_ICSR, 0xe000ed04
-
     .section .text.__savePRIMASK
   .type __savePRIMASK, %function
 
@@ -142,6 +139,7 @@ OSTickISR:
   stmfd sp!, {lr}
   bl OSIntEnter
   ldmfd sp!, {lr}
+  // systick is most prio so no need turn off int
   ldr r0, =OSIntNesting
   ldr r0, [r0]
   cmp r0, #1
@@ -164,26 +162,24 @@ NESTING:
   bx lr
 
 NONESTING:
-  // save regs
-  mrs r1, psp
-  stmfd r1!, {r4-r11, lr}
-  ldr r0, =OSTCBCur
-  ldr r0, [r0]
-  str r1, [r0]
+  // 这里保存寄存器并非必要（实际情况下）
+  // 因为 neat 方案里的 IntCtxSw 是使用置位 PendSV
+  // 所以不会从 OSIntExit 里出去，
+  // 所以不需要保存现场
+  // uc 手册里提到的方案会导致被 systick 打断的更低
+  // 优先级的中断需要等上下文切换目的任务完成才会继续进行
+  // 中断的处理
+
   // i assume no need to clear interrupt device
   // maening no explict need to ack the interrupt
 
   // no nesting so not enable interrupt here
 
+  stmfd sp!, {lr}
   bl OSTimeTick
   bl OSIntExit
+  ldmfd sp!, {lr}
 
-  // no higher task
-  ldr r0, =OSTCBCur
-  ldr r0, [r0]
-  ldr r1, [r0]
-  ldmfd r1!, {r4-r11, lr}
-  msr psp, r1
   bx lr
 
 
