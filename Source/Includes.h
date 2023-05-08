@@ -6,6 +6,8 @@
 #endif
 #include <stdint.h>
 #include "stm32f4xx.h"
+#include "newlib.h"
+#include "trace.h"
 
 #include "HMC5883.h"
 #include "IIC.h"
@@ -18,7 +20,7 @@
 
 #include "main.h"
 
-#define STK_SIZE 128
+#define STK_SIZE 512
 #define STK_CNT 10
 
 #endif

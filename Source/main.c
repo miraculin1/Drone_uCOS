@@ -69,6 +69,7 @@ void test() {
 void test2() {
   while (1) {
     LED_OFF();
+    printf("hello\n");
     for (int i = 0; i < 10000000; i++) {
     }
     OSTimeDly(100);
