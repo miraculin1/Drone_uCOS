@@ -1,5 +1,11 @@
+- [ ] **CODE**
+    INT for usart recieve
+
 - [ ] **LOOK INTO**
-    after INTCtxSw, all int are disabled
+    checkout MPU
+
+- [ ] **CODE**
+    impelement mutiple motor
 
 - [ ] **LOOK INTO**
     FPU when stack, the space allocation
@@ -38,3 +44,7 @@ impelement systemInit
 
 - [x] **CODE**
     impelement the psp things
+
+- [x] **LOOK INTO**
+    after INTCtxSw, all int are disabled
+

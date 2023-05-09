@@ -80,7 +80,7 @@ OSStartHighRdy:
   mov r8, r0
   ldmfd r8!, {r0-r3}
   ldmfd r8!, {r4-r7}
-  msr psr, r7
+  msr epsr, r7
   msr psp, r8
   mov r8, #2
   msr control, r8

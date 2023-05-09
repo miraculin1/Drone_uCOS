@@ -54,6 +54,7 @@ C_INC = \
 				-I/usr/arm-none-eabi/include \
 				-I./Basic/Inc/ \
 				-I./Source/drivers/Inc \
+				-I./Source/trace/ \
 
 
 

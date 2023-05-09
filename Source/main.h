@@ -7,8 +7,10 @@
 
 void initProcessor();
 extern OS_MEM *stkpool;
-void test();
 void initHardware();
-void test();
+void updateThro();
+void SendInfo();
+void userTaskCreate();
+void displayOLED();
 
 #endif
