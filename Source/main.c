@@ -33,7 +33,7 @@ int main() {
 
     OS_STK *pstk = OSMemGet(stkpool, &ERROR);
     // MUST
-    OSTaskCreate(&initProcessor, NULL, &pstk[STK_SIZE - 1], 0);
+    OSTaskCreate(&initSys, NULL, &pstk[STK_SIZE - 1], 0);
 
 
     OSStart();
@@ -44,21 +44,10 @@ int main() {
 // after initalize, it will delet itself
 // - Set up systick
 // - Set pendSV priority
-void initProcessor() {
-  // set overall priority group to
-  // 4bit preemt, 4bit sub
-  SCB->AIRCR |= (0b101 << 8);
-  // set up systick
-  // /8 scale
-  SysTick->CTRL &= ~(1 << 2);
-  SysTick->LOAD = ((SystemCoreClock / 8 / OS_TICKS_PER_SEC) & 0xFFFFFF);
-  // enable systick inttrupt
-  SysTick->CTRL |= (1 << 1);
-  SysTick->CTRL |= 1;
+void initSys() {
+  initSystickPsv();
 
-  // pendSV set to lowest priority
-  SCB->SHP[9] = 0xFF;
-
+  OSStatInit();
   initHardware();
   userTaskCreate();
   OSTaskDel(OS_PRIO_SELF);
@@ -73,7 +62,6 @@ void initHardware() {
   initIIC();
   initMPU6050();
   initHMC();
-  // inttrupt needed
   initRec();
   initMotor();
 }
@@ -98,13 +86,26 @@ void SendInfo() {
 void updateThro() {
   while (1) {
     if (recData.linedUp) {
-      setThro1(recData.chs[2] - 1000);
+      fourMotro[0] = recData.chs[2] - 1000;
+      setThro(fourMotro);
     }
     OSTimeDly(2);
   }
 }
 
-void displayOLED() {
-  OLED_ShowHexNum2(0,0, recData.chs[2], 4);
-  OSTimeDly(10);
+void initSystickPsv() {
+  // set overall priority group to
+  // 4bit preemt, 4bit sub
+  SCB->AIRCR |= (0b101 << 8);
+  // set up systick
+  // /8 scale
+  SysTick->CTRL &= ~(1 << 2);
+  SysTick->LOAD = ((SystemCoreClock / 8 / OS_TICKS_PER_SEC) & 0xFFFFFF);
+  // enable systick inttrupt
+  SysTick->CTRL |= (1 << 1);
+  SysTick->CTRL |= 1;
+
+  // pendSV set to lowest priority
+  SCB->SHP[9] = 0xFF;
+
 }

@@ -5,12 +5,12 @@
 #include <ucos_ii.h>
 #endif
 
-void initProcessor();
+void initSys();
 extern OS_MEM *stkpool;
 void initHardware();
 void updateThro();
 void SendInfo();
 void userTaskCreate();
-void displayOLED();
+void initSystickPsv();
 
 #endif

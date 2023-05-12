@@ -30,7 +30,8 @@
 #define TIM3_ *(uint32_t *)(TIM3_Base + 0x)
 
 void initTIM3PWM();
-void setThro1(uint16_t percent);
+void setThro(uint16_t fourMotor[4]);
 void initMotor();
 void motorCalThro();
+extern uint16_t fourMotro[4];
 #endif

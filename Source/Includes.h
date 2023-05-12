@@ -15,7 +15,7 @@
 #include "MPU6050.h"
 #include "oled2.h"
 #include "REC.h"
-#include "TIM.h"
+#include "motor.h"
 #include "USART.h"
 
 #include "main.h"

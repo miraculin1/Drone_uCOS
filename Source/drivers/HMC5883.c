@@ -1,4 +1,5 @@
 #include "Includes.h"
+#define HMCAdd 0x3c
 
 // 8-avg 15Hz normal measurement continuos
 // need to delay at least 65ms before write in
@@ -8,7 +9,7 @@ void initHMC() {
   HMCWrite(0x01, 0xa0);
   HMCWrite(0x02, 0x00);
 }
-void HMCWrite(uint8_t tar, uint8_t data) { IIC_WriteData(HMCAdd, tar, data); }
+void HMCWrite(uint8_t tarreg, uint8_t data) { IIC_WriteData(HMCAdd, tarreg, data); }
 
 /*
  * HMC 当只读取了一个寄存器的值之后，会锁住所有寄存器，
