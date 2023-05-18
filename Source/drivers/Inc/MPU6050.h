@@ -3,5 +3,10 @@
 
 #include "IIC.h"
 void initMPU6050();
-void MPUReadData(uint16_t *x, uint16_t *y, uint16_t *z);
+void GyroData(int16_t data[3]);
+void AccData(int16_t data[3]);
+
+void enBypass();
+void disenBypass();
+uint8_t whoami();
 #endif

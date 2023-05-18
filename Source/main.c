@@ -11,14 +11,14 @@ OS_STK *topMainSTK = &mainStk[STK_SIZE - 1];
  * prio|name|note
  * */
 void userTaskCreate() {
-    OS_STK *pstk;
-    INT8U ERROR;
+  OS_STK *pstk;
+  INT8U ERROR;
 
-    pstk = OSMemGet(stkpool, &ERROR);
-    OSTaskCreate(&updateThro, NULL, &pstk[STK_SIZE - 1], 1);
+  pstk = OSMemGet(stkpool, &ERROR);
+  OSTaskCreate(&updateThro, NULL, &pstk[STK_SIZE - 1], 1);
 
-    pstk = OSMemGet(stkpool, &ERROR);
-    OSTaskCreate(&SendInfo, NULL, &pstk[STK_SIZE - 1], 4);
+  pstk = OSMemGet(stkpool, &ERROR);
+  OSTaskCreate(&SendInfo, NULL, &pstk[STK_SIZE - 1], 4);
 }
 
 int main() {
@@ -34,7 +34,6 @@ int main() {
     OS_STK *pstk = OSMemGet(stkpool, &ERROR);
     // MUST
     OSTaskCreate(&initSys, NULL, &pstk[STK_SIZE - 1], 0);
-
 
     OSStart();
   }
@@ -55,7 +54,6 @@ void initSys() {
   }
 }
 
-
 void initHardware() {
   initLED();
   initUSART();
@@ -66,20 +64,30 @@ void initHardware() {
   initMotor();
 }
 
+void Convert(int16_t data, uint16_t scale, char *buffer) {
+  int res = data * 100 * scale / (0xffff / 2);
+  sprintf(buffer, "%d", res);
+}
+
 void SendInfo() {
-  uint16_t x, y, z;
+  int16_t data[3];
+  char buffer[100];
   while (1) {
     OSSchedLock();
-    MPUReadData(&x, &y, &z);
+    GyroData(data);
     OSSchedUnlock();
-    USendInt(x);
+    Convert(data[0], 2000, buffer);
+    USendStr(buffer);
     USendByte(';');
-    USendInt(y);
+    Convert(data[1], 2000, buffer);
+    USendStr(buffer);
     USendByte(';');
-    USendInt(z);
+    Convert(data[2], 2000, buffer);
+    USendStr(buffer);
     USendByte(';');
     USendByte('\n');
-    OSTimeDly(10);
+
+    OSTimeDly(2);
   }
 }
 
@@ -107,5 +115,4 @@ void initSystickPsv() {
 
   // pendSV set to lowest priority
   SCB->SHP[9] = 0xFF;
-
 }

@@ -7,7 +7,6 @@ int IIC1_CheckStatus(uint16_t s1, uint16_t s2) {
   return 0;
 }
 
-
 // using pb8 SCL
 // pb9 SDL
 void initIIC() {
@@ -125,4 +124,63 @@ void IIC_ReadData(uint32_t SlaveAdd, uint32_t tar, uint8_t *out) {
   // disable ACK
   IIC1_CR1 &= ~(0x1 << 10);
   *out = IIC1_DR;
+}
+
+void IICOR(uint32_t addr, uint32_t tarreg, uint8_t orval) {
+  uint8_t tmp;
+  IIC_ReadData(addr, tarreg, &tmp);
+  tmp |= orval;
+  IIC_WriteData(addr, tarreg, tmp);
+}
+
+void IICNAND(uint32_t addr, uint32_t tarreg, uint8_t nandval) {
+  uint8_t tmp;
+  IIC_ReadData(addr, tarreg, &tmp);
+  tmp &= ~(nandval);
+  IIC_WriteData(addr, tarreg, tmp);
+}
+
+void IICBurstRead(uint32_t addr, uint32_t startReg, uint32_t cnt,
+                  uint8_t *datas) {
+  uint8_t *temp = datas;
+
+  while (IIC1_CheckStatus(0x0000, 0x0002))
+    ;
+
+  I2C1->CR1 |= I2C_CR1_START;
+  while(!IIC1_CheckStatus(I2C_SR1_SB, 0x0))
+    ;
+  I2C1->DR = (addr & ~(0b1));
+  while(!IIC1_CheckStatus(I2C_SR1_ADDR, 0x0))
+    ;
+
+  I2C1->DR = startReg;
+  while(!IIC1_CheckStatus(I2C_SR1_BTF, 0x0))
+    ;
+
+  I2C1->CR1 |= I2C_CR1_START;
+  while(!IIC1_CheckStatus(I2C_SR1_SB, 0x0))
+    ;
+
+  I2C1->CR1 |= I2C_CR1_ACK;
+  I2C1->DR = addr | 0b1;
+  while(!IIC1_CheckStatus(I2C_SR1_ADDR, 0x0))
+    ;
+
+  while(!IIC1_CheckStatus(I2C_SR1_RXNE,0x0))
+    ;
+
+  *(temp++) = I2C1->DR;
+  while (cnt > 1) {
+    while(!IIC1_CheckStatus(I2C_SR1_RXNE,0x0))
+      ;
+    *(temp++) = I2C1->DR;
+    cnt--;
+  }
+  I2C1->CR1 |= I2C_CR1_STOP;
+  I2C1->CR1 &= ~(I2C_CR1_ACK);
+  while(!IIC1_CheckStatus(I2C_SR1_RXNE,0x0))
+    ;
+  *(temp++) = I2C1->DR;
+  cnt--;
 }

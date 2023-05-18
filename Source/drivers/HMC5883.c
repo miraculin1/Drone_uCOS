@@ -18,7 +18,7 @@ void HMCWrite(uint8_t tarreg, uint8_t data) { IIC_WriteData(HMCAdd, tarreg, data
  */
 
 // TODO rewrite the Read
-void HMCReadByte(uint8_t tar, uint8_t *out) {
+void HMCRead(uint8_t tar, uint8_t *out) {
   uint8_t RDY = 0;
   while ((RDY & 0x01) == 0) {
     IIC_ReadData(HMCAdd, 0x09, &RDY);
@@ -58,7 +58,7 @@ void HMCReadData(uint16_t *x, uint16_t *y, uint16_t *z) {
   uint8_t add = 0x03;
   // read into the array
   while (now < 6) {
-    HMCReadByte(add, &raw[now]);
+    HMCRead(add, &raw[now]);
     now++;
     add++;
   }

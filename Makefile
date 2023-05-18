@@ -1,3 +1,5 @@
+.PHONY: all clean burn rebuild
+
 TARGET = os
 
 BUILD_DIR = build
@@ -89,12 +91,13 @@ LDSCRIPT = \
 # lc stand for standard c LIB
 # lm stands for math LIB
 # lnosys is from newlib(For embeded) not sure what for (for now)
-LIBS = -lc -lnosys
+LIBS = -lc -lnosys -lm
 LIBDIR = 
 
 #Wl, pass things behind ',' to linker
 # map seems store data useful for debug
-# cref seems also have to do with debug
+# cref determine that map info shall be output to file
+# rather stdout
 # --gc-sections delete the unused code
 LDFLAG = $(MCU) -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
 
