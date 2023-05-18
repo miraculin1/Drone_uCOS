@@ -3,6 +3,7 @@
 
 #ifndef OS_MASTER_FILE
 #include <ucos_ii.h>
+#include <math.h>
 #endif
 #include <stdint.h>
 #include "stm32f4xx.h"
