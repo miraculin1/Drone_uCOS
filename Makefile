@@ -57,6 +57,8 @@ C_INC = \
 				-I./Basic/Inc/ \
 				-I./Source/drivers/Inc \
 				-I./Source/trace/ \
+				-I./Source/syscalls/inc \
+				-I./Source/lib/inc \
 
 
 
@@ -99,7 +101,7 @@ LIBDIR =
 # cref determine that map info shall be output to file
 # rather stdout
 # --gc-sections delete the unused code
-LDFLAG = $(MCU) -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
+LDFLAG = $(MCU) -T$(LDSCRIPT) -u _printf_float $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections 
 
 
 all: $(BUILD_DIR)/$(TARGET).elf $(BUILD_DIR)/$(TARGET).hex $(BUILD_DIR)/$(TARGET).bin
@@ -149,7 +151,7 @@ rebuild:
 	bear --append -- make
 
 burn: all
-	openocd -f interface/stlink-v2.cfg -f target/stm32f4x.cfg -c "program $(BUILD_DIR)/$(TARGET).hex verify reset exit"
+	openocd -f interface/stlink.cfg -f target/stm32f4x.cfg -c "program $(BUILD_DIR)/$(TARGET).hex verify reset exit"
 #######################################
 # dependencies
 #######################################

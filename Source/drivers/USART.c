@@ -47,7 +47,7 @@ void initUSART() {
   // enable USART, UE bit
   USART1_CR1 |= (0x1 << 13);
   // define word lenth 8bit data 1bit stop
-  USART1_CR1 |= (0x1 << 12);
+  USART1_CR1 &= ~(0x1 << 12);
   // define stop bit to 1
   USART1_CR2 &= ~(0x3 << 12);
   // DMA not enable

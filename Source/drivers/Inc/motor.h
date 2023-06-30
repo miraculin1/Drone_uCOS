@@ -33,5 +33,5 @@ void initTIM3PWM();
 void setThro(uint16_t fourMotor[4]);
 void initMotor();
 void motorCalThro();
-extern uint16_t fourMotro[4];
+extern uint16_t fourMotor[4];
 #endif

@@ -70,22 +70,34 @@ void Convert(int16_t data, uint16_t scale, char *buffer) {
 }
 
 void SendInfo() {
+  float euler[3];
   int16_t data[3];
+  int16_t hmc[3];
   char buffer[100];
   while (1) {
-    OSSchedLock();
-    GyroData(data);
-    OSSchedUnlock();
-    Convert(data[0], 2000, buffer);
+    /* AccData(data); */
+    /* Convert(data[0], 2, buffer); */
+    /* USendStr(buffer); */
+    /* USendByte(';'); */
+    /* Convert(data[1], 2, buffer); */
+    /* USendStr(buffer); */
+    /* USendByte(';'); */
+    /* Convert(data[2], 2, buffer); */
+    /* USendStr(buffer); */
+    /* USendByte(';'); */
+/*  */ /* accEuler(euler); */
+    /* USendByte('\n'); */
+/*  */
+    /* sprintf(buffer, "%d", (int)(euler[0] * 100)); */
+    /* USendStr("roll:"); */
+    /* USendStr(buffer); */
+/*  */
+    /* sprintf(buffer, "%d\n", (int)(euler[1] * 100)); */
+    /* USendStr("pitch:"); */
+    /* USendStr(buffer); */
+    HMCReadData(hmc);
+    sprintf(buffer, "%d, %d, %d\n", hmc[0], hmc[1], hmc[2]);
     USendStr(buffer);
-    USendByte(';');
-    Convert(data[1], 2000, buffer);
-    USendStr(buffer);
-    USendByte(';');
-    Convert(data[2], 2000, buffer);
-    USendStr(buffer);
-    USendByte(';');
-    USendByte('\n');
 
     OSTimeDly(2);
   }
@@ -94,8 +106,8 @@ void SendInfo() {
 void updateThro() {
   while (1) {
     if (recData.linedUp) {
-      fourMotro[0] = recData.chs[2] - 1000;
-      setThro(fourMotro);
+      fourMotor[0] = recData.chs[2] - 1000;
+      setThro(fourMotor);
     }
     OSTimeDly(2);
   }

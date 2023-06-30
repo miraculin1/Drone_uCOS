@@ -9,7 +9,9 @@ void initHMC() {
   HMCWrite(0x01, 0xa0);
   HMCWrite(0x02, 0x00);
 }
-void HMCWrite(uint8_t tarreg, uint8_t data) { IIC_WriteData(HMCAdd, tarreg, data); }
+void HMCWrite(uint8_t tarreg, uint8_t data) {
+  IIC_WriteData(HMCAdd, tarreg, data);
+}
 
 /*
  * HMC 当只读取了一个寄存器的值之后，会锁住所有寄存器，
@@ -50,27 +52,11 @@ void HMCJustListen(uint8_t *data) {
   *data = IIC1_DR;
 }
 
-void HMCReadData(uint16_t *x, uint16_t *y, uint16_t *z) {
+void HMCReadData(int16_t out[3]) {
   uint8_t raw[6];
-  int now = 0;
-  // this should set te pointer to begin of data
-  // and read the first data
-  uint8_t add = 0x03;
-  // read into the array
-  while (now < 6) {
-    HMCRead(add, &raw[now]);
-    now++;
-    add++;
-  }
+  IICBurstRead(HMCAdd, 0x03, 6, raw);
 
-  now = 0;
-  *x = 0;
-  *x |= (raw[now++] << 8);
-  *x |= (raw[now++]);
-  *y = 0;
-  *y |= (raw[now++] << 8);
-  *y |= (raw[now++]);
-  *z = 0;
-  *z |= (raw[now++] << 8);
-  *z |= (raw[now++]);
+  for (int i = 0; i < 3; i++) {
+    out[i] = (raw[2 * i] << 8) | raw[2 * i + 1];
+  }
 }

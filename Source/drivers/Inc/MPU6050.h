@@ -9,4 +9,6 @@ void AccData(int16_t data[3]);
 void enBypass();
 void disenBypass();
 uint8_t whoami();
+
+extern uint32_t GyroScale, AccScale;
 #endif

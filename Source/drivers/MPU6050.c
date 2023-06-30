@@ -1,6 +1,8 @@
 #include "Includes.h"
 #define MPU_ADDR 0xd0
 
+uint32_t GyroScale = 0, AccScale = 0;
+
 static uint8_t selfTest();
 
 static void MPUWrite(uint8_t tarreg, uint8_t data) {
@@ -55,8 +57,10 @@ void realconfig() {
   // disable interupts
   MPUWrite(0x38, 0x00);
   // Gyro set to 2000degs/sec
+  GyroScale = 2000;
   MPUWrite(0x1b, 0x18);
   // acce set to +- 2g
+  AccScale = 2;
   MPUWrite(0x1c, 0x00);
   // set direct link to all senser in GY86
   enBypass();
@@ -65,7 +69,9 @@ void realconfig() {
 
 void AccData(int16_t data[3]) {
   uint8_t temp[6];
+  OSSchedLock();
   IICBurstRead(MPU_ADDR, 0x3b, 6, temp);
+  OSSchedUnlock();
   for (int i = 0; i < 3; i++) {
     data[i] = 0;
     data[i] |= temp[i * 2];

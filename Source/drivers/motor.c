@@ -1,6 +1,5 @@
 #include "Includes.h"
-uint16_t fourMotro[4];
-/*
+uint16_t fourMotor[4]; /*
  * this is the motor file
  * for now only init one motor, but the reset three
  * are exactly the same
@@ -22,19 +21,19 @@ static void initPins() {
   RCC_AHB1 |= (0x1 << 2);
 
   // AF pc6
-  GPIOC->MODER &= (0x2 << (2 * 6));
+  GPIOC->MODER &= ~(0x3 << (2 * 6));
   GPIOC->MODER |= (0x2 << (2 * 6));
 
   // AF pc7
-  GPIOC->MODER &= (0x2 << (2 * 7));
+  GPIOC->MODER &= ~(0x3 << (2 * 7));
   GPIOC->MODER |= (0x2 << (2 * 7));
 
   // AF pc8
-  GPIOC->MODER &= (0x2 << (2 * 8));
+  GPIOC->MODER &= ~(0x3 << (2 * 8));
   GPIOC->MODER |= (0x2 << (2 * 8));
 
   // AF pc9
-  GPIOC->MODER &= (0x2 << (2 * 9));
+  GPIOC->MODER &= ~(0x3 << (2 * 9));
   GPIOC->MODER |= (0x2 << (2 * 9));
 
   // very speed
@@ -55,6 +54,7 @@ static void initPins() {
 }
 
 void initTIM3PWM() {
+  initPins();
 
   // enable clock
   RCC_APB1 |= (0x1) << 1;
@@ -81,25 +81,27 @@ void initTIM3PWM() {
 
   // pwm7 pin ch3
   // enable preload
-  TIM3_CCMR2 |= (0x1 << 3);
+  TIM3->CCMR2 |= (0x1 << 3);
   // set mode pwm1
-  TIM3_CCMR2 |= (0x6 << 4);
+  TIM3->CCMR2 |= (0x6 << 4);
 
   // pwm8 pin ch4
   TIM3->CCMR2 |= (0x1 << 11);
   TIM3->CCMR2 |= (0x6 << 12);
 
   // enable capture/compare
-  TIM3_CCER |= (0x1 << 0);
+  TIM3->CCER |= (0x1 << 0);
+  TIM3->CCER |= (0x1 << 4);
+  TIM3->CCER |= (0x1 << 8);
+  TIM3->CCER |= (0x1 << 12);
 
   // reset all four motors to 0 thro
   for (int i = 0; i < 4; i++) {
-    fourMotro[i] = 0;
+    fourMotor[i] = 0;
   }
-  setThro(fourMotro);
+  setThro(fourMotor);
 
 
-  initPins();
   // enable Counter
   TIM3_CR1 |= (0x1 << 0);
 }

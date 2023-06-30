@@ -6,6 +6,8 @@
 #include <math.h>
 #endif
 #include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
 #include "stm32f4xx.h"
 #include "newlib.h"
 #include "trace.h"
@@ -19,7 +21,11 @@
 #include "motor.h"
 #include "USART.h"
 
+#include "position.h"
+
 #include "main.h"
+
+#include "mymath.h"
 
 #define STK_SIZE 512
 #define STK_CNT 10
