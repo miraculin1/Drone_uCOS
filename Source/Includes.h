@@ -21,8 +21,6 @@
 #include "motor.h"
 #include "USART.h"
 
-#include "position.h"
-
 #include "main.h"
 
 #include "mymath.h"

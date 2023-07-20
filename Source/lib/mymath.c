@@ -1,2 +1,91 @@
-#include "Includes.h"
+#include "mymath.h"
+static double maxIn4(double a, double b, double c, double d);
 
+void vecCrossProd(double *out, double *u, double *v) {
+  out[0] = u[1] * v[2] - u[2] * v[1];
+  out[1] = -1 * (u[0] * v[2] - u[2] * v[0]);
+  out[3] = u[0] * v[1] - u[1] * v[0];
+}
+
+void normalize(double *out, double *v, int dim) {
+  double sum = 0;
+  for (int i = 0; i < dim; i++) {
+    sum += v[i];
+  }
+  double mag = pow(sum, 2);
+  mag = sqrt(mag);
+  for (int i = 0; i < dim; i++) {
+    out[i] = v[i] / mag;
+  }
+}
+
+void DCM2quat(quaternion_t out, DCM_t R) {
+  double q0, q1, q2, q3;
+  q0 = sqrt((1 + R[0][0] + R[1][1] + R[2][2]) / 4);
+  q1 = sqrt((1 + R[0][0] - R[1][1] - R[2][2]) / 4); q2 = sqrt((1 - R[0][0] + R[1][1] - R[2][2]) / 4);
+  q3 = sqrt((1 - R[0][0] - R[1][1] + R[2][2]) / 4);
+
+  double now = maxIn4(q0, q1, q2, q3);
+  if (now == q0) {
+    out[0] = q0;
+    out[1] = (R[2][1] - R[1][2]) / (4 * q0);
+    out[2] = (R[0][2] - R[2][0]) / (4 * q0);
+    out[3] = (R[1][0] - R[0][1]) / (4 * q0);
+  } else if (now == q1) {
+    out[0] = (R[2][1] - R[1][2]) / (4 * q1);
+    out[1] = q1;
+    out[2] = (R[0][1] + R[1][0]) / (4 * q1);
+    out[3] = (R[0][2] + R[2][0]) / (4 * q1);
+  } else if (now == q2) {
+    out[0] = (R[0][2] - R[2][0]) / (4 * q2);
+    out[1] = (R[0][1] + R[1][0]) / (4 * q2);
+    out[2] = q2;
+    out[3] = (R[2][1] + R[1][2]) / (4 * q2);
+  } else {
+    out[0] = (R[1][0] - R[0][1]) / (4 * q3);
+    out[1] = (R[2][1] + R[1][2]) / (4 * q3);
+    out[2] = (R[1][2] + R[2][1]) / (4 * q3);
+    out[3] = q3;
+  }
+  return;
+}
+
+void quat2DCM(quaternion_t q, DCM_t R) {
+  double q02 = q[0] * q[0], q12 = q[1] * q[1], q22 = q[2] * q[2], q32 = q[3] * q[3];
+
+  R[0][0] = q02 + q12 - q22 - q32;
+  R[0][1] = 2 * q[1] * q[2] - 2 * q[0] * q[3];
+  R[0][2] = 2 * q[1] * q[3] + 2 * q[0] * q[2];
+
+  R[1][0] = 2 * q[1] * q[2] + 2 * q[0] * q[3];
+  R[1][1] = q02 - q12 + q22 - q32;
+  R[1][2] = 2 * q[2] * q[3] - 2 * q[0] * q[1];
+
+  R[2][0] = 2 * q[1] * q[3] - 2 * q[0] * q[2];
+  R[2][1] = 2 * q[2] * q[3] + 2 * q[0] * q[1];
+  R[2][2] = q02 - q12 - q22 + q32;
+}
+
+static double maxIn4(double a, double b, double c, double d) {
+  double max = fmax(a, b);
+  double max0 = fmax(c, d);
+  return fmax(max, max0);
+}
+
+void DCMTrans(double out[3], DCM_t R, double vect[3]) {
+  for (int i = 0; i < 3; i++) {
+    out[i] = 0;
+    for (int j = 0; j < 3; j++) {
+      out[i] += R[i][j] * vect[j];
+    }
+  }
+}
+
+void squrMxVec(double *out, double **M, double *v, int dim) {
+  for (int i = 0; i < dim; i++) {
+    out[i] = 0;
+    for (int j = 0; j < dim; j++) {
+      out[i] += M[i][j] * v[j];
+    }
+  }
+}

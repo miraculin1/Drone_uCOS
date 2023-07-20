@@ -1,0 +1,40 @@
+/*
+\ \     __  ___     __      _       __ __     __
+ \ \   /  |/  /__ _/ /_____(_)_ __ / // /_ __/ /
+ / /  / /|_/ / _ `/ __/ __/ /\ \ // _  / // / _ \
+/ /  /_/  /_/\_,_/\__/_/ /_//_\_\/_//_/\_,_/_.__/
+* [INFORMATION]
+    MATRIX_HUB
+    AUTHOR: Xiping.Yu
+    E-MAIL:Amoiensis@outlook.com
+    GITHUB: https://github.com/Amoiensis/Matrix_hub
+    DATE: 2020.02.12-2022.05.28
+    VERSION: 1.5.1
+    CASE: Matrix Operation (C)
+    DETAILS: The code_file for Matrix_Hub.
+* [LICENSE]
+    Copyright (c) 2020-2022 Xiping.Yu
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+        http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
+
+#pragma once
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <limits.h>
+#include <string.h>
+#include "state.h"
+
+
+typedef struct _Matrix {
+    /*Store Matrix
+	
