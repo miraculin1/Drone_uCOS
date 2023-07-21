@@ -59,6 +59,9 @@ C_INC = \
 				-I./Source/trace/ \
 				-I./Source/syscalls/inc \
 				-I./Source/lib/inc \
+				-I./Source/lib/embeddedLapack/src/Lapack/Include \
+				-I./Source/lib/embeddedLapack/src/LinearAlgebra \
+				-I./Source/lib/embeddedLapack/src/qpOASES/Header
 
 
 
