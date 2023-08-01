@@ -8,6 +8,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include "stm32f4xx.h"
 #include "newlib.h"
 #include "trace.h"

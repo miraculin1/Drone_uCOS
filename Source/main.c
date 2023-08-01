@@ -96,7 +96,7 @@ void SendInfo() {
     /* USendStr("pitch:"); */
     /* USendStr(buffer); */
     HMCReadData(hmc);
-    sprintf(buffer, "%d, %d, %d\n", hmc[0], hmc[1], hmc[2]);
+    sprintf(buffer, "%d\n%d\n%d\n", hmc[0], hmc[1], hmc[2]);
     USendStr(buffer);
 
     OSTimeDly(2);

@@ -10,14 +10,26 @@ typedef double state_t[STDIM];
 typedef double statCovariant_t[STDIM][STDIM];
 typedef double transMatrix_t[STDIM];
 
-typedef double gyroBias_t[3];
+typedef double bias_t[3];
 
-#define MSRDIM 6
+#define MSRDIM 9
+// msr ax ay az mx my mz gx gy gz
 typedef double msr_t[MSRDIM];
 typedef double msrCovariant_t[MSRDIM][MSRDIM];
 typedef double obvMatrix_t[MSRDIM][STDIM];
 
 typedef double kalmanGain_t[STDIM][MSRDIM];
 typedef double JMatrix_t[MSRDIM][STDIM];
+
+typedef struct {
+  state_t stat;
+  statCovariant_t P;
+  void (*f)(state_t stat);
+  JMatrix_t F;
+  statCovariant_t Q;
+  double deltaSec;
+  msr_t m0;
+  msr_t m;
+} EKF_t;
 
 #endif

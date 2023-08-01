@@ -6,7 +6,7 @@
 void initHMC() {
   OSTimeDly(10);
   HMCWrite(0x00, 0x70);
-  HMCWrite(0x01, 0xa0);
+  HMCWrite(0x01, 0x40);
   HMCWrite(0x02, 0x00);
 }
 void HMCWrite(uint8_t tarreg, uint8_t data) {
