@@ -6,5 +6,6 @@
 void HMCWrite(uint8_t tar, uint8_t data);
 void initHMC();
 void HMCReadData(int16_t out[3]);
+extern double HMCScale;
 
 #endif

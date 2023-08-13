@@ -95,9 +95,17 @@ void SendInfo() {
     /* sprintf(buffer, "%d\n", (int)(euler[1] * 100)); */
     /* USendStr("pitch:"); */
     /* USendStr(buffer); */
-    HMCReadData(hmc);
-    sprintf(buffer, "%d\n%d\n%d\n", hmc[0], hmc[1], hmc[2]);
+    AccData(data);
+    double tmp[3];
+    for (int i = 0; i < 3; i++) {
+      tmp[i] = (double)data[i] * 100 * AccScale / 32768;
+    }
+
+    sprintf(buffer, "%d %d %d\n", data[0], data[1], data[2]);
     USendStr(buffer);
+    sprintf(buffer, "%d %d %d\n", (int)tmp[0], (int)tmp[1], (int)tmp[2]);
+    USendStr(buffer);
+    USendStr("=================\n");
 
     OSTimeDly(2);
   }

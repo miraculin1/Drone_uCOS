@@ -13,7 +13,7 @@ typedef double transMatrix_t[STDIM];
 typedef double bias_t[3];
 
 #define MSRDIM 9
-// msr ax ay az mx my mz gx gy gz
+// msr: ax ay az mx my mz gx gy gz
 typedef double msr_t[MSRDIM];
 typedef double msrCovariant_t[MSRDIM][MSRDIM];
 typedef double obvMatrix_t[MSRDIM][STDIM];
@@ -24,7 +24,6 @@ typedef double JMatrix_t[MSRDIM][STDIM];
 typedef struct {
   state_t stat;
   statCovariant_t P;
-  void (*f)(state_t stat);
   JMatrix_t F;
   statCovariant_t Q;
   double deltaSec;

@@ -6,7 +6,7 @@
 typedef double quaternion_t[4];
 typedef double sencorData_t[3];
 typedef double DCM_t[3][3];
-void normalize(double *out, double *v, int dim);
+void normalize(double *v, int dim);
 void vecCrossProd(double *out, double *v1, double *v2);
 void DCM2quat(quaternion_t out, DCM_t R);
 void quat2DCM(quaternion_t q, DCM_t R);

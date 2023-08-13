@@ -9,6 +9,10 @@ msr_t initMsr;
 
 static void getNoise(statCovariant_t out, state_t s, double deltaSec);
 static void getJobian(JMatrix_t J, state_t s, msr_t init);
+static void state2Obv(msr_t out, state_t s, msr_t init);
+static void getMSR(msr_t m);
+static void avgMSR(msr_t m);
+static void statusInit(EKF_t now);
 
 // project prev to a next state
 // it's from a diffrentiate equation, only when deltaT is
@@ -95,33 +99,40 @@ void kalmanGain(kalmanGain_t KG, statCovariant_t P, msrCovariant_t R,
 }
 
 void stateUPD(state_t out, state_t stat, obvMatrix_t obv, kalmanGain_t KG,
-              msr_t msr) {
-  double q0 = stat[0], q1 = stat[1], q2 = stat[2], q3 = stat[3];
-  normalize(stat, stat, 4);
-  double tmp[3];
-  double R[3][3] = {{q0 * q0 + q1 * q1 - q2 * q2 - q3 * q3,
-                     2 * q1 * q2 - 2 * q0 * q3, 2 * q1 * q3 + 2 * q0 * q2},
-                    {2 * q1 * q2 + 2 * q0 * q3,
-                     q0 * q0 - q1 * q1 + q2 * q2 - q3 * q3,
-                     2 * q2 * q3 - 2 * q0 * q1},
-                    {2 * q1 * q3 - 2 * q0 * q2, 2 * q2 * q3 + 2 * q0 * q1,
-                     q0 * q0 - q1 * q1 - q2 * q2 + q3 * q3}};
-  msr_t msrPrd;
-  mul((double *)R, initMsr, false, tmp, 3, 3, 1);
-  memcpy(msrPrd, tmp, 3 * sizeof(double));
+              msr_t msr, msr_t m0) {
+  msr_t fx;
+  state2Obv(fx, stat, m0);
 
-  mul((double *)R, &initMsr[3], false, tmp, 3, 3, 1);
-  memcpy(msrPrd, tmp, 3 * sizeof(double));
+  msr_t tmpMsr;
+  sub(msr, fx, tmpMsr, MSRDIM, 1, 1);
+  state_t bias;
+  mul((double *)KG, tmpMsr, false, (double *)bias, STDIM, MSRDIM, 1);
+
+  add(stat, bias, out, STDIM, 1, 1);
 }
 
 void covUPD(statCovariant_t out, statCovariant_t prev, kalmanGain_t KG,
-            obvMatrix_t OM) {}
+            obvMatrix_t OM, msr_t base, state_t s) {
+  JMatrix_t F;
+  getJobian(F, s, base);
+  double tmp[STDIM][STDIM];
+  double tmp1[STDIM][STDIM];
+  mul((double *)KG, (double *)F, false, (double *)tmp, STDIM, MSRDIM, STDIM);
+
+  double I[STDIM][STDIM];
+  eye((double *)I, STDIM, STDIM);
+
+  sub((double *)I, (double *)tmp, (double *)tmp1, STDIM, STDIM, STDIM);
+
+  inv((double *)prev, STDIM);
+  mul((double *)tmp1, (double *)prev, false, (double *)out, STDIM, STDIM, STDIM);
+}
 
 // we define the obv matrix is transfer the g0 to gb
 static void getJobian(JMatrix_t J, state_t s, msr_t init) {
   double q0 = s[0], q1 = s[1], q2 = s[2], q3 = s[3];
   // normalize quaternion
-  normalize(s, s, 4);
+  normalize(s, 4);
   JMatrix_t tmp = {
       {// f0
        2 * q0 * init[0] + -2 * q3 * init[1] + 2 * q2 * init[2],
@@ -213,9 +224,56 @@ static void getNoise(statCovariant_t out, state_t s, double deltaSec) {
 
 void initEKF(EKF_t now) {
   now.deltaSec = 0.1;
-  // TODO: now.m0 = getMSR();
-  // TODO: now.stat = init();
+  // init the base m0
+  avgMSR(now.m0);
+  statusInit(now);
   getNoise(now.Q, now.stat, now.deltaSec);
-  /* now.f = &stateExtraPolot; */
-  /* now.P = ; */
+  getJobian(now.F, now.stat, now.m0);
+  // TODO: get the covMatrix done
+}
+
+static void avgMSR(msr_t m) {
+  uint8_t sampleN = 10;
+  msr_t tmp;
+  for (int i = 0; i < MSRDIM; i++) {
+    m[i] = 0;
+  }
+  for (int i = 0; i < sampleN; i++) {
+    getMSR(tmp);
+    for (int i = 0; i < MSRDIM; i++) {
+      m[i] += tmp[i] / sampleN;
+    }
+  }
+}
+
+// NOTE: 32768 is pow(2, 15)
+static void getMSR(msr_t m) {
+  int16_t data[3];
+  HMCReadData(data);
+  for (int i = 0; i < 3; i++) {
+    m[i + 3] = (double)data[i] * HMCScale / 32768;
+  }
+
+  AccData(data);
+  for (int i = 0; i < 3; i++) {
+    m[i + 0] = (double)data[i] * AccScale / 32768;
+  }
+
+  GyroData(data);
+  for (int i = 0; i < 3; i++) {
+    m[i + 6] = (double)data[i] * GyroScale / 32768;
+  }
+}
+
+// after get the initial measurement, use that to 
+// calculate the inital altitude
+static void statusInit(EKF_t now) {
+  double dcm[3][3];
+  vecCrossProd(dcm[0], &now.m0[0], &now.m0[3]);
+  vecCrossProd(dcm[1], dcm[0], &now.m0[0]);
+  vecCrossProd(dcm[2], dcm[0], dcm[1]);
+  normalize(dcm[0], 3);
+  normalize(dcm[1], 3);
+  normalize(dcm[2], 3);
+  DCM2quat(now.stat, dcm);
 }

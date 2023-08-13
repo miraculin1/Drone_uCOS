@@ -1,6 +1,8 @@
 #include "Includes.h"
 #define HMCAdd 0x3c
 
+double HMCScale = 0;
+
 // 8-avg 15Hz normal measurement continuos
 // need to delay at least 65ms before write in
 void initHMC() {
@@ -8,6 +10,7 @@ void initHMC() {
   HMCWrite(0x00, 0x70);
   HMCWrite(0x01, 0x40);
   HMCWrite(0x02, 0x00);
+  HMCScale = 1.9;
 }
 void HMCWrite(uint8_t tarreg, uint8_t data) {
   IIC_WriteData(HMCAdd, tarreg, data);

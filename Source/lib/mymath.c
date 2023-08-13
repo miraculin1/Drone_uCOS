@@ -7,7 +7,7 @@ void vecCrossProd(double *out, double *u, double *v) {
   out[3] = u[0] * v[1] - u[1] * v[0];
 }
 
-void normalize(double *out, double *v, int dim) {
+void normalize( double *v, int dim) {
   double sum = 0;
   for (int i = 0; i < dim; i++) {
     sum += v[i];
@@ -15,7 +15,7 @@ void normalize(double *out, double *v, int dim) {
   double mag = pow(sum, 2);
   mag = sqrt(mag);
   for (int i = 0; i < dim; i++) {
-    out[i] = v[i] / mag;
+    v[i] = v[i] / mag;
   }
 }
 
