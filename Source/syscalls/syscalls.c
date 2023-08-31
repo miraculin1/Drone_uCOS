@@ -11,7 +11,9 @@ int _write(int file, char *ptr, int len) {
 
   for (todo = 0; todo < len; todo++) {
     // redirecting out put to uart or swo
-    ITM_SendChar(*(ptr++));
+    /* ITM_SendChar(*(ptr++)); */
+    USendByte(*ptr);
+    ptr++;
   }
   return len;
 }

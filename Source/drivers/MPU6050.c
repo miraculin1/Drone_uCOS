@@ -1,7 +1,7 @@
 #include "Includes.h"
 #define MPU_ADDR 0xd0
 
-uint32_t GyroScale = 0, AccScale = 0;
+double GyroLSBPerDegree = 0, AccLSBPerG = 0;
 
 static uint8_t selfTest();
 
@@ -56,11 +56,11 @@ void realconfig() {
 
   // disable interupts
   MPUWrite(0x38, 0x00);
-  // Gyro set to 2000degs/sec
-  GyroScale = 2000;
-  MPUWrite(0x1b, 0x18);
+  // Gyro set to 500degs/sec
+  GyroLSBPerDegree = 65.5;
+  MPUWrite(0x1b, 0x08);
   // acce set to +- 2g
-  AccScale = 2;
+  AccLSBPerG = 16384;
   MPUWrite(0x1c, 0x00);
   // set direct link to all senser in GY86
   enBypass();

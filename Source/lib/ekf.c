@@ -12,7 +12,8 @@ static void getJobian(JMatrix_t J, state_t s, msr_t init);
 static void state2Obv(msr_t out, state_t s, msr_t init);
 static void getMSR(msr_t m);
 static void avgMSR(msr_t m);
-static void statusInit(EKF_t now);
+static void statusInit(EKF_t *now);
+static void initMsrCov(msrCovariant_t cov);
 
 // project prev to a next state
 // it's from a diffrentiate equation, only when deltaT is
@@ -125,7 +126,8 @@ void covUPD(statCovariant_t out, statCovariant_t prev, kalmanGain_t KG,
   sub((double *)I, (double *)tmp, (double *)tmp1, STDIM, STDIM, STDIM);
 
   inv((double *)prev, STDIM);
-  mul((double *)tmp1, (double *)prev, false, (double *)out, STDIM, STDIM, STDIM);
+  mul((double *)tmp1, (double *)prev, false, (double *)out, STDIM, STDIM,
+      STDIM);
 }
 
 // we define the obv matrix is transfer the g0 to gb
@@ -222,14 +224,23 @@ static void getNoise(statCovariant_t out, state_t s, double deltaSec) {
 // msr_t m0;
 // msr_t m;
 
-void initEKF(EKF_t now) {
-  now.deltaSec = 0.1;
+// also I assume the default alttitude is:
+// y pointing north
+// x pointing east
+// z project up
+// the status represent the difference between default and now
+void initEKF(EKF_t *now) {
+  now->deltaSec = 0.1;
   // init the base m0
-  avgMSR(now.m0);
+  avgMSR(now->m0);
+  now->stat[0] = 1234;
+  getMSR(now->m);
   statusInit(now);
-  getNoise(now.Q, now.stat, now.deltaSec);
-  getJobian(now.F, now.stat, now.m0);
-  // TODO: get the covMatrix done
+  // BUG: hard fault, thought be the overflow
+  /* getNoise(now->Q, now->stat, now->deltaSec); */
+  /* getJobian(now->F, now->stat, now->m0); */
+  /* // TODO: get the covMatrix done */
+  /* initMsrCov(now->R); */
 }
 
 static void avgMSR(msr_t m) {
@@ -249,31 +260,34 @@ static void avgMSR(msr_t m) {
 // NOTE: 32768 is pow(2, 15)
 static void getMSR(msr_t m) {
   int16_t data[3];
-  HMCReadData(data);
-  for (int i = 0; i < 3; i++) {
-    m[i + 3] = (double)data[i] * HMCScale / 32768;
-  }
-
   AccData(data);
   for (int i = 0; i < 3; i++) {
-    m[i + 0] = (double)data[i] * AccScale / 32768;
+    m[i + 0] = -(double)data[i] / AccLSBPerG;
+  }
+
+  // mag data seems leading to a not wanted res
+  HMCReadData(data);
+  for (int i = 0; i < 3; i++) {
+    m[i + 3] = (double)data[i] * HMCmGaussPerLSB * 1000;
   }
 
   GyroData(data);
   for (int i = 0; i < 3; i++) {
-    m[i + 6] = (double)data[i] * GyroScale / 32768;
+    m[i + 6] = (double)data[i] / GyroLSBPerDegree;
   }
 }
 
-// after get the initial measurement, use that to 
+// after get the initial measurement, use that to
 // calculate the inital altitude
-static void statusInit(EKF_t now) {
+static void statusInit(EKF_t *now) {
   double dcm[3][3];
-  vecCrossProd(dcm[0], &now.m0[0], &now.m0[3]);
-  vecCrossProd(dcm[1], dcm[0], &now.m0[0]);
+  vecCrossProd(dcm[0], &now->m0[0], &now->m0[3]);
+  vecCrossProd(dcm[1], dcm[0], &now->m0[0]);
   vecCrossProd(dcm[2], dcm[0], dcm[1]);
   normalize(dcm[0], 3);
   normalize(dcm[1], 3);
   normalize(dcm[2], 3);
-  DCM2quat(now.stat, dcm);
+  DCM2quat(now->stat, dcm);
 }
+
+static void initMsrCov(msrCovariant_t cov) {}

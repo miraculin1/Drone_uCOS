@@ -4,25 +4,25 @@ static double maxIn4(double a, double b, double c, double d);
 void vecCrossProd(double *out, double *u, double *v) {
   out[0] = u[1] * v[2] - u[2] * v[1];
   out[1] = -1 * (u[0] * v[2] - u[2] * v[0]);
-  out[3] = u[0] * v[1] - u[1] * v[0];
+  out[2] = u[0] * v[1] - u[1] * v[0];
 }
 
-void normalize( double *v, int dim) {
-  double sum = 0;
+void normalize(double *v, int dim) {
+  long double sum = 0;
   for (int i = 0; i < dim; i++) {
-    sum += v[i];
+    sum += v[i] * v[i];
   }
-  double mag = pow(sum, 2);
-  mag = sqrt(mag);
+  sum = sqrtl(sum);
   for (int i = 0; i < dim; i++) {
-    v[i] = v[i] / mag;
+    v[i] = v[i] / sum;
   }
 }
 
 void DCM2quat(quaternion_t out, DCM_t R) {
   double q0, q1, q2, q3;
   q0 = sqrt((1 + R[0][0] + R[1][1] + R[2][2]) / 4);
-  q1 = sqrt((1 + R[0][0] - R[1][1] - R[2][2]) / 4); q2 = sqrt((1 - R[0][0] + R[1][1] - R[2][2]) / 4);
+  q1 = sqrt((1 + R[0][0] - R[1][1] - R[2][2]) / 4);
+  q2 = sqrt((1 - R[0][0] + R[1][1] - R[2][2]) / 4);
   q3 = sqrt((1 - R[0][0] - R[1][1] + R[2][2]) / 4);
 
   double now = maxIn4(q0, q1, q2, q3);
@@ -51,7 +51,8 @@ void DCM2quat(quaternion_t out, DCM_t R) {
 }
 
 void quat2DCM(quaternion_t q, DCM_t R) {
-  double q02 = q[0] * q[0], q12 = q[1] * q[1], q22 = q[2] * q[2], q32 = q[3] * q[3];
+  double q02 = q[0] * q[0], q12 = q[1] * q[1], q22 = q[2] * q[2],
+         q32 = q[3] * q[3];
 
   R[0][0] = q02 + q12 - q22 - q32;
   R[0][1] = 2 * q[1] * q[2] - 2 * q[0] * q[3];

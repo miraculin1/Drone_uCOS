@@ -90,12 +90,11 @@ CFLAGS += -MMD -MP -MF"$(BUILD_DIR)/$(notdir $(@:%.o=%.d))"
 # this file define memory map/section stack location and size
 LDSCRIPT = \
 ./STM32F401RETx_FLASH.ld \
-# ./myld.ld \
 
 #LIBS = -lc -lm -lnosys
 # lc stand for standard c LIB
 # lm stands for math LIB
-# lnosys is from newlib(For embeded) not sure what for (for now)
+# lnosys is from newlib(For embeded)
 LIBS = -lc -lnosys -lm
 LIBDIR = 
 
@@ -104,8 +103,7 @@ LIBDIR =
 # cref determine that map info shall be output to file
 # rather stdout
 # --gc-sections delete the unused code
-LDFLAG = $(MCU) -T$(LDSCRIPT) -u _printf_float $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections 
-
+LDFLAG = $(MCU) -specs=nano.specs -u _printf_float -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
 
 all: $(BUILD_DIR)/$(TARGET).elf $(BUILD_DIR)/$(TARGET).hex $(BUILD_DIR)/$(TARGET).bin
 

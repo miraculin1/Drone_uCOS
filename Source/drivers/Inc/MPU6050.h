@@ -10,5 +10,5 @@ void enBypass();
 void disenBypass();
 uint8_t whoami();
 
-extern uint32_t GyroScale, AccScale;
+extern double GyroLSBPerDegree, AccLSBPerG;
 #endif

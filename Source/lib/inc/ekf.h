@@ -1,7 +1,6 @@
 #ifndef __EKF_h
 #define __EKF_h
 
-#include "Includes.h"
 
 // state matrix structure
 // q0, q1, q2, q3, bax, bay, baz, bmx, bmy, bmz
@@ -22,13 +21,24 @@ typedef double kalmanGain_t[STDIM][MSRDIM];
 typedef double JMatrix_t[MSRDIM][STDIM];
 
 typedef struct {
+  // state
   state_t stat;
+  // state covriance
   statCovariant_t P;
+  // jacobi matrix for approximation
   JMatrix_t F;
+  // process noise
   statCovariant_t Q;
+  // sencor measure noise
+  msrCovariant_t R;
+  // the time between each calculation
   double deltaSec;
+  // inital measurement
   msr_t m0;
+  // most recent measure
   msr_t m;
 } EKF_t;
+
+void initEKF(EKF_t *now);
 
 #endif

@@ -2,6 +2,8 @@
 #define __INCLUDES_H
 
 #ifndef OS_MASTER_FILE
+#undef FLOATING_POINT
+
 #include <ucos_ii.h>
 #include <math.h>
 #endif
@@ -9,8 +11,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include "stm32f4xx.h"
+#include <stdio.h>
 #include "newlib.h"
+#include "stm32f4xx.h"
 #include "trace.h"
 
 #include "HMC5883.h"
@@ -25,8 +28,10 @@
 #include "main.h"
 
 #include "mymath.h"
+#include "ekf.h"
+#include "syscalls.h"
 
-#define STK_SIZE 512
+#define STK_SIZE 1536
 #define STK_CNT 10
 
 #endif

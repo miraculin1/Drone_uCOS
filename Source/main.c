@@ -64,50 +64,13 @@ void initHardware() {
   initMotor();
 }
 
-void Convert(int16_t data, uint16_t scale, char *buffer) {
-  int res = data * 100 * scale / (0xffff / 2);
-  sprintf(buffer, "%d", res);
-}
-
 void SendInfo() {
-  float euler[3];
-  int16_t data[3];
-  int16_t hmc[3];
-  char buffer[100];
   while (1) {
-    /* AccData(data); */
-    /* Convert(data[0], 2, buffer); */
-    /* USendStr(buffer); */
-    /* USendByte(';'); */
-    /* Convert(data[1], 2, buffer); */
-    /* USendStr(buffer); */
-    /* USendByte(';'); */
-    /* Convert(data[2], 2, buffer); */
-    /* USendStr(buffer); */
-    /* USendByte(';'); */
-/*  */ /* accEuler(euler); */
-    /* USendByte('\n'); */
-/*  */
-    /* sprintf(buffer, "%d", (int)(euler[0] * 100)); */
-    /* USendStr("roll:"); */
-    /* USendStr(buffer); */
-/*  */
-    /* sprintf(buffer, "%d\n", (int)(euler[1] * 100)); */
-    /* USendStr("pitch:"); */
-    /* USendStr(buffer); */
-    AccData(data);
-    double tmp[3];
-    for (int i = 0; i < 3; i++) {
-      tmp[i] = (double)data[i] * 100 * AccScale / 32768;
-    }
 
-    sprintf(buffer, "%d %d %d\n", data[0], data[1], data[2]);
-    USendStr(buffer);
-    sprintf(buffer, "%d %d %d\n", (int)tmp[0], (int)tmp[1], (int)tmp[2]);
-    USendStr(buffer);
-    USendStr("=================\n");
+    double num = 1.23;
+    printf("%f\n", num);
 
-    OSTimeDly(2);
+    OSTimeDly(20);
   }
 }
 

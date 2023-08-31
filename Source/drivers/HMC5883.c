@@ -1,16 +1,16 @@
 #include "Includes.h"
 #define HMCAdd 0x3c
 
-double HMCScale = 0;
+double HMCmGaussPerLSB = 0;
 
 // 8-avg 15Hz normal measurement continuos
 // need to delay at least 65ms before write in
 void initHMC() {
   OSTimeDly(10);
   HMCWrite(0x00, 0x70);
-  HMCWrite(0x01, 0x40);
+  HMCWrite(0x01, 0x00);
   HMCWrite(0x02, 0x00);
-  HMCScale = 1.9;
+  HMCmGaussPerLSB = 0.73;
 }
 void HMCWrite(uint8_t tarreg, uint8_t data) {
   IIC_WriteData(HMCAdd, tarreg, data);
@@ -62,4 +62,7 @@ void HMCReadData(int16_t out[3]) {
   for (int i = 0; i < 3; i++) {
     out[i] = (raw[2 * i] << 8) | raw[2 * i + 1];
   }
+  uint16_t tmp = out[1];
+  out[1] = out[2];
+  out[2] = tmp;
 }
