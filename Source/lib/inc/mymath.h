@@ -12,5 +12,6 @@ void DCM2quat(quaternion_t out, DCM_t R);
 void quat2DCM(quaternion_t q, DCM_t R);
 void DCMTrans(double out[3], DCM_t R, double vect[3]);
 void squrMxVec(double *out, double **M, double *v, int dim);
+double vecMod(int n, double v[n]);
 
 #endif

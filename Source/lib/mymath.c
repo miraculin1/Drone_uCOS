@@ -1,6 +1,13 @@
 #include "mymath.h"
 static double maxIn4(double a, double b, double c, double d);
 
+double vecMod(int n, double v[n]) {
+  double sum = 0;
+  for (int dim = 0; dim < n; dim++) {
+    sum += v[dim] * v[dim];
+  }
+  return sqrt(sum);
+}
 void vecCrossProd(double *out, double *u, double *v) {
   out[0] = u[1] * v[2] - u[2] * v[1];
   out[1] = -1 * (u[0] * v[2] - u[2] * v[0]);

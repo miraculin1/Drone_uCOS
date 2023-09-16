@@ -22,7 +22,7 @@ void HMCWrite(uint8_t tarreg, uint8_t data) {
  * 或者模式发生变化
  */
 
-// TODO rewrite the Read
+// rewrite the Read
 void HMCRead(uint8_t tar, uint8_t *out) {
   uint8_t RDY = 0;
   while ((RDY & 0x01) == 0) {
@@ -55,7 +55,7 @@ void HMCJustListen(uint8_t *data) {
   *data = IIC1_DR;
 }
 
-void HMCReadData(int16_t out[3]) {
+void MagRawData(int16_t out[3]) {
   uint8_t raw[6];
   IICBurstRead(HMCAdd, 0x03, 6, raw);
 
@@ -65,4 +65,34 @@ void HMCReadData(int16_t out[3]) {
   uint16_t tmp = out[1];
   out[1] = out[2];
   out[2] = tmp;
+}
+
+void MagGuassData(double dest[3], rawBias_t bias) {
+  int16_t data[3];
+  MagRawData(data);
+  for (int i = 0; i < 3; i++) {
+    dest[i] = ((double)data[i] + bias[i]) * HMCmGaussPerLSB / 1000;
+  }
+}
+
+// TODO: implimant the RLS algorisim to get a "online" calibration
+void HMCHardCal(EKF_t *now) {
+  static double lamda = 0.98;
+  double theta[4] = {0};
+  double P[4][4];
+
+  for (int i = 0; i < MAGCALSAMPLES; ++i) {
+    // take single sample
+    int16_t data[4];
+    MagRawData(data);
+    data[3] = 1;
+
+    // calculate the prediction error
+    int e = data[0] * data[0] + data[1] * data[1] + data[2] * data[2];
+    for (int dim = 0; dim < 3; ++dim) {
+      e -= data[dim] * theta[dim];
+    }
+
+    // TODO: calculate RLS gain
+  }
 }

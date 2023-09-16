@@ -9,7 +9,6 @@ void TIM1_CC_IRQHandler() {
   if (!recData.linedUp) {
     if (TIM1->CCR1 >= 4000) {
       recData.linedUp = 1;
-      LED_ON();
     }
   } else {
     recData.chs[recData.now] = TIM1->CCR1;

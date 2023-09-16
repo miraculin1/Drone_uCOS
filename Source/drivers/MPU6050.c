@@ -67,7 +67,7 @@ void realconfig() {
 }
 
 
-void AccData(int16_t data[3]) {
+void AccRawData(int16_t data[3]) {
   uint8_t temp[6];
   OSSchedLock();
   IICBurstRead(MPU_ADDR, 0x3b, 6, temp);
@@ -80,13 +80,21 @@ void AccData(int16_t data[3]) {
   }
 }
 
+void AccGData(double out[3], rawBias_t bias) {
+  int16_t data[3];
+  AccRawData(data);
+  for (int i = 0; i < 3; i++) {
+    out[i + 0] = -(double)data[i] / AccLSBPerG;
+  }
+}
+
 uint8_t whoami() {
   uint8_t temp;
   IICBurstRead(MPU_ADDR, 0x75, 1, &temp);
   return temp;
 }
 
-void GyroData(int16_t data[3]) {
+void GyroRawData(int16_t data[3]) {
   uint8_t temp[6];
   IICBurstRead(MPU_ADDR, 0x43, 6, temp);
   for (int i = 0; i < 3; i++) {
@@ -94,6 +102,14 @@ void GyroData(int16_t data[3]) {
     data[i] |= temp[i * 2];
     data[i] = data[i] << 8;
     data[i] |= temp[i * 2 + 1];
+  }
+}
+
+void GyroDpSData(double out[3], rawBias_t bias) {
+  int16_t data[3];
+  GyroRawData(data);
+  for (int i = 0; i < 3; i++) {
+    out[i + 6] = (double)data[i] / GyroLSBPerDegree - bias[i];
   }
 }
 
@@ -145,9 +161,9 @@ static uint8_t selfTest() {
   float ftx, fty, ftz;
 
   // GYRO
-  GyroData(data);
+  GyroRawData(data);
   MPUor(0x1b, 0x7 << 5);
-  GyroData(data1);
+  GyroRawData(data1);
   MPUnand(0x1b, 0x7 << 5);
 
   uint32_t facti = 25 * 131;
@@ -173,9 +189,9 @@ static uint8_t selfTest() {
   }
 
   // accel
-  AccData(data);
+  AccRawData(data);
   MPUor(0x1c, 0x7 << 5);
-  AccData(data1);
+  AccRawData(data1);
   MPUnand(0x1c, 0x7 << 5);
 
   float factf1 = 0.34f * 4096;

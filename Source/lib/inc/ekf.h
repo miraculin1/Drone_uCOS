@@ -9,7 +9,7 @@ typedef double state_t[STDIM];
 typedef double statCovariant_t[STDIM][STDIM];
 typedef double transMatrix_t[STDIM];
 
-typedef double bias_t[3];
+typedef int rawBias_t[3];
 
 #define MSRDIM 9
 // msr: ax ay az mx my mz gx gy gz
@@ -40,5 +40,8 @@ typedef struct {
 } EKF_t;
 
 void initEKF(EKF_t *now);
+extern rawBias_t biasGyro;
+void HMCHardCal(EKF_t *now);
+void getMSR(msr_t m, double bias[6]);
 
 #endif

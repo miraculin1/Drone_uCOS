@@ -2,9 +2,10 @@
 #define __MPU6050_H
 
 #include "IIC.h"
+#include "ekf.h"
 void initMPU6050();
-void GyroData(int16_t data[3]);
-void AccData(int16_t data[3]);
+void GyroDpSData(double out[3], rawBias_t bias);
+void AccGData(double out[3], rawBias_t bias);
 
 void enBypass();
 void disenBypass();

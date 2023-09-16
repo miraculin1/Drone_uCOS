@@ -3,9 +3,12 @@
 
 #include "stm32f4xx.h"
 
+#include "ekf.h"
 void HMCWrite(uint8_t tar, uint8_t data);
 void initHMC();
-void HMCReadData(int16_t out[3]);
+void MagGuassData(double dest[3], rawBias_t bias);
 extern double HMCmGaussPerLSB;
+
+#define MAGCALSAMPLES 300
 
 #endif

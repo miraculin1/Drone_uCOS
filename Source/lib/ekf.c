@@ -6,12 +6,12 @@ double gyroQ[3] = {1, 1, 1};
 double accQ[3] = {1, 1, 1};
 double magQ[3] = {1, 1, 1};
 msr_t initMsr;
+rawBias_t biasGyro = {0, 0, 0};
 
 static void getNoise(statCovariant_t out, state_t s, double deltaSec);
 static void getJobian(JMatrix_t J, state_t s, msr_t init);
 static void state2Obv(msr_t out, state_t s, msr_t init);
-static void getMSR(msr_t m);
-static void avgMSR(msr_t m);
+static void avgMSR(msr_t m, double bias[6]);
 static void statusInit(EKF_t *now);
 static void initMsrCov(msrCovariant_t cov);
 
@@ -230,51 +230,47 @@ static void getNoise(statCovariant_t out, state_t s, double deltaSec) {
 // z project up
 // the status represent the difference between default and now
 void initEKF(EKF_t *now) {
+  LED_ON();
+  HMCHardCal(now);
+  LED_OFF();
   now->deltaSec = 0.1;
   // init the base m0
-  avgMSR(now->m0);
+  avgMSR(now->m0, &now->stat[4]);
   now->stat[0] = 1234;
-  getMSR(now->m);
+  getMSR(now->m, &now->stat[4]);
   statusInit(now);
-  // BUG: hard fault, thought be the overflow
-  /* getNoise(now->Q, now->stat, now->deltaSec); */
-  /* getJobian(now->F, now->stat, now->m0); */
-  /* // TODO: get the covMatrix done */
-  /* initMsrCov(now->R); */
+  getNoise(now->Q, now->stat, now->deltaSec);
+  getJobian(now->F, now->stat, now->m0);
+  // TODO: get the covMatrix done
+  initMsrCov(now->R);
 }
 
-static void avgMSR(msr_t m) {
+// avrage ten msr and get gyro zero bias
+static void avgMSR(msr_t m, double bias[6]) {
   uint8_t sampleN = 10;
   msr_t tmp;
   for (int i = 0; i < MSRDIM; i++) {
     m[i] = 0;
   }
   for (int i = 0; i < sampleN; i++) {
-    getMSR(tmp);
+    getMSR(tmp, bias);
     for (int i = 0; i < MSRDIM; i++) {
       m[i] += tmp[i] / sampleN;
     }
   }
+  for (int i = 0; i < 3; i++) {
+    biasGyro[i] = m[6 + i];
+    m[6 + i] = 0;
+  }
 }
 
 // NOTE: 32768 is pow(2, 15)
-static void getMSR(msr_t m) {
-  int16_t data[3];
-  AccData(data);
-  for (int i = 0; i < 3; i++) {
-    m[i + 0] = -(double)data[i] / AccLSBPerG;
-  }
+void getMSR(msr_t m, double bias[6]) {
+  AccGData(&m[0], &bias[0]);
 
-  // mag data seems leading to a not wanted res
-  HMCReadData(data);
-  for (int i = 0; i < 3; i++) {
-    m[i + 3] = (double)data[i] * HMCmGaussPerLSB * 1000;
-  }
+  MagGuassData(&m[3], &bias[3]);
 
-  GyroData(data);
-  for (int i = 0; i < 3; i++) {
-    m[i + 6] = (double)data[i] / GyroLSBPerDegree;
-  }
+  GyroDpSData(&m[6], biasGyro);
 }
 
 // after get the initial measurement, use that to

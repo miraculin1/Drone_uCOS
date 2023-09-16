@@ -1,5 +1,7 @@
 #include "Includes.h"
 
+//TODO: get mag cal
+
 OS_STK __stk_Array[STK_CNT][STK_SIZE];
 OS_MEM *stkpool;
 OS_STK mainStk[STK_SIZE * 3];
@@ -65,10 +67,16 @@ void initHardware() {
 }
 
 void SendInfo() {
+  EKF_t ekf;
+  // BUG: ekf get hard falt
+  /* initEKF(&ekf); */
   while (1) {
 
-    double num = 1.23;
-    printf("%f\n", num);
+    msr_t m;
+    getMSR(m, &ekf.stat[4]);
+    /* printf("%d %d %d\n", (int)(m[3] * 100), (int)(m[4] * 100), (int)(m[5] * 100)); */
+    printf("%f\n", 3.123);
+    /* printf("%f %f %f\n", m[3], m[4], m[5]); */
 
     OSTimeDly(20);
   }
