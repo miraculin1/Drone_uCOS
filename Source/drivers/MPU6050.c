@@ -80,7 +80,7 @@ void AccRawData(int16_t data[3]) {
   }
 }
 
-void AccGData(double out[3], rawBias_t bias) {
+void AccGData(double out[3], Bias_t bias) {
   int16_t data[3];
   AccRawData(data);
   for (int i = 0; i < 3; i++) {
@@ -98,14 +98,11 @@ void GyroRawData(int16_t data[3]) {
   uint8_t temp[6];
   IICBurstRead(MPU_ADDR, 0x43, 6, temp);
   for (int i = 0; i < 3; i++) {
-    data[i] = 0;
-    data[i] |= temp[i * 2];
-    data[i] = data[i] << 8;
-    data[i] |= temp[i * 2 + 1];
+    data[i] = (temp[i * 2] << 8) | temp[i * 2 + 1];
   }
 }
 
-void GyroDpSData(double out[3], rawBias_t bias) {
+void GyroDpSData(double out[3], Bias_t bias) {
   int16_t data[3];
   GyroRawData(data);
   for (int i = 0; i < 3; i++) {

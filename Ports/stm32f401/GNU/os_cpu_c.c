@@ -40,32 +40,32 @@ OS_STK *OSTaskStkInit(void (*task)(void *pd), void *pdata, OS_STK *ptos,
   // xPSR
   // PM said write to the "Thumb" bit will be ignored
   // in other word 0x00000000 shall work too
-  (*p_stk--) = (OS_STK)0x01000000;
-  (*p_stk--) = (OS_STK)task;
-  (*p_stk--) = (OS_STK)OS_TaskReturn;
+  (*(--p_stk)) = (OS_STK)0x01000000;
+  (*(--p_stk)) = (OS_STK)task;
+  (*(--p_stk)) = (OS_STK)OS_TaskReturn;
   // r12
-  (*p_stk--) = (OS_STK)0x11111111;
-  (*p_stk--) = (OS_STK)0x11111111;
-  (*p_stk--) = (OS_STK)0x11111111;
+  (*(--p_stk)) = (OS_STK)0x11111111;
+  (*(--p_stk)) = (OS_STK)0x11111111;
+  (*(--p_stk)) = (OS_STK)0x11111111;
   // r1
-  (*p_stk--) = (OS_STK)0x11111111;
+  (*(--p_stk)) = (OS_STK)0x11111111;
 
-  // r0 arg passing
-  (*p_stk--) = (OS_STK) * ((uint32_t *)pdata);
+  // r0 a passing
+  (*(--p_stk)) = (OS_STK) * ((uint32_t *)pdata);
 
-  // EXC_RETURN val
-  // return to Thread mode and using PSP afterwards
-  (*p_stk--) = (OS_STK)0xFFFFFFFD;
+  // EXC_TURN val
+  // retu to Thread mode and using PSP afterwards
+  (*(--p_stk)) = (OS_STK)0xFFFFFFFD;
   // r11
-  (*p_stk--) = (OS_STK)0x11111111;
-  (*p_stk--) = (OS_STK)0x11111111;
-  (*p_stk--) = (OS_STK)0x11111111;
-  (*p_stk--) = (OS_STK)0x11111111;
-  (*p_stk--) = (OS_STK)0x11111111;
-  (*p_stk--) = (OS_STK)0x11111111;
-  (*p_stk--) = (OS_STK)0x11111111;
+  (*(--p_stk)) = (OS_STK)0x11111111;
+  (*(--p_stk)) = (OS_STK)0x11111111;
+  (*(--p_stk)) = (OS_STK)0x11111111;
+  (*(--p_stk)) = (OS_STK)0x11111111;
+  (*(--p_stk)) = (OS_STK)0x11111111;
+  (*(--p_stk)) = (OS_STK)0x11111111;
+  (*(--p_stk)) = (OS_STK)0x11111111;
   // r4
-  (*p_stk) = (OS_STK)0x11111111;
+  (*(--p_stk)) = (OS_STK)0x11111111;
 
   return p_stk;
 }

@@ -4,8 +4,8 @@
 #include "IIC.h"
 #include "ekf.h"
 void initMPU6050();
-void GyroDpSData(double out[3], rawBias_t bias);
-void AccGData(double out[3], rawBias_t bias);
+void GyroDpSData(double out[3], Bias_t bias);
+void AccGData(double out[3], Bias_t bias);
 
 void enBypass();
 void disenBypass();

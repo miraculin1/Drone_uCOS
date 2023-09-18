@@ -2,7 +2,7 @@
 
 //TODO: get mag cal
 
-OS_STK __stk_Array[STK_CNT][STK_SIZE];
+OS_STK __stk_Array[STK_CNT * STK_SIZE];
 OS_MEM *stkpool;
 OS_STK mainStk[STK_SIZE * 3];
 OS_STK *topMainSTK = &mainStk[STK_SIZE - 1];
@@ -31,7 +31,7 @@ int main() {
     OSInit();
 
     stkpool =
-        OSMemCreate(&__stk_Array, STK_CNT, sizeof(OS_STK) * STK_SIZE, &ERROR);
+        OSMemCreate(__stk_Array, STK_CNT, sizeof(OS_STK) * STK_SIZE, &ERROR);
 
     OS_STK *pstk = OSMemGet(stkpool, &ERROR);
     // MUST
@@ -67,16 +67,14 @@ void initHardware() {
 }
 
 void SendInfo() {
-  EKF_t ekf;
+  /* EKF_t ekf; */
   // BUG: ekf get hard falt
   /* initEKF(&ekf); */
+  /* msr_t m; */
   while (1) {
 
-    msr_t m;
-    getMSR(m, &ekf.stat[4]);
-    /* printf("%d %d %d\n", (int)(m[3] * 100), (int)(m[4] * 100), (int)(m[5] * 100)); */
-    printf("%f\n", 3.123);
-    /* printf("%f %f %f\n", m[3], m[4], m[5]); */
+    printf("%f\n", 3.1415);
+    /* getMSR(m, &ekf.stat[4]); */
 
     OSTimeDly(20);
   }

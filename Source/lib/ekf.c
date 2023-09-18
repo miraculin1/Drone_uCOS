@@ -6,7 +6,7 @@ double gyroQ[3] = {1, 1, 1};
 double accQ[3] = {1, 1, 1};
 double magQ[3] = {1, 1, 1};
 msr_t initMsr;
-rawBias_t biasGyro = {0, 0, 0};
+Bias_t biasGyro = {0, 0, 0};
 
 static void getNoise(statCovariant_t out, state_t s, double deltaSec);
 static void getJobian(JMatrix_t J, state_t s, msr_t init);
@@ -231,7 +231,7 @@ static void getNoise(statCovariant_t out, state_t s, double deltaSec) {
 // the status represent the difference between default and now
 void initEKF(EKF_t *now) {
   LED_ON();
-  HMCHardCal(now);
+  /* HMCHardCal(now); */
   LED_OFF();
   now->deltaSec = 0.1;
   // init the base m0
@@ -264,7 +264,6 @@ static void avgMSR(msr_t m, double bias[6]) {
   }
 }
 
-// NOTE: 32768 is pow(2, 15)
 void getMSR(msr_t m, double bias[6]) {
   AccGData(&m[0], &bias[0]);
 

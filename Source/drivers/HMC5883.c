@@ -67,11 +67,11 @@ void MagRawData(int16_t out[3]) {
   out[2] = tmp;
 }
 
-void MagGuassData(double dest[3], rawBias_t bias) {
+void MagGuassData(double dest[3], Bias_t bias) {
   int16_t data[3];
   MagRawData(data);
   for (int i = 0; i < 3; i++) {
-    dest[i] = ((double)data[i] + bias[i]) * HMCmGaussPerLSB / 1000;
+    dest[i] = ((double)data[i] * HMCmGaussPerLSB / 1000 + bias[i]);
   }
 }
 
