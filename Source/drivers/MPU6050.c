@@ -66,7 +66,6 @@ void realconfig() {
   enBypass();
 }
 
-
 void AccRawData(int16_t data[3]) {
   uint8_t temp[6];
   OSSchedLock();
@@ -84,7 +83,7 @@ void AccGData(double out[3], Bias_t bias) {
   int16_t data[3];
   AccRawData(data);
   for (int i = 0; i < 3; i++) {
-    out[i + 0] = -(double)data[i] / AccLSBPerG;
+    out[i] = -(double)data[i] / AccLSBPerG;
   }
 }
 
@@ -106,7 +105,7 @@ void GyroDpSData(double out[3], Bias_t bias) {
   int16_t data[3];
   GyroRawData(data);
   for (int i = 0; i < 3; i++) {
-    out[i + 6] = (double)data[i] / GyroLSBPerDegree - bias[i];
+    out[i] = (double)data[i] / GyroLSBPerDegree - bias[i];
   }
 }
 
@@ -151,41 +150,56 @@ static uint8_t selfTest() {
   uint8_t res = 0;
   uint8_t xtest, ytest, ztest;
 
-  MPURead(0x0d, &xtest);
-  MPURead(0x0e, &ytest);
-  MPURead(0x0f, &ztest);
+  uint8_t tmpTest[4];
+
+  MPURead(0x0d, &tmpTest[0]);
+  MPURead(0x0e, &tmpTest[1]);
+  MPURead(0x0f, &tmpTest[2]);
+  MPURead(0x10, &tmpTest[3]);
 
   float ftx, fty, ftz;
 
   // GYRO
+  xtest = tmpTest[0] & 0x1f;
+  ytest = tmpTest[1] & 0x1f;
+  ztest = tmpTest[2] & 0x1f;
   GyroRawData(data);
   MPUor(0x1b, 0x7 << 5);
   GyroRawData(data1);
   MPUnand(0x1b, 0x7 << 5);
 
   uint32_t facti = 25 * 131;
-  ftx = (xtest & 0x1f) != 0 ? facti * powf(1.046, (xtest & 0x1f) - 1) : 0;
-  fty =
-      (ytest & 0x1f) != 0 ? (-1) * facti * powf(1.046, (ytest & 0x1f) - 1) : 0;
-  ftz = (ztest & 0x1f) != 0 ? facti * powf(1.046, (ztest & 0x1f) - 1) : 0;
+  ftx = xtest != 0 ? facti * powf(1.046, xtest - 1) : 0;
+  fty = ytest != 0 ? (-1) * facti * powf(1.046, ytest - 1) : 0;
+  ftz = ztest != 0 ? facti * powf(1.046, ztest - 1) : 0;
 
   float tmp;
-  tmp = (data1[0] - data[0]) / ftx - 1;
+  tmp = (data1[0] - data[0]) / ftx;
   if (tmp > 14 || tmp < -14) {
     res |= 1;
+    printf("Gx fail\n");
   }
 
-  tmp = (data1[1] - data[1]) / fty - 1;
+  tmp = (data1[1] - data[1]) / fty;
   if (tmp > 14 || tmp < -14) {
     res |= 1;
+    printf("Gy fail\n");
   }
 
-  tmp = (data1[2] - data[2]) / ftz - 1;
+  tmp = (data1[2] - data[2]) / ftz;
   if (tmp > 14 || tmp < -14) {
     res |= 1;
+    printf("Gz fail\n");
   }
 
   // accel
+  xtest = (tmpTest[0] >> 3) & 0b11100;
+  ytest = (tmpTest[1] >> 3) & 0b11100;
+  ztest = (tmpTest[2] >> 3) & 0b11100;
+  xtest |= (tmpTest[3] >> 4) & 0b11;
+  ytest |= (tmpTest[3] >> 2) & 0b11;
+  ztest |= (tmpTest[3] >> 0) & 0b11;
+
   AccRawData(data);
   MPUor(0x1c, 0x7 << 5);
   AccRawData(data1);
@@ -193,33 +207,30 @@ static uint8_t selfTest() {
 
   float factf1 = 0.34f * 4096;
   float factf2 = 0.92f / 0.34f;
-  ftx = (xtest & 0xe0) != 0
-            ? factf1 * powf(factf2, (((xtest & 0xe0) >> 5) - 1) / 30.0f)
-            : 0;
-  fty = (ytest & 0xe0) != 0
-            ? factf1 * powf(factf2, (((ytest & 0xe0) >> 5) - 1) / 30.0f)
-            : 0;
-  ftz = (ztest & 0xe0) != 0
-            ? factf1 * powf(factf2, (((ztest & 0xe0) >> 5) - 1) / 30.0f)
-            : 0;
+  ftx = xtest != 0 ? factf1 * powf(factf2, (xtest - 1) / 30.0f) : 0;
+  fty = ytest != 0 ? factf1 * powf(factf2, (ytest - 1) / 30.0f) : 0;
+  ftz = ztest != 0 ? factf1 * powf(factf2, (ztest - 1) / 30.0f) : 0;
 
-  tmp = (data1[0] - data[0]) / ftx - 1;
+  tmp = (data1[0] - data[0]) / ftx;
   if (tmp > 14 || tmp < -14) {
     res |= 2;
+    printf("Ax fail\n");
   }
 
-  tmp = (data1[1] - data[1]) / fty - 1;
+  tmp = (data1[1] - data[1]) / fty;
   if (tmp > 14 || tmp < -14) {
     res |= 2;
+    printf("Ay fail\n");
   }
 
-  tmp = (data1[2] - data[2]) / ftz - 1;
+  tmp = (data1[2] - data[2]) / ftz;
   if (tmp > 14 || tmp < -14) {
     res |= 2;
+    printf("Az fail\n");
   }
 
-  USendStr("++++++++selftest+++++++++++\n");
-  USendInt(res);
-  USendStr("\n++++++++selftest+++++++++++\n");
+  if (res == 0) {
+    printf("======self test passed======\n");
+  }
   return res;
 }

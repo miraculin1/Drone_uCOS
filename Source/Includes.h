@@ -2,7 +2,6 @@
 #define __INCLUDES_H
 
 #ifndef OS_MASTER_FILE
-#undef FLOATING_POINT
 
 #include <ucos_ii.h>
 #include <math.h>
