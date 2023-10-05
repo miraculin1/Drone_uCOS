@@ -1,7 +1,5 @@
 #include "Includes.h"
 
-// TODO: get mag cal
-
 OS_STK __stk_Array[STK_CNT * STK_SIZE];
 OS_MEM *stkpool;
 OS_STK mainStk[STK_SIZE * 3];
@@ -64,20 +62,41 @@ void initHardware() {
   initHMC();
   initRec();
   initMotor();
+
+  caliGyro();
+}
+
+static void magBaseTest(EKF_T *ekf) {
+
+  msr2State(ekf);
+
+  // print out the quaternion
+  for (int i = 0; i < 4; i++) {
+    printf("%.2f ", ekf->x[i]);
+  }
+  printf("   ");
+
+  double v[4], conx[4];
+  double qtmp[4];
+  quatConj(ekf->x, conx);
+  // converting acc data to ref frame, expecting [0, 0, -1]
+  vec2Quat(ekf->z, v);
+  quatMulQuat(ekf->x, v, qtmp);
+  quatMulQuat(qtmp, conx, v);
+
+  for (int i = 1; i < 4; i++) {
+    printf("%.2f ", v[i]);
+  }
+  printf("\n");
 }
 
 void SendInfo() {
-  EKF_t ekf;
-  initEKF(&ekf);
+  EKF_T ekf;
+  initMsr2State(&ekf);
   while (1) {
+    magBaseTest(&ekf);
 
-    getMSR(ekf.m, ekf.m0);
-    for (int i = 0; i < 3; ++i) {
-      printf("%.3f ", ekf.m[i]);
-    }
-    printf("\n");
-
-    OSTimeDly(20);
+    OSTimeDlyHMSM(0, 0, 0, 20);
   }
 }
 

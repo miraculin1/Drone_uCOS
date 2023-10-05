@@ -2,287 +2,135 @@
 #include "Includes.h"
 #include "declareFunctions.h"
 
-double gyroQ[3] = {1, 1, 1};
-double accQ[3] = {1, 1, 1};
-double magQ[3] = {1, 1, 1};
-msr_t initMsr;
-Bias_t biasGyro = {0, 0, 0};
+double ATT_RATE = 100;
 
-static void getNoise(statCovariant_t out, state_t s, double deltaSec);
-static void getJobian(JMatrix_t J, state_t s, msr_t init);
-static void state2Obv(msr_t out, state_t s, msr_t init);
-static void avgMSR(msr_t m, double bias[6]);
-static void statusInit(EKF_t *now);
-static void initMsrCov(msrCovariant_t cov);
-
-// project prev to a next state
-// it's from a diffrentiate equation, only when deltaT is
-// small enough this works.
-// IF deltaT is large, Picard method is needed
-void stateExtraPolot(state_t out, state_t prev, sencorData_t gyroData,
-                     double deltaSec) {
-  // get data
-  double wx, wy, wz;
-  wx = gyroData[0];
-  wy = gyroData[1];
-  wz = gyroData[2];
-
-  double omega[4][4] = {
-      {0, -wx, -wy, -wz},
-      {wx, 0, wz, -wy},
-      {wy, -wz, 0, wx},
-      {wz, wy, -wx, 0},
-  };
-
-  squrMxVec(out, (double **)omega, prev, 4);
-  for (int i = 0; i < 4; i++) {
-    out[i] *= deltaSec / 2;
-  }
-  for (int i = 0; i < 4; i++) {
-    out[i] += prev[i];
-  }
-
-  // copy all bias
-  for (int i = 4; i < STDIM; i++) {
-    out[i] = prev[i];
-  }
-
-  return;
+// read data from three sensors
+static void getMsr(EKF_T *ekf) {
+  AccGData(ekf->z, accBias);
+  MagmGuassData(ekf->z + 3, magBias);
+  GyroRadpSData(ekf->u, gyroBias);
 }
 
-void cvExtraPolot(statCovariant_t out, statCovariant_t in, sencorData_t gyro,
-                  double deltaSec, state_t state) {
-  double wx = gyro[0] / 2 * deltaSec, wy = gyro[1] / 2 * deltaSec,
-         wz = gyro[2] / 2 * deltaSec;
+// used to gen state vec according to the new msr
+void msr2State(EKF_T *ekf) {
+  getMsr(ekf);
 
-  double F[10][10] = {
-      {0, -wx, -wy, -wz},
-      {wx, 0, wz, -wy},
-      {wy, -wz, 0, wx},
-      {wz, wy, -wx, 0},
-      {0, 0, 0, 0, 1},
-      {0, 0, 0, 0, 0, 1},
-      {0, 0, 0, 0, 0, 0, 1},
-      {0, 0, 0, 0, 0, 0, 0, 1},
-      {0, 0, 0, 0, 0, 0, 0, 0, 1},
-      {0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-  };
-  double outTmp[10][10];
-  mul((double *)F, (double *)in, false, (double *)outTmp, 10, 10, STDIM);
-  tran((double *)F, 10, 10);
-  double outTmp1[10][10];
-  mul((double *)outTmp, (double *)F, false, (double *)outTmp1, 10, 10, STDIM);
-
-  // add a process noise
-  // the quaternion part is first-order approximation
-  double Q[10][10];
-  getNoise(Q, state, deltaSec);
-
-  add((double *)outTmp1, (double *)Q, (double *)out, 10, 10, 10);
-}
-
-void kalmanGain(kalmanGain_t KG, statCovariant_t P, msrCovariant_t R,
-                obvMatrix_t obv, sencorData_t gyro, double deltaSec,
-                state_t stat) {
-
-  JMatrix_t F;
-  getJobian(F, stat, initMsr);
-  double tmp[10][10], tmp1[10][10];
-  mul((double *)F, (double *)P, false, (double *)tmp, MSRDIM, STDIM, STDIM);
-  tran((double *)F, MSRDIM, STDIM);
-  mul((double_t *)tmp, (double *)F, false, (double *)tmp1, MSRDIM, STDIM,
-      MSRDIM);
-  add((double *)tmp1, (double *)R, (double *)tmp, MSRDIM, MSRDIM, MSRDIM);
-  inv((double *)tmp, MSRDIM);
-
-  mul((double *)F, (double *)tmp, false, (double *)tmp1, STDIM, MSRDIM, MSRDIM);
-  mul((double *)P, (double *)tmp1, false, (double *)KG, STDIM, STDIM, MSRDIM);
-}
-
-void stateUPD(state_t out, state_t stat, obvMatrix_t obv, kalmanGain_t KG,
-              msr_t msr, msr_t m0) {
-  msr_t fx;
-  state2Obv(fx, stat, m0);
-
-  msr_t tmpMsr;
-  sub(msr, fx, tmpMsr, MSRDIM, 1, 1);
-  state_t bias;
-  mul((double *)KG, tmpMsr, false, (double *)bias, STDIM, MSRDIM, 1);
-
-  add(stat, bias, out, STDIM, 1, 1);
-}
-
-void covUPD(statCovariant_t out, statCovariant_t prev, kalmanGain_t KG,
-            obvMatrix_t OM, msr_t base, state_t s) {
-  JMatrix_t F;
-  getJobian(F, s, base);
-  double tmp[STDIM][STDIM];
-  double tmp1[STDIM][STDIM];
-  mul((double *)KG, (double *)F, false, (double *)tmp, STDIM, MSRDIM, STDIM);
-
-  double I[STDIM][STDIM];
-  eye((double *)I, STDIM, STDIM);
-
-  sub((double *)I, (double *)tmp, (double *)tmp1, STDIM, STDIM, STDIM);
-
-  inv((double *)prev, STDIM);
-  mul((double *)tmp1, (double *)prev, false, (double *)out, STDIM, STDIM,
-      STDIM);
-}
-
-// we define the obv matrix is transfer the g0 to gb
-static void getJobian(JMatrix_t J, state_t s, msr_t init) {
-  double q0 = s[0], q1 = s[1], q2 = s[2], q3 = s[3];
-  // normalize quaternion
-  normalize(s, 4);
-  JMatrix_t tmp = {
-      {// f0
-       2 * q0 * init[0] + -2 * q3 * init[1] + 2 * q2 * init[2],
-       2 * q1 * init[0] + 2 * q2 * init[1] + 2 * q3 * init[2],
-       -2 * q2 * init[0] + 2 * q1 * init[1] + 2 * q0 * init[2],
-       -2 * q3 * init[0] + -2 * q0 * init[2] + 2 * q1 * init[3], 1},
-      {// f1
-       2 * q3 * init[0] + 2 * q0 * init[1] + -2 * q1 * init[2],
-       2 * q2 * init[0] + -2 * q1 * init[1] + -2 * q0 * init[2],
-       2 * q1 * init[0] + 2 * q2 * init[1] + 2 * q3 * init[2],
-       2 * q0 * init[0] + -2 * q3 * init[1] + 2 * q2 * init[2], 0, 1},
-      {// f2
-       -2 * q2 * init[0] + 2 * q1 * init[1] + 2 * q0 * init[2],
-       2 * q3 * init[0] + 2 * q0 * init[1] + -2 * q1 * init[2],
-       -2 * q0 * init[0] + 2 * q3 * init[1] + -2 * q2 * init[2],
-       2 * q1 * init[0] + 2 * q2 * init[1] + 2 * q3 * init[2], 0, 0, 1
-
-      },
-      {// f3
-       2 * q0 * init[0] + -2 * q3 * init[1] + 2 * q2 * init[2],
-       2 * q1 * init[0] + 2 * q2 * init[1] + 2 * q3 * init[2],
-       -2 * q2 * init[0] + 2 * q1 * init[1] + 2 * q0 * init[2],
-       -2 * q3 * init[0] + -2 * q0 * init[2] + 2 * q1 * init[3], 0, 0, 0, 1},
-      {// f4
-       2 * q3 * init[0] + 2 * q0 * init[1] + -2 * q1 * init[2],
-       2 * q2 * init[0] + -2 * q1 * init[1] + -2 * q0 * init[2],
-       2 * q1 * init[0] + 2 * q2 * init[1] + 2 * q3 * init[2],
-       2 * q0 * init[0] + -2 * q3 * init[1] + 2 * q2 * init[2], 0, 0, 0, 0, 1},
-      {// f5
-       -2 * q2 * init[0] + 2 * q1 * init[1] + 2 * q0 * init[2],
-       2 * q3 * init[0] + 2 * q0 * init[1] + -2 * q1 * init[2],
-       -2 * q0 * init[0] + 2 * q3 * init[1] + -2 * q2 * init[2],
-       2 * q1 * init[0] + 2 * q2 * init[1] + 2 * q3 * init[2], 0, 0, 0, 0, 0,
-       1},
-  };
-  memcpy(J, tmp, sizeof(double) * MSRDIM * STDIM);
-}
-
-static void state2Obv(msr_t out, state_t s, msr_t init) {
-  DCM_t R;
-  quat2DCM(s, R);
-  DCMTrans(&out[0], R, &init[0]);
-  DCMTrans(&out[3], R, &init[3]);
-};
-
-static void getNoise(statCovariant_t out, state_t s, double deltaSec) {
-  double approxi[4][3] = {{s[0], -s[3], s[2]},
-                          {s[3], s[0], -s[1]},
-                          {-s[2], s[1], s[0]},
-                          {-s[1], -s[2], -s[3]}};
-  double cov[3][3] = {
-      {gyroQ[0], 0, 0},
-      {0, gyroQ[1], 0},
-      {0, 0, gyroQ[2]},
-  };
-
-  double tmp[4][3];
-  mul((double *)approxi, (double *)cov, false, (double *)tmp, 4, 3, 3);
-  tran((double *)approxi, 4, 3);
-  double tmp1[4][4];
-  mul((double *)tmp, (double *)approxi, false, (double *)tmp1, 4, 3, 4);
-  scale((double *)tmp1, deltaSec * deltaSec / 4, 4, 4);
-
-  insert((double *)tmp1, (double *)out, 4, 4, 10, 0, 0);
-
-  cov[0][0] = accQ[0];
-  cov[1][1] = accQ[1];
-  cov[2][2] = accQ[2];
-
-  insert((double *)cov, (double *)out, 3, 3, 10, 4, 4);
-
-  cov[0][0] = magQ[0];
-  cov[1][1] = magQ[1];
-  cov[2][2] = magQ[2];
-
-  insert((double *)cov, (double *)out, 3, 3, 10, 7, 7);
-}
-
-// init EKF type
-
-// state_t stat;
-// statCovariant_t P;
-// void (*f)(state_t stat);
-// JMatrix_t F;
-// statCovariant_t Q;
-// double deltaSec;
-// msr_t m0;
-// msr_t m;
-
-// also I assume the default alttitude is:
-// y pointing north
-// x pointing east
-// z project up
-// the status represent the difference between default and now
-void initEKF(EKF_t *now) {
-  LED_ON();
-  /* HMCHardCal(now); */
-  LED_OFF();
-  now->deltaSec = 0.1;
-  // init the base m0
-  avgMSR(now->m0, &now->stat[4]);
-  now->stat[0] = 1234;
-  getMSR(now->m, &now->stat[4]);
-  statusInit(now);
-  getNoise(now->Q, now->stat, now->deltaSec);
-  getJobian(now->F, now->stat, now->m0);
-  // TODO: get the covMatrix done
-  initMsrCov(now->R);
-}
-
-// avrage ten msr and get gyro zero bias
-static void avgMSR(msr_t m, double bias[6]) {
-  uint8_t sampleN = 10;
-  msr_t tmp;
-  for (int i = 0; i < MSRDIM; i++) {
-    m[i] = 0;
-  }
-  for (int i = 0; i < sampleN; i++) {
-    getMSR(tmp, bias);
-    for (int i = 0; i < MSRDIM; i++) {
-      m[i] += tmp[i] / sampleN;
-    }
-  }
-  for (int i = 0; i < 3; i++) {
-    biasGyro[i] = m[6 + i];
-    m[6 + i] = 0;
-  }
-}
-
-void getMSR(msr_t m, double bias[6]) {
-  AccGData(&m[0], &bias[0]);
-
-  MagGuassData(&m[3], &bias[3]);
-
-  GyroDpSData(&m[6], biasGyro);
-}
-
-// after get the initial measurement, use that to
-// calculate the inital altitude
-static void statusInit(EKF_t *now) {
+  // quaternion gen
   double dcm[3][3];
-  vecCrossProd(dcm[0], &now->m0[0], &now->m0[3]);
-  vecCrossProd(dcm[1], dcm[0], &now->m0[0]);
+  vecCrossProd(dcm[0], &ekf->z[0], &ekf->z[3]);
+  vecCrossProd(dcm[1], dcm[0], &ekf->z[0]);
   vecCrossProd(dcm[2], dcm[0], dcm[1]);
   normalize(dcm[0], 3);
   normalize(dcm[1], 3);
   normalize(dcm[2], 3);
-  DCM2quat(now->stat, dcm);
+  DCM2quat(ekf->x, dcm);
+
 }
 
-static void initMsrCov(msrCovariant_t cov) {}
+// this is performed when the system is first init,
+// sensors MUST NOT move
+// get a close est of attitude, try to get a faster converge
+// invers of z = h(x, v) where v ~ (0, R)
+void initMsr2State(EKF_T *ekf) {
+  EKF_T tmp;
+  // get n = INITSAMPLES avg sample
+  for (int i = 0; i < INITSAMPLES; i++) {
+    getMsr(&tmp);
+    for (int k = 0; k < Z_DIM; k++) {
+      if (i == 0) {
+        ekf->z[k] = 0;
+      }
+      ekf->z[k] += tmp.z[k];
+    }
+  }
+
+  for (int i = 0; i < Z_DIM; i++) {
+    ekf->z[i] /= INITSAMPLES;
+  }
+
+  for (int i = 0; i < U_DIM; i++) {
+    ekf->u[i] = tmp.u[i];
+  }
+
+
+  // quaternion init
+  double dcm[3][3];
+  vecCrossProd(dcm[0], &ekf->z[0], &ekf->z[3]);
+  vecCrossProd(dcm[1], dcm[0], &ekf->z[0]);
+  vecCrossProd(dcm[2], dcm[0], dcm[1]);
+  normalize(dcm[0], 3);
+  normalize(dcm[1], 3);
+  normalize(dcm[2], 3);
+  DCM2quat(ekf->x, dcm);
+
+  // initalize the magBase for later h(x)
+  // TODO: figure out the way the init magbase
+  double qm[4];
+  double conx[4];
+  quatConj(ekf->x, conx);
+  vec2Quat(ekf->z + 3, qm);
+  double qtmp[4], qtmp1[4];
+  quatMulQuat(ekf->x, qm, qtmp);
+  quatMulQuat(qtmp, conx, qtmp1);
+  quat2Vec(qtmp1, ekf->magBase);
+}
+
+// 1st
+// update the quaternion(x) by gyro data
+void predictX(EKF_T *ekf) {
+  double dq[4];
+  quatMulQuat(ekf->x, ekf->u, dq);
+  for (int i = 0; i < 4; i++) {
+    ekf->x[i] += dq[i] / 2 / ATT_RATE;
+  }
+}
+
+// 2nd
+// need jacobian matrix
+void preidctP(EKF_T *ekf) {
+  double wx = ekf->z[3], wy = ekf->z[4], wz = ekf->z[5];
+
+  // BUG: bad jacobian
+  double F[4 * 4] = {
+    1, -wx, -wy, -wz,
+    wx, 1, wz, - wy,
+    wy, -wz, 1, wx,
+    wz, wy, -wx, 1
+  };
+
+  double Q[4 * 4] = {0};
+  double tmp[4 * 4];
+  double tmp1[4 * 4];
+  mul(F, ekf->P, false, tmp, 4, 4, 4);
+  tran(F, 4, 4);
+  mul(tmp, F, false, tmp1, 4, 4, 4);
+  add(tmp1, Q, ekf->P, 4, 4, 4);
+}
+
+// 3rd
+// need jacobian
+void calKalGain() {
+  /* double H[6 * 4] = { */
+    /* {}, */
+    /* {}, */
+    /* {}, */
+    /* {}, */
+    /* {}, */
+    /* {}, */
+    /* {} */
+  /* }; */
+}
+
+// 4th
+// get msr use KalGain to upd predictX, get optimal res
+void updX_est(EKF_T *ekf) {}
+
+// 5th
+// need jacobian
+void updP_est(EKF_T *ekf) {}
+
+static void LPF(double *acc, double *data, double alpha) {
+  for (int dim = 0; dim < 3; ++dim) {
+    acc[dim] = acc[dim] * (1 - alpha) + alpha * data[dim];
+  }
+}

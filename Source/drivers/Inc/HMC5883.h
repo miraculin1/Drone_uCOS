@@ -6,7 +6,7 @@
 #include "ekf.h"
 void HMCWrite(uint8_t tar, uint8_t data);
 void initHMC();
-void MagGuassData(double dest[3], Bias_t bias);
+void MagmGuassData(double dest[3], double *bias);
 extern double HMCmGaussPerLSB;
 
 #define MAGCALSAMPLES 300

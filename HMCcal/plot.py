@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from mpl_toolkits.mplot3d import Axes3D
 
 file = open("./data.txt", "r")
 
@@ -13,11 +12,11 @@ while len(s) != 0 and cnt < size:
     each = s.split()
     print(each)
     for i in range(0, 3):
-        tmp[cnt] = int(each[i])
+        tmp[cnt] = each[i]
         cnt += 1
     s = file.readline()
 
-data = tmp.reshape(int(size / 3), 3)
+data = np.reshape(tmp, (int(size / 3), 3))
 
 x = data[:, 0]
 y = data[:, 1]

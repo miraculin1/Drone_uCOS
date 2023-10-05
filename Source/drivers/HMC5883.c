@@ -67,32 +67,40 @@ void MagRawData(int16_t out[3]) {
   out[2] = tmp;
 }
 
-void MagGuassData(double dest[3], Bias_t bias) {
+void MagmGuassData(double dest[3], double *bias) {
   int16_t data[3];
-  MagRawData(data);
-  for (int i = 0; i < 3; i++) {
-    dest[i] = ((double)data[i] * HMCmGaussPerLSB / 1000 + bias[i]);
-  }
-}
-
-// TODO: implimant the RLS algorisim to get a "online" calibration
-void HMCHardCal(EKF_t *now) {
-  static double lamda = 0.98;
-  double theta[4] = {0};
-  double P[4][4];
-
-  for (int i = 0; i < MAGCALSAMPLES; ++i) {
-    // take single sample
-    int16_t data[4];
+  if (bias == NULL) {
     MagRawData(data);
-    data[3] = 1;
-
-    // calculate the prediction error
-    int e = data[0] * data[0] + data[1] * data[1] + data[2] * data[2];
-    for (int dim = 0; dim < 3; ++dim) {
-      e -= data[dim] * theta[dim];
+    for (int i = 0; i < 3; i++) {
+      dest[i] = ((double)data[i] * HMCmGaussPerLSB);
     }
-
-    // TODO: calculate RLS gain
+  } else {
+    MagRawData(data);
+    for (int i = 0; i < 3; i++) {
+      dest[i] =
+          ((double)data[i] * HMCmGaussPerLSB - bias[i]) / bias[3 + i];
+    }
   }
 }
+
+/* // TODO: implimant the RLS algorisim to get a "online" calibration */
+/* void HMCHardCal(double msr[9]) { */
+/* static double lamda = 0.98; */
+/* double theta[4] = {0}; */
+/* double P[4][4]; */
+/*  */
+/* for (int i = 0; i < MAGCALSAMPLES; ++i) { */
+/* // take single sample */
+/* int16_t data[4]; */
+/* MagRawData(data); */
+/* data[3] = 1; */
+/*  */
+/* // calculate the prediction error */
+/* int e = data[0] * data[0] + data[1] * data[1] + data[2] * data[2]; */
+/* for (int dim = 0; dim < 3; ++dim) { */
+/* e -= data[dim] * theta[dim]; */
+/* } */
+/*  */
+/* // TODO: calculate RLS gain */
+/* } */
+/* } */

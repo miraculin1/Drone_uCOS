@@ -79,11 +79,19 @@ void AccRawData(int16_t data[3]) {
   }
 }
 
-void AccGData(double out[3], Bias_t bias) {
-  int16_t data[3];
-  AccRawData(data);
-  for (int i = 0; i < 3; i++) {
-    out[i] = -(double)data[i] / AccLSBPerG;
+void AccGData(double out[3], double *bias) {
+  if (bias == NULL) {
+    int16_t data[3];
+    AccRawData(data);
+    for (int i = 0; i < 3; i++) {
+      out[i] = -(double)data[i] / AccLSBPerG;
+    }
+  } else {
+    int16_t data[3];
+    AccRawData(data);
+    for (int i = 0; i < 3; i++) {
+      out[i] = (-(double)data[i] / AccLSBPerG - bias[i]) / bias[3 + i];
+    }
   }
 }
 
@@ -101,14 +109,28 @@ void GyroRawData(int16_t data[3]) {
   }
 }
 
-void GyroDpSData(double out[3], Bias_t bias) {
+void GyroDpSData(double out[3], double *bias) {
+  if (bias == NULL || (CALIBDONE & 0b001) == 0) {
+  int16_t data[3];
+  GyroRawData(data);
+  for (int i = 0; i < 3; i++) {
+    out[i] = (double)data[i] / GyroLSBPerDegree;
+  }
+  }
+
   int16_t data[3];
   GyroRawData(data);
   for (int i = 0; i < 3; i++) {
     out[i] = (double)data[i] / GyroLSBPerDegree - bias[i];
   }
 }
-
+void GyroRadpSData(double out[3], double *bias) {
+  GyroDpSData(out, bias);
+  const double dPreRad = 180 / M_PI;
+  for (int dim = 0; dim < 3; ++dim) {
+    out[dim] /= dPreRad;
+  }
+}
 // perform a selftest
 //
 // RETURNS

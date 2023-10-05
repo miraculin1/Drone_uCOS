@@ -1,4 +1,24 @@
 #include "mymath.h"
+
+void quat2Vec(double *quat, double *vec) {
+  for (int i = 0; i < 3; i++) {
+    vec[i] = quat[i + 1];
+  }
+}
+void quatConj(double *q, double *conq) {
+  conq[0] = q[0];
+  for (int i = 1; i < 4; ++i) {
+    conq[i] = -q[i];
+  }
+}
+
+void vec2Quat(double *vec, double *quat) {
+  quat[0] = 0;
+  for (int i = 0; i < 3; i++) {
+    quat[i + 1] = vec[i];
+  }
+}
+
 static double maxIn4(double a, double b, double c, double d);
 
 double vecMod(int n, double v[n]) {
@@ -54,10 +74,12 @@ void DCM2quat(quaternion_t out, DCM_t R) {
     out[2] = (R[1][2] + R[2][1]) / (4 * q3);
     out[3] = q3;
   }
+  normalize(out, 4);
   return;
 }
 
 void quat2DCM(quaternion_t q, DCM_t R) {
+  normalize(q, 4);
   double q02 = q[0] * q[0], q12 = q[1] * q[1], q22 = q[2] * q[2],
          q32 = q[3] * q[3];
 
@@ -96,4 +118,13 @@ void squrMxVec(double *out, double **M, double *v, int dim) {
       out[i] += M[i][j] * v[j];
     }
   }
+}
+
+void quatMulQuat(double *q, double *p, double *out) {
+  double q0 = q[0], q1 = q[1], q2 = q[2], q3 = q[3];
+  double p0 = p[0], p1 = p[1], p2 = p[2], p3 = p[3];
+  out[0] = q0 * p0 - q1 * p1 - q2 * p2 - q3 * p3;
+  out[1] = q1 * p0 + q0 * p1 + q2 * p3 - q3 * p2;
+  out[2] = q2 * p0 + q0 * p2 + q3 * p1 - q1 * p3;
+  out[3] = q3 * p0 + q0 * p3 + q1 * p2 - q2 * p1;
 }

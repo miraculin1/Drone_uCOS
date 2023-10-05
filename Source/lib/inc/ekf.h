@@ -1,47 +1,34 @@
 #ifndef __EKF_h
 #define __EKF_h
 
+// x_t(state vector) = [q0(scaler), q1, q2, q3](v^r = x * v^b * v^-1 )
+// u_t(control) = [wx, wy, wz] !!not fixed
+// z_t(msr) = [vec(acc), vec(mag)]
 
-// state matrix structure
-// q0, q1, q2, q3, bax, bay, baz, bmx, bmy, bmz
-#define STDIM 10
-typedef double state_t[STDIM];
-typedef double statCovariant_t[STDIM][STDIM];
-typedef double transMatrix_t[STDIM];
+// x_t = f(x_t-1, u_t-1, w_t-1) w_t is the "process noise", which is unmodel
+// z_t = h(x_t, v_t) v_t is the "measurement noise"
+//
+// these two function is NOT linear, so when deriving things about the variance
+// have the linearize this thing by taking "Jacobian Matrix"
 
-typedef double Bias_t[3];
-
-#define MSRDIM 9
-// msr: ax ay az mx my mz gx gy gz
-typedef double msr_t[MSRDIM];
-typedef double msrCovariant_t[MSRDIM][MSRDIM];
-typedef double obvMatrix_t[MSRDIM][STDIM];
-
-typedef double kalmanGain_t[STDIM][MSRDIM];
-typedef double JMatrix_t[MSRDIM][STDIM];
+// ref to things above
+#define ST_DIM 4
+#define Z_DIM 6
+#define U_DIM 3
 
 typedef struct {
-  // state
-  state_t stat;
-  // state covriance
-  statCovariant_t P;
-  // jacobi matrix for approximation
-  JMatrix_t F;
-  // process noise
-  statCovariant_t Q;
-  // sencor measure noise
-  msrCovariant_t R;
-  // the time between each calculation
-  double deltaSec;
-  // inital measurement
-  msr_t m0;
-  // most recent measure
-  msr_t m;
-} EKF_t;
+  double x[ST_DIM];
+  double z[Z_DIM];
+  double u[U_DIM];
+  double P[ST_DIM * ST_DIM];
+  double magBase[3];
+} EKF_T;
 
-void initEKF(EKF_t *now);
-extern Bias_t biasGyro;
-void HMCHardCal(EKF_t *now);
-void getMSR(msr_t m, double bias[6]);
+#define INITSAMPLES 10
+
+extern double ATT_RATE;
+
+void initMsr2State(EKF_T *ekf);
+void msr2State(EKF_T *ekf);
 
 #endif
