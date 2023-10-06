@@ -1,7 +1,5 @@
-@ vim:ft=armv5
   .syntax unified
   .cpu cortex-m4
-  .fpu softvfp
   .thumb
 
 
@@ -102,6 +100,9 @@ OSCtxSw:
   ldr r0, =OSTCBCur
   ldr r0, [r0]
   mrs r1, psp
+  tst lr, #0x10
+  it eq
+  vstmdbeq r1!, {s16-s31}
   stmfd r1!, {r4-r11, lr}
   // save the pushed sp
   str r1, [r0]
@@ -126,6 +127,9 @@ OSCtxSw:
   // restore the regs
   // return from the interrupt
   ldmfd r1!, {r4-r11, lr}
+  tst lr, #0x10
+  it eq
+  vldmiaeq r1!, {s16-s31}
   msr psp, r1
   bx lr
 
