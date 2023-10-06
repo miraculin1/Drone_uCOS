@@ -61,8 +61,8 @@ void SendInfo() {
   msr2State(&ekf);
   magBaseCal(&ekf);
   while (1) {
-    printMagForPlot();
-    /* magBaseTest(&ekf); */
+    /* printMagForPlot(); */
+    magBaseTest(&ekf);
 
     OSTimeDlyHMSM(0, 0, 0, 50);
   }

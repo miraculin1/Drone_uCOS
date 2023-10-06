@@ -15,10 +15,17 @@ void userTaskCreate() {
   INT8U ERROR;
 
   pstk = OSMemGet(stkpool, &ERROR);
-  OSTaskCreate(&updateThro, NULL, &pstk[STK_SIZE - 1], 1);
+  // CLR make sure stack all zero initalized,
+  // stkUSED counts zero enteties
+  OSTaskCreateExt(&updateThro, NULL, &pstk[STK_SIZE - 1], 2, 2, pstk, STK_SIZE,
+                  NULL, OS_TASK_OPT_STK_CHK | OS_TASK_OPT_STK_CLR);
+  OSTaskNameSet(2, (unsigned char *)"updThro", &ERROR);
 
   pstk = OSMemGet(stkpool, &ERROR);
-  OSTaskCreate(&SendInfo, NULL, &pstk[STK_SIZE - 1], 4);
+  OSTaskCreateExt(&SendInfo, NULL, &pstk[STK_SIZE - 1], 4, 4, pstk, STK_SIZE, NULL,
+               OS_TASK_OPT_STK_CHK | OS_TASK_OPT_STK_CLR);
+  OSTaskNameSet(4, (unsigned char *)"sendInfo", &ERROR);
+
 }
 
 int main() {
@@ -65,7 +72,6 @@ void initHardware() {
 
   caliGyro();
 }
-
 
 void updateThro() {
   while (1) {
