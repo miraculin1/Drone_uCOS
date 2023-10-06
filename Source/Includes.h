@@ -24,6 +24,7 @@
 #include "motor.h"
 #include "USART.h"
 #include "cali.h"
+#include "sendInfo.h"
 
 #include "main.h"
 

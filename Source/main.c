@@ -66,39 +66,6 @@ void initHardware() {
   caliGyro();
 }
 
-static void magBaseTest(EKF_T *ekf) {
-
-  msr2State(ekf);
-
-  // print out the quaternion
-  for (int i = 0; i < 4; i++) {
-    printf("%.2f ", ekf->x[i]);
-  }
-  printf("   ");
-
-  double v[4], conx[4];
-  double qtmp[4];
-  quatConj(ekf->x, conx);
-  // converting acc data to ref frame, expecting [0, 0, -1]
-  vec2Quat(ekf->z, v);
-  quatMulQuat(ekf->x, v, qtmp);
-  quatMulQuat(qtmp, conx, v);
-
-  for (int i = 1; i < 4; i++) {
-    printf("%.2f ", v[i]);
-  }
-  printf("\n");
-}
-
-void SendInfo() {
-  EKF_T ekf;
-  initMsr2State(&ekf);
-  while (1) {
-    magBaseTest(&ekf);
-
-    OSTimeDlyHMSM(0, 0, 0, 20);
-  }
-}
 
 void updateThro() {
   while (1) {

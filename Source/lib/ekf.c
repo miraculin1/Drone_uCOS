@@ -24,34 +24,9 @@ void msr2State(EKF_T *ekf) {
   normalize(dcm[1], 3);
   normalize(dcm[2], 3);
   DCM2quat(ekf->x, dcm);
-
 }
 
-// this is performed when the system is first init,
-// sensors MUST NOT move
-// get a close est of attitude, try to get a faster converge
-// invers of z = h(x, v) where v ~ (0, R)
-void initMsr2State(EKF_T *ekf) {
-  EKF_T tmp;
-  // get n = INITSAMPLES avg sample
-  for (int i = 0; i < INITSAMPLES; i++) {
-    getMsr(&tmp);
-    for (int k = 0; k < Z_DIM; k++) {
-      if (i == 0) {
-        ekf->z[k] = 0;
-      }
-      ekf->z[k] += tmp.z[k];
-    }
-  }
-
-  for (int i = 0; i < Z_DIM; i++) {
-    ekf->z[i] /= INITSAMPLES;
-  }
-
-  for (int i = 0; i < U_DIM; i++) {
-    ekf->u[i] = tmp.u[i];
-  }
-
+void magBaseCal(EKF_T *ekf) {
 
   // quaternion init
   double dcm[3][3];
@@ -65,14 +40,18 @@ void initMsr2State(EKF_T *ekf) {
 
   // initalize the magBase for later h(x)
   // TODO: figure out the way the init magbase
-  double qm[4];
-  double conx[4];
-  quatConj(ekf->x, conx);
-  vec2Quat(ekf->z + 3, qm);
-  double qtmp[4], qtmp1[4];
-  quatMulQuat(ekf->x, qm, qtmp);
-  quatMulQuat(qtmp, conx, qtmp1);
-  quat2Vec(qtmp1, ekf->magBase);
+  double qConj[4];
+  double qTmp[4], qTmp1[4];
+  double v[4];
+  quatConj(ekf->x, qConj);
+  vec2Quat(ekf->z + 3, v);
+
+  quatMulQuat(ekf->x, v, qTmp);
+  quatMulQuat(qTmp, qConj, qTmp1);
+  quat2Vec(qTmp1, ekf->magBase);
+
+
+  normalize(ekf->magBase, 3);
 }
 
 // 1st

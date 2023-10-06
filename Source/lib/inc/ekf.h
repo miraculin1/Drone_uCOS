@@ -21,6 +21,7 @@ typedef struct {
   double z[Z_DIM];
   double u[U_DIM];
   double P[ST_DIM * ST_DIM];
+  // best:{-0.042155252543202654, 0.699747026300236, -0.71314587138046004}
   double magBase[3];
 } EKF_T;
 
@@ -28,7 +29,7 @@ typedef struct {
 
 extern double ATT_RATE;
 
-void initMsr2State(EKF_T *ekf);
 void msr2State(EKF_T *ekf);
+void magBaseCal(EKF_T *ekf);
 
 #endif
