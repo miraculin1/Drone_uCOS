@@ -44,28 +44,28 @@ OS_STK *OSTaskStkInit(void (*task)(void *pd), void *pdata, OS_STK *ptos,
   (*(--p_stk)) = (OS_STK)task;
   (*(--p_stk)) = (OS_STK)OS_TaskReturn;
   // r12
-  (*(--p_stk)) = (OS_STK)0x11111111;
-  (*(--p_stk)) = (OS_STK)0x11111111;
-  (*(--p_stk)) = (OS_STK)0x11111111;
+  (*(--p_stk)) = (OS_STK)0x12111111;
+  (*(--p_stk)) = (OS_STK)0x03111111;
+  (*(--p_stk)) = (OS_STK)0x02111111;
   // r1
-  (*(--p_stk)) = (OS_STK)0x11111111;
+  (*(--p_stk)) = (OS_STK)0x01111111;
 
   // r0 a passing
-  (*(--p_stk)) = (OS_STK) * ((uint32_t *)pdata);
+  (*(--p_stk)) = (OS_STK)((uint32_t)pdata);
 
   // EXC_TURN val
   // retu to Thread mode and using PSP afterwards
   (*(--p_stk)) = (OS_STK)0xFFFFFFFD;
   // r11
   (*(--p_stk)) = (OS_STK)0x11111111;
-  (*(--p_stk)) = (OS_STK)0x11111111;
-  (*(--p_stk)) = (OS_STK)0x11111111;
-  (*(--p_stk)) = (OS_STK)0x11111111;
-  (*(--p_stk)) = (OS_STK)0x11111111;
-  (*(--p_stk)) = (OS_STK)0x11111111;
-  (*(--p_stk)) = (OS_STK)0x11111111;
+  (*(--p_stk)) = (OS_STK)0x10111111;
+  (*(--p_stk)) = (OS_STK)0x09111111;
+  (*(--p_stk)) = (OS_STK)0x08111111;
+  (*(--p_stk)) = (OS_STK)0x07111111;
+  (*(--p_stk)) = (OS_STK)0x06111111;
+  (*(--p_stk)) = (OS_STK)0x05111111;
   // r4
-  (*(--p_stk)) = (OS_STK)0x11111111;
+  (*(--p_stk)) = (OS_STK)0x04111111;
 
   return p_stk;
 }

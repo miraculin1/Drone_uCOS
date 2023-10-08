@@ -2,7 +2,7 @@
 
 OS_STK __stk_Array[STK_CNT * STK_SIZE];
 OS_MEM *stkpool;
-OS_STK mainStk[STK_SIZE * 3];
+OS_STK mainStk[STK_SIZE];
 OS_STK *topMainSTK = &mainStk[STK_SIZE - 1];
 
 /*******************************
@@ -14,17 +14,24 @@ void userTaskCreate() {
   OS_STK *pstk;
   INT8U ERROR;
 
-  pstk = OSMemGet(stkpool, &ERROR);
   // CLR make sure stack all zero initalized,
   // stkUSED counts zero enteties
-  OSTaskCreateExt(&updateThro, NULL, &pstk[STK_SIZE - 1], 2, 2, pstk, STK_SIZE,
-                  NULL, OS_TASK_OPT_STK_CHK | OS_TASK_OPT_STK_CLR);
-  OSTaskNameSet(2, (unsigned char *)"updThro", &ERROR);
+  //
+  pstk = OSMemGet(stkpool, &ERROR);
+  OSTaskCreateExt(&SendInfo, NULL, &pstk[STK_SIZE - 1], 2, 2, pstk, STK_SIZE, NULL,
+               OS_TASK_OPT_STK_CHK | OS_TASK_OPT_STK_CLR);
+  OSTaskNameSet(2, (unsigned char *)"sendInfo", &ERROR);
 
   pstk = OSMemGet(stkpool, &ERROR);
-  OSTaskCreateExt(&SendInfo, NULL, &pstk[STK_SIZE - 1], 4, 4, pstk, STK_SIZE, NULL,
-               OS_TASK_OPT_STK_CHK | OS_TASK_OPT_STK_CLR);
-  OSTaskNameSet(4, (unsigned char *)"sendInfo", &ERROR);
+  OSTaskCreateExt(&attitudeEST, NULL, &pstk[STK_SIZE - 1], 4, 4, pstk, STK_SIZE,
+                  NULL, OS_TASK_OPT_STK_CHK | OS_TASK_OPT_STK_CLR);
+  OSTaskNameSet(4, (unsigned char *)"attitudeEST", &ERROR);
+
+  /* pstk = OSMemGet(stkpool, &ERROR); */
+  /* OSTaskCreateExt(&updateThro, NULL, &pstk[STK_SIZE - 1], 3, 3, pstk, STK_SIZE, */
+                  /* NULL, OS_TASK_OPT_STK_CHK | OS_TASK_OPT_STK_CLR); */
+  /* OSTaskNameSet(3, (unsigned char *)"updThro", &ERROR); */
+
 
 }
 
@@ -64,6 +71,7 @@ void initSys() {
 void initHardware() {
   initLED();
   initUSART();
+  printf("\n\n");
   initIIC();
   initMPU6050();
   initHMC();

@@ -1,4 +1,5 @@
 #include "Includes.h"
+#include "declareFunctions.h"
 static void magBaseTest(EKF_T *ekf) {
 
   msr2State(ekf);
@@ -57,13 +58,16 @@ static void printMagForPlot() {
 }
 
 void SendInfo() {
-  EKF_T ekf;
-  msr2State(&ekf);
-  magBaseCal(&ekf);
   while (1) {
-    /* printMagForPlot(); */
-    magBaseTest(&ekf);
+    outputForPython();
 
-    OSTimeDlyHMSM(0, 0, 0, 50);
+    /* for (int i = 0; i < 4; ++i) { */
+      /* printf("%.2f ", quatOut[i]); */
+    /* } */
+    /* printf("\n"); */
+    /* print(ekftmp.P, 4, 4); */
+    /* printf("========\n"); */
+
+    OSTimeDlyHMSM(0, 0, 0, 5);
   }
 }

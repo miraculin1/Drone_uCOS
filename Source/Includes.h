@@ -32,7 +32,7 @@
 #include "ekf.h"
 #include "syscalls.h"
 
-#define STK_SIZE 1536
-#define STK_CNT 10
+#define STK_SIZE 3000
+#define STK_CNT 4
 
 #endif
