@@ -11,22 +11,25 @@ double ATT_RATE = 50;
 
 // read data from three sensors
 static void getMsr(EKF_T *ekf) {
+  static const double a4A = 0.4, a4G = 0.01;
   static bool init = false;
-  static double accGyro[3] = {0};
+  static double accA[3] = {0}, accGyro[3] = {0};
   double datatmp[3];
   if (!init) {
     for (int i = 0; i < 10; ++i) {
-      /* AccGData(datatmp, accBias); */
-      /* LPF(&accA, datatmp, 0.1); */
+      AccGData(datatmp, accBias);
+      LPF(accA, datatmp, a4A);
       GyroDpSData(datatmp, gyroBias);
-      LPF(accGyro, datatmp, 0.01);
+      LPF(accGyro, datatmp, a4G);
     }
     init = true;
   }
-  AccGData(ekf->z, accBias);
+  AccGData(datatmp, accBias);
+  LPF(accA, datatmp, a4A);
+  copy(accA, ekf->z, 3, 1);
   MagmGuassData(ekf->z + 3, magBias);
   GyroRadpSData(datatmp, gyroBias);
-  LPF(accGyro, datatmp, 0.01);
+  LPF(accGyro, datatmp, a4G);
   copy(accGyro, ekf->u, 3, 1);
 }
 
