@@ -59,7 +59,9 @@ static void printMagForPlot() {
 
 void SendInfo() {
   while (1) {
-    outputForPython();
+    double yaw, pitch, roll;
+    outputYPR(&yaw, &pitch, &roll);
+    printf("%.2f %.2f %.2f\n", yaw, pitch, roll);
 
     /* for (int i = 0; i < 4; ++i) { */
       /* printf("%.2f ", quatOut[i]); */
@@ -68,6 +70,6 @@ void SendInfo() {
     /* print(ekftmp.P, 4, 4); */
     /* printf("========\n"); */
 
-    OSTimeDlyHMSM(0, 0, 0, 5);
+    OSTimeDlyHMSM(0, 0, 0, 50);
   }
 }

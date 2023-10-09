@@ -279,12 +279,19 @@ void outputDCM() {
 void outputForPython() {
   double dcm[3][3];
   quat2DCM(ekf->x, dcm);
-  for(int i = 0; i < 3; ++i) {
+  for (int i = 0; i < 3; ++i) {
     for (int j = 0; j < 3; ++j) {
-      printf("%.4f ", dcm[i][j]);
+      printf("%.2f ", dcm[i][j]);
     }
   }
   printf("\n");
+}
+
+void outputYPR(double *yaw, double *pitch, double *roll) {
+  double q0 = ekf->x[0], q1 = ekf->x[1], q2 = ekf->x[2], q3 = ekf->x[3];
+  *yaw = atan2(-2 * (q1 * q2 + q0 * q3), q0 * q0 - q1 * q1 + q2 * q2 - q3 * q3) / M_PI * 180;
+  *pitch = asin(2 * (q2 * q3 - q0 * q1)) / M_PI * 180;
+  *roll = atan2(-2 * (q1 * q3 + q0 * q2), q0 * q0 - q1 * q1 - q2 * q2 + q3 * q3) / M_PI * 180;
 }
 
 static void LPF(double *acc, double *data, double alpha) {

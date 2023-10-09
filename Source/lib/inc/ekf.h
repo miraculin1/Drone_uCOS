@@ -34,8 +34,8 @@ void msr2State(EKF_T *ekf);
 void magBase(EKF_T *ekf);
 void attitudeEST();
 void outputDCM();
-void outputYPR();
 void outputForPython();
+void outputYPR(double *yaw, double *pitch, double *roll);
 
 extern const double *const quatOut;
 #endif
