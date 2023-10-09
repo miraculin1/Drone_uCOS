@@ -18,7 +18,7 @@ void setThro(uint16_t fourMotor[4]) {
 // init all four pins
 static void initPins() {
   // enable GPIOC
-  RCC_AHB1 |= (0x1 << 2);
+  RCC->AHB1ENR |= (0x1 << 2);
 
   // AF pc6
   GPIOC->MODER &= ~(0x3 << (2 * 6));
@@ -37,43 +37,43 @@ static void initPins() {
   GPIOC->MODER |= (0x2 << (2 * 9));
 
   // very speed
-  GPIOC_OSPEEDR |= (0x3 << (2 * 6));
-  GPIOC_AF_L |= (0x2 << (4 * 6));
+  GPIOC->OSPEEDR |= (0x3 << (2 * 6));
+  GPIOC->AFR[0] |= (0x2 << (4 * 6));
 
   // very speed
-  GPIOC_OSPEEDR |= (0x3 << (2 * 7));
-  GPIOC_AF_L |= (0x2 << (4 * 7));
+  GPIOC->OSPEEDR |= (0x3 << (2 * 7));
+  GPIOC->AFR[0] |= (0x2 << (4 * 7));
 
   // very speed
-  GPIOC_OSPEEDR |= (0x3 << (2 * 8));
-  GPIOC_AF_H |= (0x2 << (4 * 0));
+  GPIOC->OSPEEDR |= (0x3 << (2 * 8));
+  GPIOC->AFR[1] |= (0x2 << (4 * 0));
 
   // very speed
-  GPIOC_OSPEEDR |= (0x3 << (2 * 9));
-  GPIOC_AF_H |= (0x2 << (4 * 1));
+  GPIOC->OSPEEDR |= (0x3 << (2 * 9));
+  GPIOC->AFR[1] |= (0x2 << (4 * 1));
 }
 
 void initTIM3PWM() {
   initPins();
 
   // enable clock
-  RCC_APB1 |= (0x1) << 1;
+  RCC->APB1ENR |= (0x1) << 1;
 
   // TIM running on 84MHz
   // 20ms period
-  TIM3_PSC |= (84 - 1);
-  TIM3_ARR = (20000 - 1);
+  TIM3->PSC |= (84 - 1);
+  TIM3->ARR = (20000 - 1);
 
   // ARR preload
-  TIM3_CR1 |= (0x1 << 7);
-  TIM3_CR1 &= ~(0x1 << 4);
+  TIM3->CR1 |= (0x1 << 7);
+  TIM3->CR1 &= ~(0x1 << 4);
 
   // config capture/compare mode
   // pwm5 pin ch1
   // enable preload
-  TIM3_CCMR1 |= (0x1 << 3);
+  TIM3->CCMR1 |= (0x1 << 3);
   // set mode pwm1
-  TIM3_CCMR1 |= (0x6 << 4);
+  TIM3->CCMR1 |= (0x6 << 4);
 
   // pwm6 pin ch2
   TIM3->CCMR1 |= (0x1 << 11);
@@ -103,7 +103,7 @@ void initTIM3PWM() {
 
 
   // enable Counter
-  TIM3_CR1 |= (0x1 << 0);
+  TIM3->CR1 |= (0x1 << 0);
 }
 
 void initMotor() {

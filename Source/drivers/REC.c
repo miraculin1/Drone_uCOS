@@ -17,17 +17,17 @@ struct RecData recData;
  */
 static void PinInit() {
   // set clock enable
-  RCC_AHB1_ENR |= (0x1 << 0);
+  RCC->AHB1ENR |= (0x1 << 0);
 
   // AF
-  GPIOA_MODER |= (0x2 << (2 * 8));
+  GPIOA->MODER |= (0x2 << (2 * 8));
   // pull up
-  GPIOA_PPMode |= (0x1 << (2 * 8));
+  GPIOA->PUPDR |= (0x1 << (2 * 8));
 
   /* // float */
   /* GPIOA_PPMode &= ~(0x3 << (2 * 8)); */
 
-  GPIOA_AF_H |= (0x1 << 0);
+  GPIOA->AFR[1] |= (0x1 << 0);
 }
 
 void initRec() {
@@ -37,30 +37,31 @@ void initRec() {
   recData.now = 0;
   recData.linedUp = 0;
 
-  RCC_APB2_ENR |= (0x1 << 0);
+  RCC->AHB1ENR |= (0x1 << 0);
   // en ARR preload
   // not deviding the input running on 84MHz
-  TIM1_CR1 |= (0x1 << 7);
+  TIM1->CR1 |= (0x1 << 7);
   // set input mode TI1 & no filter
-  TIM1_CCMR1 &= ~(0x3 << 0);
-  TIM1_CCMR1 |= (0x1 << 0);
+  TIM1->CCMR1 &= ~(0x3 << 0);
+  TIM1->CCMR1 |= (0x1 << 0);
   // enable rising interrupt
-  TIM1_DIER |= (0x1 << 1);
+  TIM1->DIER |= (0x1 << 1);
 
   // CC1P pority is default set to rising edge
 
   // set freq T=20ms each count represent 1us (0.1% in throttle
   // change)
-  TIM1_PSC = 84 - 1;
-  TIM1_ARR = 20 * 1000 - 1;
+  TIM1->PSC = 84 - 1;
+  TIM1->ARR = 20 * 1000 - 1;
   // NVIC settings
   // enable interrupt
-  NVIC_ISER1 |= (0x1 << 27);
+  // TODO: check NVIC settings
+  NVIC->ISER[0] |= (0x1 << 27);
 
   // enable counter
-  TIM1_CR1 |= (0x1);
+  TIM1->CR1 |= (0x1);
 
   // enable capture
-  TIM1_CCER |= (0x1 << 0);
+  TIM1->CCER |= (0x1 << 0);
 }
 
