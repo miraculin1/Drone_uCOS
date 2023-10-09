@@ -70,6 +70,6 @@ void SendInfo() {
     /* print(ekftmp.P, 4, 4); */
     /* printf("========\n"); */
 
-    OSTimeDlyHMSM(0, 0, 0, 50);
+    OSTimeDlyHMSM(0, 0, 0, 20);
   }
 }

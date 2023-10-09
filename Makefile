@@ -79,6 +79,8 @@ CFLAGS += -g3
 #optimize
 OPT = \
 			-Og
+else
+CFLAGS += -O2
 endif
 
 # dependency output .d file to build dir

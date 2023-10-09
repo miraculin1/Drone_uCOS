@@ -4,25 +4,30 @@
 
 EKF_T ekftmp;
 EKF_T *const ekf = &ekftmp;
+static void LPF(double *acc, double *data, double alpha);
 
 const double *const quatOut = ekf->x;
-double ATT_RATE = 20;
+double ATT_RATE = 50;
 
 // read data from three sensors
-// BUG: make this give fix data to test
 static void getMsr(EKF_T *ekf) {
+  static bool init = false;
+  static double accGyro[3] = {0};
+  double datatmp[3];
+  if (!init) {
+    for (int i = 0; i < 10; ++i) {
+      /* AccGData(datatmp, accBias); */
+      /* LPF(&accA, datatmp, 0.1); */
+      GyroDpSData(datatmp, gyroBias);
+      LPF(accGyro, datatmp, 0.01);
+    }
+    init = true;
+  }
   AccGData(ekf->z, accBias);
   MagmGuassData(ekf->z + 3, magBias);
-  GyroRadpSData(ekf->u, gyroBias);
-  /* ekf->z[0] = 0; */
-  /* ekf->z[1] = 0; */
-  /* ekf->z[2] = -1; */
-  /* ekf->z[3] = 0; */
-  /* ekf->z[4] = 1; */
-  /* ekf->z[5] = 0; */
-  /* ekf->u[0] = 0; */
-  /* ekf->u[1] = 0; */
-  /* ekf->u[2] = 0; */
+  GyroRadpSData(datatmp, gyroBias);
+  LPF(accGyro, datatmp, 0.01);
+  copy(accGyro, ekf->u, 3, 1);
 }
 
 // used to gen state vec according to the new msr
@@ -100,8 +105,8 @@ void preidctP(EKF_T *ekf) {
                                1};
 
   // TODO: get a Q
-  double Q[ST_DIM * ST_DIM] = {0.01, 0, 0,    0, 0, 0.01, 0, 0,
-                               0,    0, 0.01, 0, 0, 0,    0, 0.01};
+  double Q[ST_DIM * ST_DIM] = {0.001, 0, 0,    0, 0, 0.001, 0, 0,
+                               0,    0, 0.001, 0, 0, 0,    0, 0.001};
   double tmp[ST_DIM * ST_DIM];
   double tmp1[ST_DIM * ST_DIM];
   mul(F, ekf->P, false, tmp, ST_DIM, ST_DIM, ST_DIM);
@@ -144,6 +149,7 @@ void calKalGain(EKF_T *ekf) {
       q1 * bx + q2 * by + q3 * bz,
   };
   scale(H, 2, Z_DIM, ST_DIM);
+  copy(H, ekf->H, Z_DIM, ST_DIM);
   // below H is ok to ues
 
   // TODO: get msr cov-M
@@ -203,41 +209,8 @@ void updX_est(EKF_T *ekf) {
 // 5th
 // need jacobian
 void updP_est(EKF_T *ekf) {
-  double q0 = ekf->x[0], q1 = ekf->x[1], q2 = ekf->x[2], q3 = ekf->x[3];
-  double bx = ekf->magBase[0], by = ekf->magBase[1], bz = ekf->magBase[2];
-  // in the ref github repo, pronenewbits/Arduino_AHRS_System, its
-  // quaternion is qConj of mine, so thats a bit different
-  double H[Z_DIM * ST_DIM] = {
-      -q2,
-      -q3,
-      -q0,
-      -q1,
-      q1,
-      q0,
-      -q3,
-      -q2,
-      -q0,
-      q1,
-      q2,
-      -q3,
-      q0 * bx - q3 * by + q2 * bz,
-      q1 * bx + q2 * by + q3 * bz,
-      -q2 * bx + q1 * by + q0 * bz,
-      -q3 * bx - q0 * by + q1 * bz,
-      q3 * bx + q0 * by - q1 * bz,
-      q2 * bx - q1 * by - q0 * bz,
-      q1 * bx + q2 * by + q3 * bz,
-      q0 * bx - q3 * by + q2 * bz,
-      -q2 * bx + q1 * by + q0 * bz,
-      q3 * bx + q0 * by - q1 * bz,
-      -q0 * bx + q3 * by - q2 * bz,
-      q1 * bx + q2 * by + q3 * bz,
-  };
-  scale(H, 2, Z_DIM, ST_DIM);
-  // below H is ok to ues
-
   double tmp[4 * 4], tmp1[4 * 4];
-  mul(ekf->K, H, false, tmp, ST_DIM, Z_DIM, ST_DIM);
+  mul(ekf->K, ekf->H, false, tmp, ST_DIM, Z_DIM, ST_DIM);
   double I4[4 * 4];
   eye(I4, 4, 4);
   sub(I4, tmp, tmp1, ST_DIM, ST_DIM, ST_DIM);
