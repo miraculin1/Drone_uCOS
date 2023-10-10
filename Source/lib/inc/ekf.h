@@ -41,4 +41,5 @@ void outputForPython();
 void outputYPR(double *yaw, double *pitch, double *roll);
 
 extern const double *const quatOut;
+extern uint32_t deltatick;
 #endif

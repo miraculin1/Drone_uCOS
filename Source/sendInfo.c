@@ -61,7 +61,7 @@ void SendInfo() {
   while (1) {
     double yaw, pitch, roll;
     outputYPR(&yaw, &pitch, &roll);
-    printf("%.2f %.2f %.2f %d, %d\n", yaw, pitch, roll, deltaTick, OSCPUUsage);
+    printf("%.2f %.2f %.2f %d, %d\n", yaw, pitch, roll, deltatick, OSCPUUsage);
 
     /* for (int i = 0; i < 4; ++i) { */
       /* printf("%.2f ", quatOut[i]); */
@@ -70,6 +70,6 @@ void SendInfo() {
     /* print(ekftmp.P, 4, 4); */
     /* printf("========\n"); */
 
-    OSTimeDlyHMSM(0, 0, 1, 0);
+    OSTimeDlyHMSM(0, 0, 0, 50);
   }
 }

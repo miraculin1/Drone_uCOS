@@ -3,7 +3,7 @@
 uint8_t USART1CheckStatus(uint16_t sr) { return (USART1->SR & sr) == sr; }
 
 static void SetBaudRate(uint32_t baudR) {
-  USART1->BRR &= ~(0xffff);
+  USART1->BRR &= 0;
   float tmp = (float)USART1_FREQ / (16 * baudR);
   USART1->BRR |= (int)tmp << 4;
   USART1->BRR |= ((int)(tmp * 16) - (((int)tmp) << 4));

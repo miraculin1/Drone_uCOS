@@ -2,6 +2,8 @@
 #include "Includes.h"
 #include "declareFunctions.h"
 
+uint32_t deltatick;
+
 EKF_T ekftmp;
 EKF_T *const ekf = &ekftmp;
 static void LPF(double *acc, double *data, double alpha);
@@ -223,6 +225,7 @@ void updP_est(EKF_T *ekf) {
 }
 
 void attitudeEST() {
+  static uint32_t lastInterTick;
   // initalize ekf
   getMsr(ekf);
   magBase(ekf);
@@ -239,6 +242,8 @@ void attitudeEST() {
     updX_est(ekf);
     updP_est(ekf);
     normalize(ekf->x, 4);
+    deltatick = OSTime - lastInterTick;
+    lastInterTick = OSTime;
     OSTimeDlyHMSM(0, 0, 0, 1.0 / ATT_RATE * 1000);
   }
 }
