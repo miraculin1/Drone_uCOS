@@ -32,14 +32,14 @@ void HMCRead(uint8_t tar, uint8_t *out) {
 }
 
 void HMCJustListen(uint8_t *data) {
-  IIC1_CR1 |= (0x1 << 8);
+  I2C1->CR1 |= (0x1 << 8);
   // Check SB BUSY MASTER
   while (!IIC1_CheckStatus(0x1, 0x3))
     ;
 
-  IIC1_DR = HMCAdd + 1;
+  I2C1->DR = HMCAdd + 1;
   // enable ACK
-  IIC1_CR1 |= (0x1 << 10);
+  I2C1->CR1 |= (0x1 << 10);
 
   // Check ADDR
   while (!IIC1_CheckStatus(0x2, 0x3))
@@ -49,10 +49,10 @@ void HMCJustListen(uint8_t *data) {
   while (!IIC1_CheckStatus(0x1 << 6, 0x3))
     ;
 
-  IIC1_CR1 |= (0x1 << 9);
+  I2C1->CR1 |= (0x1 << 9);
   // disable ACK
-  IIC1_CR1 &= ~(0x1 << 10);
-  *data = IIC1_DR;
+  I2C1->CR1 &= ~(0x1 << 10);
+  *data = I2C1->DR;
 }
 
 void MagRawData(int16_t out[3]) {
