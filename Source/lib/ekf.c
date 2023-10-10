@@ -7,19 +7,19 @@ EKF_T *const ekf = &ekftmp;
 static void LPF(double *acc, double *data, double alpha);
 
 const double *const quatOut = ekf->x;
-double ATT_RATE = 50;
+double ATT_RATE = 200;
 
 // read data from three sensors
 static void getMsr(EKF_T *ekf) {
   static bool init = false;
-  static double accGyro[3] = {0};
+  static double accA[3] = {0}, accGyro[3] = {0};
   double datatmp[3];
   if (!init) {
     for (int i = 0; i < 10; ++i) {
-      /* AccGData(datatmp, accBias); */
-      /* LPF(&accA, datatmp, 0.1); */
-      GyroDpSData(datatmp, gyroBias);
-      LPF(accGyro, datatmp, 0.01);
+      AccGData(datatmp, accBias);
+      LPF(accA, datatmp, 0.1);
+      /* GyroDpSData(datatmp, gyroBias); */
+      /* LPF(accGyro, datatmp, 0.01); */
     }
     init = true;
   }
@@ -78,7 +78,7 @@ void predictX(EKF_T *ekf) {
   vec2Quat(ekf->u, qu);
   quatMulQuat(ekf->x, qu, dq);
   for (int i = 0; i < ST_DIM; i++) {
-    ekf->x[i] += dq[i] / 2 / ATT_RATE;
+    ekf->x[i] += dq[i] / (2 * ATT_RATE);
   }
 }
 
@@ -88,20 +88,20 @@ void preidctP(EKF_T *ekf) {
   double wx = ekf->u[0], wy = ekf->u[1], wz = ekf->u[2];
 
   double F[ST_DIM * ST_DIM] = {1,
-                               -wx / 2 / ATT_RATE,
-                               -wy / 2 / ATT_RATE,
-                               -wz / 2 / ATT_RATE,
-                               wx / 2 / ATT_RATE,
+                               -wx / (2 * ATT_RATE),
+                               -wy / (2 * ATT_RATE),
+                               -wz / (2 * ATT_RATE),
+                               wx / (2 * ATT_RATE),
                                1,
-                               wz / 2 / ATT_RATE,
-                               -wy / 2 / ATT_RATE,
-                               wy / 2 / ATT_RATE,
-                               -wz / 2 / ATT_RATE,
+                               wz / (2 * ATT_RATE),
+                               -wy / (2 * ATT_RATE),
+                               wy / (2 * ATT_RATE),
+                               -wz / (2 * ATT_RATE),
                                1,
-                               wx / 2 / ATT_RATE,
-                               wz / 2 / ATT_RATE,
-                               wy / 2 / ATT_RATE,
-                               -wx / 2 / ATT_RATE,
+                               wx / (2 * ATT_RATE),
+                               wz / (2 * ATT_RATE),
+                               wy / (2 * ATT_RATE),
+                               -wx / (2 * ATT_RATE),
                                1};
 
   // TODO: get a Q

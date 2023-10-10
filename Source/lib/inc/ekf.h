@@ -1,6 +1,8 @@
 #ifndef __EKF_h
 #define __EKF_h
 
+#include <stdint.h>
+
 // x_t(state vector) = [q0(scaler), q1, q2, q3](v^r = x * v^b * v^-1 )
 // u_t(control) = [wx, wy, wz] !!not fixed
 // z_t(msr) = [vec(acc), vec(mag)]
