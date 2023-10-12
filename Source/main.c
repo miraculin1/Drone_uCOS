@@ -18,19 +18,19 @@ void userTaskCreate() {
   // stkUSED counts zero enteties
   //
   pstk = OSMemGet(stkpool, &ERROR);
-  OSTaskCreateExt(&SendInfo, NULL, &pstk[STK_SIZE - 1], 2, 2, pstk, STK_SIZE, NULL,
+  OSTaskCreateExt(&SendInfo, NULL, &pstk[STK_SIZE - 1], 4, 4, pstk, STK_SIZE, NULL,
                OS_TASK_OPT_STK_CHK | OS_TASK_OPT_STK_CLR);
-  OSTaskNameSet(2, (unsigned char *)"sendInfo", &ERROR);
+  OSTaskNameSet(4, (unsigned char *)"sendInfo", &ERROR);
 
   pstk = OSMemGet(stkpool, &ERROR);
-  OSTaskCreateExt(&attitudeEST, NULL, &pstk[STK_SIZE - 1], 4, 4, pstk, STK_SIZE,
+  OSTaskCreateExt(&attitudeEST, NULL, &pstk[STK_SIZE - 1], 2, 2, pstk, STK_SIZE,
                   NULL, OS_TASK_OPT_STK_CHK | OS_TASK_OPT_STK_CLR);
-  OSTaskNameSet(4, (unsigned char *)"attitudeEST", &ERROR);
+  OSTaskNameSet(2, (unsigned char *)"attitudeEST", &ERROR);
 
-  /* pstk = OSMemGet(stkpool, &ERROR); */
-  /* OSTaskCreateExt(&updateThro, NULL, &pstk[STK_SIZE - 1], 3, 3, pstk, STK_SIZE, */
-                  /* NULL, OS_TASK_OPT_STK_CHK | OS_TASK_OPT_STK_CLR); */
-  /* OSTaskNameSet(3, (unsigned char *)"updThro", &ERROR); */
+  pstk = OSMemGet(stkpool, &ERROR);
+  OSTaskCreateExt(&updateThro, NULL, &pstk[STK_SIZE - 1], 3, 3, pstk, STK_SIZE,
+                  NULL, OS_TASK_OPT_STK_CHK | OS_TASK_OPT_STK_CLR);
+  OSTaskNameSet(3, (unsigned char *)"updThro", &ERROR);
 
 
 }

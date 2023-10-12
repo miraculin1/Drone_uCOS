@@ -127,7 +127,7 @@ floatreal dlamch_(char *cmach)
 /*           Use SMALL plus a bit, to avoid the possibility of rounding */
 /*           causing overflow when computing  1/sfmin. */
 
-	    sfmin = small * (eps + 1.);
+	    sfmin = small * (eps + 1.f);
 	}
     }
 

@@ -1,7 +1,7 @@
 #include "../../Lapack/Include/f2c.h"
 
 #ifdef KR_headers
-float pow();
+float powf();
 float pow_dd(ap, bp) floatreal *ap, *bp;
 #else
 #undef abs
@@ -12,7 +12,7 @@ extern "C" {
 float pow_dd(floatreal *ap, floatreal *bp)
 #endif
 {
-return(pow(*ap, *bp) );
+return(powf(*ap, *bp) );
 }
 #ifdef __cplusplus
 }

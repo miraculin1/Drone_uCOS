@@ -21,7 +21,7 @@
     floatreal d__1, d__2;
 
     /* Builtin functions */
-    float log(floatreal), pow_di(floatreal *, integer *), sqrt(floatreal);
+    float logf(floatreal), pow_di(floatreal *, integer *), sqrt(floatreal);
 
     /* Local variables */
     integer i__;
@@ -101,7 +101,7 @@
     safmin = dlamch_("S");
     eps = dlamch_("E");
     d__1 = dlamch_("B");
-    i__1 = (integer) (log(safmin / eps) / log(dlamch_("B")) / 2.);
+    i__1 = (integer) (logf(safmin / eps) / logf(dlamch_("B")) / 2.);
     safmn2 = pow_di(&d__1, &i__1);
     safmx2 = 1. / safmn2;
 /*        FIRST = .FALSE. */

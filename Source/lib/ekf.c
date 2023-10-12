@@ -3,13 +3,12 @@
 #include "declareFunctions.h"
 
 uint32_t deltatick;
-
 EKF_T ekftmp;
 EKF_T *const ekf = &ekftmp;
 static void LPF(float *acc, float *data, float alpha);
 
 const float *const quatOut = ekf->x;
-float ATT_RATE = 200;
+float ATT_RATE = 100;
 
 // read data from three sensors
 static void getMsr(EKF_T *ekf) {
@@ -225,6 +224,9 @@ void updP_est(EKF_T *ekf) {
 }
 
 void attitudeEST() {
+  static uint8_t initcnt = 100;
+  static uint8_t cnt;
+  cnt = initcnt;
   static uint32_t lastInterTick;
   // initalize ekf
   getMsr(ekf);
@@ -242,9 +244,14 @@ void attitudeEST() {
     updX_est(ekf);
     updP_est(ekf);
     normalize(ekf->x, 4);
-    deltatick = OSTime - lastInterTick;
-    lastInterTick = OSTime;
-    OSTimeDlyHMSM(0, 0, 0, 1.0f / ATT_RATE * 1000);
+    if (cnt > 0) {
+      cnt--;
+    } else {
+      deltatick = OSTime - lastInterTick;
+      lastInterTick = OSTime;
+      cnt = initcnt;
+    }
+    OSTimeDlyHMSM(0, 0, 0, 1000 / ATT_RATE);
   }
 }
 

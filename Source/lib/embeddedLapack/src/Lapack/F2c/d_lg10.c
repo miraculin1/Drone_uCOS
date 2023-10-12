@@ -3,7 +3,7 @@
 #define log10e 0.43429448190325182765
 
 #ifdef KR_headers
-float log();
+float logf();
 float d_lg10(x) floatreal *x;
 #else
 #undef abs
@@ -14,7 +14,7 @@ extern "C" {
 float d_lg10(floatreal *x)
 #endif
 {
-return( log10e * log(*x) );
+return( log10e * logf(*x) );
 }
 #ifdef __cplusplus
 }

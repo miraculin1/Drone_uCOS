@@ -21,7 +21,7 @@ integer iparmq_(integer *ispec, char *name__, char *opts, integer *n, integer
     real r__1;
 
     /* Builtin functions */
-    float log(floatreal);
+    float logf(floatreal);
     integer i_nint(real *);
 
     /* Local variables */
@@ -202,7 +202,7 @@ integer iparmq_(integer *ispec, char *name__, char *opts, integer *n, integer
 	}
 	if (nh >= 150) {
 /* Computing MAX */
-	    r__1 = log((real) nh) / log(2.f);
+	    r__1 = logf((real) nh) / logf(2.f);
 	    i__1 = 10, i__2 = nh / i_nint(&r__1);
 	    ns = max(i__1,i__2);
 	}

@@ -125,7 +125,7 @@ BooleanType DenseMatrix_isDiag( DenseMatrix* _THIS )
 
 	for ( i=0; i<_THIS->nRows; ++i )
 		for ( j=0; j<i; ++j )
-			if ( ( fabs( _THIS->val[i*(_THIS->leaDim)+j] ) > QPOASES_EPS ) || ( fabs( _THIS->val[j*(_THIS->leaDim)+i] ) > QPOASES_EPS ) )
+			if ( ( fabsf( _THIS->val[i*(_THIS->leaDim)+j] ) > QPOASES_EPS ) || ( fabsf( _THIS->val[j*(_THIS->leaDim)+i] ) > QPOASES_EPS ) )
 				return BT_FALSE;
 
 	return BT_TRUE;

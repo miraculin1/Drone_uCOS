@@ -20,7 +20,7 @@
     real r__1, r__2;
 
     /* Builtin functions */
-    float log(floatreal), pow_ri(real *, integer *), sqrt(floatreal);
+    float logf(floatreal), pow_ri(real *, integer *), sqrt(floatreal);
 
     /* Local variables */
     integer i__;
@@ -100,7 +100,7 @@
     safmin = slamch_("S");
     eps = slamch_("E");
     r__1 = slamch_("B");
-    i__1 = (integer) (log(safmin / eps) / log(slamch_("B")) / 2.f);
+    i__1 = (integer) (logf(safmin / eps) / logf(slamch_("B")) / 2.f);
     safmn2 = pow_ri(&r__1, &i__1);
     safmx2 = 1.f / safmn2;
 /*        FIRST = .FALSE. */

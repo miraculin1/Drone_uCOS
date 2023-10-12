@@ -1506,7 +1506,7 @@ static inline void QProblemB_computeGivens(	real_t xold, real_t yold,
 {
 	real_t t, mu;
 
-	if ( fabs( yold ) <= QPOASES_ZERO )
+	if ( fabsff( yold ) <= QPOASES_ZERO )
 	{
 		*c = 1.0;
 		*s = 0.0;
@@ -1516,9 +1516,9 @@ static inline void QProblemB_computeGivens(	real_t xold, real_t yold,
 	}
 	else
 	{
-		mu = fabs( xold );
-		if ( fabs( yold ) > mu )
-			mu = fabs( yold );
+		mu = fabsf( xold );
+		if ( fabsf( yold ) > mu )
+			mu = fabsf( yold );
 
 		t = mu * sqrt( (xold/mu)*(xold/mu) + (yold/mu)*(yold/mu) );
 

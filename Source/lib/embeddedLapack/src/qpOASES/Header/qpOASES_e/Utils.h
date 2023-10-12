@@ -471,7 +471,7 @@ static inline real_t qpOASES_getAbs(	real_t x
 	#ifdef __NO_FMATH__
 	return (x>=0.0) ? x : -x;
 	#else
-	return fabs(x);
+	return fabsf(x);
 	#endif
 }
 
