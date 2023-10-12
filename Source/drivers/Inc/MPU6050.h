@@ -4,13 +4,13 @@
 #include "IIC.h"
 #include "ekf.h"
 void initMPU6050();
-void GyroRadpSData(double out[3], double *bias);
-void GyroDpSData(double out[3], double *bias);
-void AccGData(double out[3], double *bias);
+void GyroRadpSData(float out[3], float *bias);
+void GyroDpSData(float out[3], float *bias);
+void AccGData(float out[3], float *bias);
 
 void enBypass();
 void disenBypass();
 uint8_t whoami();
 
-extern double GyroLSBPerDegree, AccLSBPerG;
+extern float GyroLSBPerDegree, AccLSBPerG;
 #endif

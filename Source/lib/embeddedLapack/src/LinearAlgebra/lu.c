@@ -11,7 +11,7 @@
  * Do LU-factorization of a matrix A, size row x column, and get the L matrix, size row x column, and U matrix, size column x column.
  * Don't forget that the P matrix is the pivot matrix and have the size row x row
  */
-void lu(double* A, double* L, double* U, double* P, int row, int column) {
+void lu(float* A, float* L, float* U, float* P, int row, int column) {
 
 	/*
 	 * Solve PA = LU - Same as MATLAB/Octave
@@ -20,16 +20,16 @@ void lu(double* A, double* L, double* U, double* P, int row, int column) {
 
 	integer M = row;
 	integer N = column;
-	doublereal A_[row * column];
-	memcpy(A_, A, row * column * sizeof(double));
+	floatreal A_[row * column];
+	memcpy(A_, A, row * column * sizeof(float));
 	tran(A_, row, column); // Important!
 	integer LDA = row;
 	integer IPIV[max(row, column)];
-	double IPIV_d[max(row, column)];
+	float IPIV_d[max(row, column)];
 	integer INFO;
 
 	// Solve!
-	dgetrf_(&M, &N, A_, &LDA, IPIV, &INFO, IPIV_d); // I've change the dgetrf so it will return a IPIV vector of doubles, due to memory loss.
+	dgetrf_(&M, &N, A_, &LDA, IPIV, &INFO, IPIV_d); // I've change the dgetrf so it will return a IPIV vector of floats, due to memory loss.
 
 	// Important
 	tran(A_, column, row);
@@ -37,7 +37,7 @@ void lu(double* A, double* L, double* U, double* P, int row, int column) {
 	if (column > row) {
 
 		// Create U matrix
-		memset(U, 0, row * column * sizeof(double));
+		memset(U, 0, row * column * sizeof(float));
 		for (int i = 0; i < row; i++) {
 			for (int j = 0; j < column; j++) {
 				// This will create a upper triangular matrix.
@@ -49,7 +49,7 @@ void lu(double* A, double* L, double* U, double* P, int row, int column) {
 		}
 
 		// Create the L matrix
-		memset(L, 0, row * min(row, column) * sizeof(double));
+		memset(L, 0, row * min(row, column) * sizeof(float));
 		for (int i = 0; i < row; i++) {
 			for (int j = 0; j < column; j++) {
 				// This will create a lower triangular matrix.
@@ -67,7 +67,7 @@ void lu(double* A, double* L, double* U, double* P, int row, int column) {
 		triu(A_, U, 0, column, column);
 
 		// Create the L matrix
-		memset(L, 0, row * column * sizeof(double));
+		memset(L, 0, row * column * sizeof(float));
 		for (int i = 0; i < row; i++) {
 			for (int j = 0; j < column; j++) {
 				// This will create a lower triangular matrix.
@@ -102,8 +102,8 @@ void lu(double* A, double* L, double* U, double* P, int row, int column) {
 	eye(P, row, row); // Turn P into a diagonal matrix
 	for (int i = 0; i < row; i++) {
 		for (int j = 0; j < row; j++) {
-			double swap1 = *(P + i * row + j);
-			double swap2 = *(P + i * row + ((int) IPIV[i]) - 1);
+			float swap1 = *(P + i * row + j);
+			float swap2 = *(P + i * row + ((int) IPIV[i]) - 1);
 
 			// Swap it!
 			*(P + i * row + j) = swap2;

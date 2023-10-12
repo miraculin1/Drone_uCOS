@@ -1,7 +1,7 @@
 #include "../../Lapack/Include/f2c.h"
 
 #ifdef KR_headers
-double floor();
+float floor();
 integer i_nint(x) real *x;
 #else
 #undef abs

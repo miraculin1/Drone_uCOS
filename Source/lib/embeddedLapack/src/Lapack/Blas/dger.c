@@ -13,16 +13,16 @@
 #include "../../Lapack/Include/f2c.h"
 
 
-/* Subroutine */ int dger_(integer *m, integer *n, doublereal *alpha, 
-	doublereal *x, integer *incx, doublereal *y, integer *incy, 
-	doublereal *a, integer *lda)
+/* Subroutine */ int dger_(integer *m, integer *n, floatreal *alpha, 
+	floatreal *x, integer *incx, floatreal *y, integer *incy, 
+	floatreal *a, integer *lda)
 {
     /* System generated locals */
     integer a_dim1, a_offset, i__1, i__2;
 
     /* Local variables */
     integer i__, j, ix, jy, kx, info;
-    doublereal temp;
+    floatreal temp;
     extern /* Subroutine */ int xerbla_(char *, integer *);
 
 /*     .. Scalar Arguments .. */
@@ -53,11 +53,11 @@
 /*           N must be at least zero. */
 /*           Unchanged on exit. */
 
-/*  ALPHA  - DOUBLE PRECISION. */
+/*  ALPHA  - float PRECISION. */
 /*           On entry, ALPHA specifies the scalar alpha. */
 /*           Unchanged on exit. */
 
-/*  X      - DOUBLE PRECISION array of dimension at least */
+/*  X      - float PRECISION array of dimension at least */
 /*           ( 1 + ( m - 1 )*abs( INCX ) ). */
 /*           Before entry, the incremented array X must contain the m */
 /*           element vector x. */
@@ -68,7 +68,7 @@
 /*           X. INCX must not be zero. */
 /*           Unchanged on exit. */
 
-/*  Y      - DOUBLE PRECISION array of dimension at least */
+/*  Y      - float PRECISION array of dimension at least */
 /*           ( 1 + ( n - 1 )*abs( INCY ) ). */
 /*           Before entry, the incremented array Y must contain the n */
 /*           element vector y. */
@@ -79,7 +79,7 @@
 /*           Y. INCY must not be zero. */
 /*           Unchanged on exit. */
 
-/*  A      - DOUBLE PRECISION array of DIMENSION ( LDA, n ). */
+/*  A      - float PRECISION array of DIMENSION ( LDA, n ). */
 /*           Before entry, the leading m by n part of the array A must */
 /*           contain the matrix of coefficients. On exit, A is */
 /*           overwritten by the updated matrix. */

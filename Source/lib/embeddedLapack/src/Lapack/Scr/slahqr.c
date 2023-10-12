@@ -27,7 +27,7 @@ static integer c__1 = 1;
     real r__1, r__2, r__3, r__4;
 
     /* Builtin functions */
-    double sqrt(doublereal);
+    float sqrt(floatreal);
 
     /* Local variables */
     integer i__, j, k, l, m;
@@ -47,7 +47,7 @@ static integer c__1 = 1;
 	    real *, integer *), slanv2_(real *, real *, real *, real *, real *
 , real *, real *, real *, real *, real *), slabad_(real *, real *)
 	    ;
-    extern doublereal slamch_(char *);
+    extern floatreal slamch_(char *);
     real safmin;
     extern /* Subroutine */ int slarfg_(integer *, real *, real *, integer *, 
 	    real *);
@@ -358,7 +358,7 @@ L40:
 	    h22 = h11;
 	} else {
 
-/*           Prepare to use Francis' double shift */
+/*           Prepare to use Francis' float shift */
 /*           (i.e. 2nd degree generalized Rayleigh quotient) */
 
 	    h11 = h__[i__ - 1 + (i__ - 1) * h_dim1];
@@ -411,7 +411,7 @@ L40:
 
 	i__1 = l;
 	for (m = i__ - 2; m >= i__1; --m) {
-/*           Determine the effect of starting the double-shift QR */
+/*           Determine the effect of starting the float-shift QR */
 /*           iteration at row M, and see if this would make H(M,M-1) */
 /*           negligible.  (The following uses scaling to avoid */
 /*           overflows and most underflows.) */
@@ -444,7 +444,7 @@ L40:
 	}
 L60:
 
-/*        Double-shift QR step */
+/*        float-shift QR step */
 
 	i__1 = i__ - 1;
 	for (k = m; k <= i__1; ++k) {

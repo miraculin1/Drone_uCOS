@@ -35,7 +35,7 @@ static integer c__12 = 12;
     real r__1, r__2, r__3, r__4, r__5, r__6;
 
     /* Builtin functions */
-    double sqrt(doublereal);
+    float sqrt(floatreal);
 
     /* Local variables */
     integer i__, j, k;
@@ -61,7 +61,7 @@ static integer c__12 = 12;
 	    logical *, integer *, integer *, integer *, real *, integer *, 
 	    real *, real *, integer *, integer *, real *, integer *, real *, 
 	    integer *, integer *), slabad_(real *, real *);
-    extern doublereal slamch_(char *);
+    extern floatreal slamch_(char *);
     extern /* Subroutine */ int sgehrd_(integer *, integer *, integer *, real 
 	    *, integer *, real *, real *, integer *, integer *);
     real safmin;

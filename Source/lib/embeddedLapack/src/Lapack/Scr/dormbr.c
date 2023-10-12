@@ -20,8 +20,8 @@ static integer c_n1 = -1;
 static integer c__2 = 2;
 
 /* Subroutine */ int dormbr_(char *vect, char *side, char *trans, integer *m, 
-	integer *n, integer *k, doublereal *a, integer *lda, doublereal *tau, 
-	doublereal *c__, integer *ldc, doublereal *work, integer *lwork, 
+	integer *n, integer *k, floatreal *a, integer *lda, floatreal *tau, 
+	floatreal *c__, integer *ldc, floatreal *work, integer *lwork, 
 	integer *info)
 {
     /* System generated locals */
@@ -41,12 +41,12 @@ static integer c__2 = 2;
     extern integer ilaenv_(integer *, char *, char *, integer *, integer *, 
 	    integer *, integer *);
     extern /* Subroutine */ int dormlq_(char *, char *, integer *, integer *, 
-	    integer *, doublereal *, integer *, doublereal *, doublereal *, 
-	    integer *, doublereal *, integer *, integer *);
+	    integer *, floatreal *, integer *, floatreal *, floatreal *, 
+	    integer *, floatreal *, integer *, integer *);
     logical notran;
     extern /* Subroutine */ int dormqr_(char *, char *, integer *, integer *, 
-	    integer *, doublereal *, integer *, doublereal *, doublereal *, 
-	    integer *, doublereal *, integer *, integer *);
+	    integer *, floatreal *, integer *, floatreal *, floatreal *, 
+	    integer *, floatreal *, integer *, integer *);
     logical applyq;
     char transt[1];
     integer lwkopt;
@@ -121,7 +121,7 @@ static integer c__2 = 2;
 /*          matrix reduced by DGEBRD. */
 /*          K >= 0. */
 
-/*  A       (input) DOUBLE PRECISION array, dimension */
+/*  A       (input) float PRECISION array, dimension */
 /*                                (LDA,min(nq,K)) if VECT = 'Q' */
 /*                                (LDA,nq)        if VECT = 'P' */
 /*          The vectors which define the elementary reflectors H(i) and */
@@ -133,12 +133,12 @@ static integer c__2 = 2;
 /*          If VECT = 'Q', LDA >= max(1,nq); */
 /*          if VECT = 'P', LDA >= max(1,min(nq,K)). */
 
-/*  TAU     (input) DOUBLE PRECISION array, dimension (min(nq,K)) */
+/*  TAU     (input) float PRECISION array, dimension (min(nq,K)) */
 /*          TAU(i) must contain the scalar factor of the elementary */
 /*          reflector H(i) or G(i) which determines Q or P, as returned */
 /*          by DGEBRD in the array argument TAUQ or TAUP. */
 
-/*  C       (input/output) DOUBLE PRECISION array, dimension (LDC,N) */
+/*  C       (input/output) float PRECISION array, dimension (LDC,N) */
 /*          On entry, the M-by-N matrix C. */
 /*          On exit, C is overwritten by Q*C or Q**T*C or C*Q**T or C*Q */
 /*          or P*C or P**T*C or C*P or C*P**T. */
@@ -146,7 +146,7 @@ static integer c__2 = 2;
 /*  LDC     (input) INTEGER */
 /*          The leading dimension of the array C. LDC >= max(1,M). */
 
-/*  WORK    (workspace/output) DOUBLE PRECISION array, dimension (MAX(1,LWORK)) */
+/*  WORK    (workspace/output) float PRECISION array, dimension (MAX(1,LWORK)) */
 /*          On exit, if INFO = 0, WORK(1) returns the optimal LWORK. */
 
 /*  LWORK   (input) INTEGER */
@@ -269,7 +269,7 @@ static integer c__2 = 2;
 	    }
 	}
 	lwkopt = max(1,nw) * nb;
-	work[1] = (doublereal) lwkopt;
+	work[1] = (floatreal) lwkopt;
     }
 
     if (*info != 0) {
@@ -352,7 +352,7 @@ static integer c__2 = 2;
 		    iinfo);
 	}
     }
-    work[1] = (doublereal) lwkopt;
+    work[1] = (floatreal) lwkopt;
     return 0;
 
 /*     End of DORMBR */

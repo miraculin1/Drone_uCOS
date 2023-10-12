@@ -21,15 +21,15 @@
     real r__1;
 
     /* Builtin functions */
-    double r_sign(real *, real *);
+    float r_sign(real *, real *);
 
     /* Local variables */
     integer j, knt;
     real beta;
-    extern doublereal snrm2_(integer *, real *, integer *);
+    extern floatreal snrm2_(integer *, real *, integer *);
     extern /* Subroutine */ int sscal_(integer *, real *, real *, integer *);
     real xnorm;
-    extern doublereal slapy2_(real *, real *), slamch_(char *);
+    extern floatreal slapy2_(real *, real *), slamch_(char *);
     real safmin, rsafmn;
 
 

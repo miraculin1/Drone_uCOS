@@ -20,11 +20,11 @@ static integer c_n1 = -1;
 static integer c__3 = 3;
 static integer c__2 = 2;
 static integer c__65 = 65;
-static doublereal c_b25 = -1.;
-static doublereal c_b26 = 1.;
+static floatreal c_b25 = -1.;
+static floatreal c_b26 = 1.;
 
 /* Subroutine */ int dgehrd_(integer *n, integer *ilo, integer *ihi, 
-	doublereal *a, integer *lda, doublereal *tau, doublereal *work, 
+	floatreal *a, integer *lda, floatreal *tau, floatreal *work, 
 	integer *lwork, integer *info)
 {
     /* System generated locals */
@@ -32,25 +32,25 @@ static doublereal c_b26 = 1.;
 
     /* Local variables */
     integer i__, j;
-    doublereal t[4160]	/* was [65][64] */;
+    floatreal t[4160]	/* was [65][64] */;
     integer ib;
-    doublereal ei;
+    floatreal ei;
     integer nb, nh, nx, iws;
     extern /* Subroutine */ int dgemm_(char *, char *, integer *, integer *, 
-	    integer *, doublereal *, doublereal *, integer *, doublereal *, 
-	    integer *, doublereal *, doublereal *, integer *);
+	    integer *, floatreal *, floatreal *, integer *, floatreal *, 
+	    integer *, floatreal *, floatreal *, integer *);
     integer nbmin, iinfo;
     extern /* Subroutine */ int dtrmm_(char *, char *, char *, char *, 
-	    integer *, integer *, doublereal *, doublereal *, integer *, 
-	    doublereal *, integer *), daxpy_(
-	    integer *, doublereal *, doublereal *, integer *, doublereal *, 
-	    integer *), dgehd2_(integer *, integer *, integer *, doublereal *, 
-	     integer *, doublereal *, doublereal *, integer *), dlahr2_(
-	    integer *, integer *, integer *, doublereal *, integer *, 
-	    doublereal *, doublereal *, integer *, doublereal *, integer *), 
+	    integer *, integer *, floatreal *, floatreal *, integer *, 
+	    floatreal *, integer *), daxpy_(
+	    integer *, floatreal *, floatreal *, integer *, floatreal *, 
+	    integer *), dgehd2_(integer *, integer *, integer *, floatreal *, 
+	     integer *, floatreal *, floatreal *, integer *), dlahr2_(
+	    integer *, integer *, integer *, floatreal *, integer *, 
+	    floatreal *, floatreal *, integer *, floatreal *, integer *), 
 	    dlarfb_(char *, char *, char *, char *, integer *, integer *, 
-	    integer *, doublereal *, integer *, doublereal *, integer *, 
-	    doublereal *, integer *, doublereal *, integer *), xerbla_(char *, integer *);
+	    integer *, floatreal *, integer *, floatreal *, integer *, 
+	    floatreal *, integer *, floatreal *, integer *), xerbla_(char *, integer *);
     extern integer ilaenv_(integer *, char *, char *, integer *, integer *, 
 	    integer *, integer *);
     integer ldwork, lwkopt;
@@ -86,7 +86,7 @@ static doublereal c_b26 = 1.;
 /*          set to 1 and N respectively. See Further Details. */
 /*          1 <= ILO <= IHI <= N, if N > 0; ILO=1 and IHI=0, if N=0. */
 
-/*  A       (input/output) DOUBLE PRECISION array, dimension (LDA,N) */
+/*  A       (input/output) float PRECISION array, dimension (LDA,N) */
 /*          On entry, the N-by-N general matrix to be reduced. */
 /*          On exit, the upper triangle and the first subdiagonal of A */
 /*          are overwritten with the upper Hessenberg matrix H, and the */
@@ -97,12 +97,12 @@ static doublereal c_b26 = 1.;
 /*  LDA     (input) INTEGER */
 /*          The leading dimension of the array A.  LDA >= max(1,N). */
 
-/*  TAU     (output) DOUBLE PRECISION array, dimension (N-1) */
+/*  TAU     (output) float PRECISION array, dimension (N-1) */
 /*          The scalar factors of the elementary reflectors (see Further */
 /*          Details). Elements 1:ILO-1 and IHI:N-1 of TAU are set to */
 /*          zero. */
 
-/*  WORK    (workspace/output) DOUBLE PRECISION array, dimension (LWORK) */
+/*  WORK    (workspace/output) float PRECISION array, dimension (LWORK) */
 /*          On exit, if INFO = 0, WORK(1) returns the optimal LWORK. */
 
 /*  LWORK   (input) INTEGER */
@@ -187,7 +187,7 @@ static doublereal c_b26 = 1.;
     i__1 = 64, i__2 = ilaenv_(&c__1, "DGEHRD", " ", n, ilo, ihi, &c_n1);
     nb = min(i__1,i__2);
     lwkopt = *n * nb;
-    work[1] = (doublereal) lwkopt;
+    work[1] = (floatreal) lwkopt;
     lquery = *lwork == -1;
     if (*n < 0) {
 	*info = -1;
@@ -333,7 +333,7 @@ static doublereal c_b26 = 1.;
 /*     Use unblocked code to reduce the rest of the matrix */
 
     dgehd2_(n, &i__, ihi, &a[a_offset], lda, &tau[1], &work[1], &iinfo);
-    work[1] = (doublereal) iws;
+    work[1] = (floatreal) iws;
 
     return 0;
 

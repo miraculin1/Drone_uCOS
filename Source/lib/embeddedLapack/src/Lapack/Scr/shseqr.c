@@ -248,7 +248,7 @@ static integer c__49 = 49;
 /*                        6000             infinity      NS = 256 */
 
 /*                  (+)  By default some or all matrices of this order */
-/*                       are passed to the implicit double shift routine */
+/*                       are passed to the implicit float shift routine */
 /*                       SLAHQR and this parameter is ignored.  See */
 /*                       ISPEC=12 above and comments in IPARMQ for */
 /*                       details. */

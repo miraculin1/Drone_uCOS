@@ -13,8 +13,8 @@
 #include "../../Lapack/Include/f2c.h"
 
 
-/* Subroutine */ int daxpy_(integer *n, doublereal *da, doublereal *dx, 
-	integer *incx, doublereal *dy, integer *incy)
+/* Subroutine */ int daxpy_(integer *n, floatreal *da, floatreal *dx, 
+	integer *incx, floatreal *dy, integer *incy)
 {
     /* System generated locals */
     integer i__1;

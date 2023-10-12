@@ -17,69 +17,69 @@
 
 static integer c__1 = 1;
 static integer c_n1 = -1;
-static doublereal c_b12 = 0.;
-static doublereal c_b13 = 1.;
+static floatreal c_b12 = 0.;
+static floatreal c_b13 = 1.;
 static logical c_true = TRUE_;
 
 /* Subroutine */ int dlaqr2_(logical *wantt, logical *wantz, integer *n, 
-	integer *ktop, integer *kbot, integer *nw, doublereal *h__, integer *
-	ldh, integer *iloz, integer *ihiz, doublereal *z__, integer *ldz, 
-	integer *ns, integer *nd, doublereal *sr, doublereal *si, doublereal *
-	v, integer *ldv, integer *nh, doublereal *t, integer *ldt, integer *
-	nv, doublereal *wv, integer *ldwv, doublereal *work, integer *lwork)
+	integer *ktop, integer *kbot, integer *nw, floatreal *h__, integer *
+	ldh, integer *iloz, integer *ihiz, floatreal *z__, integer *ldz, 
+	integer *ns, integer *nd, floatreal *sr, floatreal *si, floatreal *
+	v, integer *ldv, integer *nh, floatreal *t, integer *ldt, integer *
+	nv, floatreal *wv, integer *ldwv, floatreal *work, integer *lwork)
 {
     /* System generated locals */
     integer h_dim1, h_offset, t_dim1, t_offset, v_dim1, v_offset, wv_dim1, 
 	    wv_offset, z_dim1, z_offset, i__1, i__2, i__3, i__4;
-    doublereal d__1, d__2, d__3, d__4, d__5, d__6;
+    floatreal d__1, d__2, d__3, d__4, d__5, d__6;
 
     /* Builtin functions */
-    double sqrt(doublereal);
+    float sqrt(floatreal);
 
     /* Local variables */
     integer i__, j, k;
-    doublereal s, aa, bb, cc, dd, cs, sn;
+    floatreal s, aa, bb, cc, dd, cs, sn;
     integer jw;
-    doublereal evi, evk, foo;
+    floatreal evi, evk, foo;
     integer kln;
-    doublereal tau, ulp;
+    floatreal tau, ulp;
     integer lwk1, lwk2;
-    doublereal beta;
+    floatreal beta;
     integer kend, kcol, info, ifst, ilst, ltop, krow;
     extern /* Subroutine */ int dlarf_(char *, integer *, integer *, 
-	    doublereal *, integer *, doublereal *, doublereal *, integer *, 
-	    doublereal *), dgemm_(char *, char *, integer *, integer *
-, integer *, doublereal *, doublereal *, integer *, doublereal *, 
-	    integer *, doublereal *, doublereal *, integer *);
+	    floatreal *, integer *, floatreal *, floatreal *, integer *, 
+	    floatreal *), dgemm_(char *, char *, integer *, integer *
+, integer *, floatreal *, floatreal *, integer *, floatreal *, 
+	    integer *, floatreal *, floatreal *, integer *);
     logical bulge;
-    extern /* Subroutine */ int dcopy_(integer *, doublereal *, integer *, 
-	    doublereal *, integer *);
+    extern /* Subroutine */ int dcopy_(integer *, floatreal *, integer *, 
+	    floatreal *, integer *);
     integer infqr, kwtop;
-    extern /* Subroutine */ int dlanv2_(doublereal *, doublereal *, 
-	    doublereal *, doublereal *, doublereal *, doublereal *, 
-	    doublereal *, doublereal *, doublereal *, doublereal *), dlabad_(
-	    doublereal *, doublereal *);
-    extern doublereal dlamch_(char *);
+    extern /* Subroutine */ int dlanv2_(floatreal *, floatreal *, 
+	    floatreal *, floatreal *, floatreal *, floatreal *, 
+	    floatreal *, floatreal *, floatreal *, floatreal *), dlabad_(
+	    floatreal *, floatreal *);
+    extern floatreal dlamch_(char *);
     extern /* Subroutine */ int dgehrd_(integer *, integer *, integer *, 
-	    doublereal *, integer *, doublereal *, doublereal *, integer *, 
-	    integer *), dlarfg_(integer *, doublereal *, doublereal *, 
-	    integer *, doublereal *), dlahqr_(logical *, logical *, integer *, 
-	     integer *, integer *, doublereal *, integer *, doublereal *, 
-	    doublereal *, integer *, integer *, doublereal *, integer *, 
-	    integer *), dlacpy_(char *, integer *, integer *, doublereal *, 
-	    integer *, doublereal *, integer *);
-    doublereal safmin;
+	    floatreal *, integer *, floatreal *, floatreal *, integer *, 
+	    integer *), dlarfg_(integer *, floatreal *, floatreal *, 
+	    integer *, floatreal *), dlahqr_(logical *, logical *, integer *, 
+	     integer *, integer *, floatreal *, integer *, floatreal *, 
+	    floatreal *, integer *, integer *, floatreal *, integer *, 
+	    integer *), dlacpy_(char *, integer *, integer *, floatreal *, 
+	    integer *, floatreal *, integer *);
+    floatreal safmin;
     extern /* Subroutine */ int dlaset_(char *, integer *, integer *, 
-	    doublereal *, doublereal *, doublereal *, integer *);
-    doublereal safmax;
-    extern /* Subroutine */ int dtrexc_(char *, integer *, doublereal *, 
-	    integer *, doublereal *, integer *, integer *, integer *, 
-	    doublereal *, integer *), dormhr_(char *, char *, integer 
-	    *, integer *, integer *, integer *, doublereal *, integer *, 
-	    doublereal *, doublereal *, integer *, doublereal *, integer *, 
+	    floatreal *, floatreal *, floatreal *, integer *);
+    floatreal safmax;
+    extern /* Subroutine */ int dtrexc_(char *, integer *, floatreal *, 
+	    integer *, floatreal *, integer *, integer *, integer *, 
+	    floatreal *, integer *), dormhr_(char *, char *, integer 
+	    *, integer *, integer *, integer *, floatreal *, integer *, 
+	    floatreal *, floatreal *, integer *, floatreal *, integer *, 
 	    integer *);
     logical sorted;
-    doublereal smlnum;
+    floatreal smlnum;
     integer lwkopt;
 
 
@@ -140,7 +140,7 @@ static logical c_true = TRUE_;
 /*     NW      (input) INTEGER */
 /*          Deflation window size.  1 .LE. NW .LE. (KBOT-KTOP+1). */
 
-/*     H       (input/output) DOUBLE PRECISION array, dimension (LDH,N) */
+/*     H       (input/output) float PRECISION array, dimension (LDH,N) */
 /*          On input the initial N-by-N section of H stores the */
 /*          Hessenberg matrix undergoing aggressive early deflation. */
 /*          On output H has been transformed by an orthogonal */
@@ -157,7 +157,7 @@ static logical c_true = TRUE_;
 /*          Specify the rows of Z to which transformations must be */
 /*          applied if WANTZ is .TRUE.. 1 .LE. ILOZ .LE. IHIZ .LE. N. */
 
-/*     Z       (input/output) DOUBLE PRECISION array, dimension (LDZ,N) */
+/*     Z       (input/output) float PRECISION array, dimension (LDZ,N) */
 /*          IF WANTZ is .TRUE., then on output, the orthogonal */
 /*          similarity transformation mentioned above has been */
 /*          accumulated into Z(ILOZ:IHIZ,ILO:IHI) from the right. */
@@ -176,8 +176,8 @@ static logical c_true = TRUE_;
 /*          The number of converged eigenvalues uncovered by this */
 /*          subroutine. */
 
-/*     SR      (output) DOUBLE PRECISION array, dimension KBOT */
-/*     SI      (output) DOUBLE PRECISION array, dimension KBOT */
+/*     SR      (output) float PRECISION array, dimension KBOT */
+/*     SI      (output) float PRECISION array, dimension KBOT */
 /*          On output, the real and imaginary parts of approximate */
 /*          eigenvalues that may be used for shifts are stored in */
 /*          SR(KBOT-ND-NS+1) through SR(KBOT-ND) and */
@@ -186,7 +186,7 @@ static logical c_true = TRUE_;
 /*          are stored in SR(KBOT-ND+1) through SR(KBOT) and */
 /*          SI(KBOT-ND+1) through SI(KBOT), respectively. */
 
-/*     V       (workspace) DOUBLE PRECISION array, dimension (LDV,NW) */
+/*     V       (workspace) float PRECISION array, dimension (LDV,NW) */
 /*          An NW-by-NW work array. */
 
 /*     LDV     (input) integer scalar */
@@ -196,7 +196,7 @@ static logical c_true = TRUE_;
 /*     NH      (input) integer scalar */
 /*          The number of columns of T.  NH.GE.NW. */
 
-/*     T       (workspace) DOUBLE PRECISION array, dimension (LDT,NW) */
+/*     T       (workspace) float PRECISION array, dimension (LDT,NW) */
 
 /*     LDT     (input) integer */
 /*          The leading dimension of T just as declared in the */
@@ -206,13 +206,13 @@ static logical c_true = TRUE_;
 /*          The number of rows of work array WV available for */
 /*          workspace.  NV.GE.NW. */
 
-/*     WV      (workspace) DOUBLE PRECISION array, dimension (LDWV,NW) */
+/*     WV      (workspace) float PRECISION array, dimension (LDWV,NW) */
 
 /*     LDWV    (input) integer */
 /*          The leading dimension of W just as declared in the */
 /*          calling subroutine.  NW .LE. LDV */
 
-/*     WORK    (workspace) DOUBLE PRECISION array, dimension LWORK. */
+/*     WORK    (workspace) float PRECISION array, dimension LWORK. */
 /*          On exit, WORK(1) is set to an estimate of the optimal value */
 /*          of LWORK for the given values of N, NW, KTOP and KBOT. */
 
@@ -297,7 +297,7 @@ static logical c_true = TRUE_;
 /*     ==== Quick return in case of workspace query. ==== */
 
     if (*lwork == -1) {
-	work[1] = (doublereal) lwkopt;
+	work[1] = (floatreal) lwkopt;
 	return 0;
     }
 
@@ -320,7 +320,7 @@ static logical c_true = TRUE_;
     safmax = 1. / safmin;
     dlabad_(&safmin, &safmax);
     ulp = dlamch_("PRECISION");
-    smlnum = safmin * ((doublereal) (*n) / ulp);
+    smlnum = safmin * ((floatreal) (*n) / ulp);
 
 /*     ==== Setup deflation window ==== */
 
@@ -690,7 +690,7 @@ L60:
 
 /*      ==== Return optimal workspace. ==== */
 
-    work[1] = (doublereal) lwkopt;
+    work[1] = (floatreal) lwkopt;
 
 /*     ==== End of DLAQR2 ==== */
 

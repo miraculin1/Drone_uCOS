@@ -14,7 +14,7 @@
  * C size (row_a + row_b) x column_a
  */
 
-void vertcat(double* A, double* B, double* C, int row_a, int column_a, int row_b) {
+void vertcat(float* A, float* B, float* C, int row_a, int column_a, int row_b) {
 
 	/*
 	 * C = [A; B]

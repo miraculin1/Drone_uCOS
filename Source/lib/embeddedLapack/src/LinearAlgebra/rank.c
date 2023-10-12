@@ -10,8 +10,8 @@
 /*
  * Find the rank of matrix A, size row x column, where row == column
  */
-int rank(double* A, int row){
-	double determinant = det(A, row);
+int rank(float* A, int row){
+	float determinant = det(A, row);
 
 	/*
 	 * If the terminant is not equal to zero, then we have full rank = row, else we have not full rank

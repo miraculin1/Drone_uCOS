@@ -19,7 +19,7 @@ static integer c__1 = 1;
 static integer c_n1 = -1;
 
 /* Subroutine */ int dorgbr_(char *vect, integer *m, integer *n, integer *k, 
-	doublereal *a, integer *lda, doublereal *tau, doublereal *work, 
+	floatreal *a, integer *lda, floatreal *tau, floatreal *work, 
 	integer *lwork, integer *info)
 {
     /* System generated locals */
@@ -34,9 +34,9 @@ static integer c_n1 = -1;
     extern integer ilaenv_(integer *, char *, char *, integer *, integer *, 
 	    integer *, integer *);
     extern /* Subroutine */ int dorglq_(integer *, integer *, integer *, 
-	    doublereal *, integer *, doublereal *, doublereal *, integer *, 
-	    integer *), dorgqr_(integer *, integer *, integer *, doublereal *, 
-	     integer *, doublereal *, doublereal *, integer *, integer *);
+	    floatreal *, integer *, floatreal *, floatreal *, integer *, 
+	    integer *), dorgqr_(integer *, integer *, integer *, floatreal *, 
+	     integer *, floatreal *, floatreal *, integer *, integer *);
     integer lwkopt;
     logical lquery;
 
@@ -98,7 +98,7 @@ static integer c_n1 = -1;
 /*          matrix reduced by DGEBRD. */
 /*          K >= 0. */
 
-/*  A       (input/output) DOUBLE PRECISION array, dimension (LDA,N) */
+/*  A       (input/output) float PRECISION array, dimension (LDA,N) */
 /*          On entry, the vectors which define the elementary reflectors, */
 /*          as returned by DGEBRD. */
 /*          On exit, the M-by-N matrix Q or P**T. */
@@ -106,14 +106,14 @@ static integer c_n1 = -1;
 /*  LDA     (input) INTEGER */
 /*          The leading dimension of the array A. LDA >= max(1,M). */
 
-/*  TAU     (input) DOUBLE PRECISION array, dimension */
+/*  TAU     (input) float PRECISION array, dimension */
 /*                                (min(M,K)) if VECT = 'Q' */
 /*                                (min(N,K)) if VECT = 'P' */
 /*          TAU(i) must contain the scalar factor of the elementary */
 /*          reflector H(i) or G(i), which determines Q or P**T, as */
 /*          returned by DGEBRD in its array argument TAUQ or TAUP. */
 
-/*  WORK    (workspace/output) DOUBLE PRECISION array, dimension (MAX(1,LWORK)) */
+/*  WORK    (workspace/output) float PRECISION array, dimension (MAX(1,LWORK)) */
 /*          On exit, if INFO = 0, WORK(1) returns the optimal LWORK. */
 
 /*  LWORK   (input) INTEGER */
@@ -180,7 +180,7 @@ static integer c_n1 = -1;
 	    nb = ilaenv_(&c__1, "DORGLQ", " ", m, n, k, &c_n1);
 	}
 	lwkopt = max(1,mn) * nb;
-	work[1] = (doublereal) lwkopt;
+	work[1] = (floatreal) lwkopt;
     }
 
     if (*info != 0) {
@@ -291,7 +291,7 @@ static integer c_n1 = -1;
 	    }
 	}
     }
-    work[1] = (doublereal) lwkopt;
+    work[1] = (floatreal) lwkopt;
     return 0;
 
 /*     End of DORGBR */

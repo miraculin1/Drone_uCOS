@@ -19,12 +19,12 @@ static integer c__0 = 0;
 static integer c__2 = 2;
 static integer c__1 = 1;
 static integer c_n1 = -1;
-static doublereal c_b421 = 0.;
-static doublereal c_b443 = 1.;
+static floatreal c_b421 = 0.;
+static floatreal c_b443 = 1.;
 
 /* Subroutine */ int dgesvd_(char *jobu, char *jobvt, integer *m, integer *n, 
-	doublereal *a, integer *lda, doublereal *s, doublereal *u, integer *
-	ldu, doublereal *vt, integer *ldvt, doublereal *work, integer *lwork, 
+	floatreal *a, integer *lda, floatreal *s, floatreal *u, integer *
+	ldu, floatreal *vt, integer *ldvt, floatreal *work, integer *lwork, 
 	integer *info)
 {
     /* System generated locals */
@@ -35,52 +35,52 @@ static doublereal c_b443 = 1.;
 
     /* Builtin functions */
     /* Subroutine */ int s_cat(char *, char **, integer *, integer *, ftnlen);
-    double sqrt(doublereal);
+    float sqrt(floatreal);
 
     /* Local variables */
     integer i__, ie, ir, iu, blk, ncu;
-    doublereal dum[1], eps;
+    floatreal dum[1], eps;
     integer nru, iscl;
-    doublereal anrm;
+    floatreal anrm;
     integer ierr, itau, ncvt, nrvt;
     extern /* Subroutine */ int dgemm_(char *, char *, integer *, integer *, 
-	    integer *, doublereal *, doublereal *, integer *, doublereal *, 
-	    integer *, doublereal *, doublereal *, integer *);
+	    integer *, floatreal *, floatreal *, integer *, floatreal *, 
+	    integer *, floatreal *, floatreal *, integer *);
     extern logical lsame_(char *, char *);
     integer chunk, minmn, wrkbl, itaup, itauq, mnthr, iwork;
     logical wntua, wntva, wntun, wntuo, wntvn, wntvo, wntus, wntvs;
-    extern /* Subroutine */ int dgebrd_(integer *, integer *, doublereal *, 
-	    integer *, doublereal *, doublereal *, doublereal *, doublereal *, 
-	     doublereal *, integer *, integer *);
-    extern doublereal dlamch_(char *), dlange_(char *, integer *, 
-	    integer *, doublereal *, integer *, doublereal *);
+    extern /* Subroutine */ int dgebrd_(integer *, integer *, floatreal *, 
+	    integer *, floatreal *, floatreal *, floatreal *, floatreal *, 
+	     floatreal *, integer *, integer *);
+    extern floatreal dlamch_(char *), dlange_(char *, integer *, 
+	    integer *, floatreal *, integer *, floatreal *);
     integer bdspac;
-    extern /* Subroutine */ int dgelqf_(integer *, integer *, doublereal *, 
-	    integer *, doublereal *, doublereal *, integer *, integer *), 
-	    dlascl_(char *, integer *, integer *, doublereal *, doublereal *, 
-	    integer *, integer *, doublereal *, integer *, integer *),
-	     dgeqrf_(integer *, integer *, doublereal *, integer *, 
-	    doublereal *, doublereal *, integer *, integer *), dlacpy_(char *, 
-	     integer *, integer *, doublereal *, integer *, doublereal *, 
+    extern /* Subroutine */ int dgelqf_(integer *, integer *, floatreal *, 
+	    integer *, floatreal *, floatreal *, integer *, integer *), 
+	    dlascl_(char *, integer *, integer *, floatreal *, floatreal *, 
+	    integer *, integer *, floatreal *, integer *, integer *),
+	     dgeqrf_(integer *, integer *, floatreal *, integer *, 
+	    floatreal *, floatreal *, integer *, integer *), dlacpy_(char *, 
+	     integer *, integer *, floatreal *, integer *, floatreal *, 
 	    integer *), dlaset_(char *, integer *, integer *, 
-	    doublereal *, doublereal *, doublereal *, integer *), 
+	    floatreal *, floatreal *, floatreal *, integer *), 
 	    dbdsqr_(char *, integer *, integer *, integer *, integer *, 
-	    doublereal *, doublereal *, doublereal *, integer *, doublereal *, 
-	     integer *, doublereal *, integer *, doublereal *, integer *), dorgbr_(char *, integer *, integer *, integer *, 
-	    doublereal *, integer *, doublereal *, doublereal *, integer *, 
+	    floatreal *, floatreal *, floatreal *, integer *, floatreal *, 
+	     integer *, floatreal *, integer *, floatreal *, integer *), dorgbr_(char *, integer *, integer *, integer *, 
+	    floatreal *, integer *, floatreal *, floatreal *, integer *, 
 	    integer *);
-    doublereal bignum;
+    floatreal bignum;
     extern /* Subroutine */ int xerbla_(char *, integer *);
     extern integer ilaenv_(integer *, char *, char *, integer *, integer *, 
 	    integer *, integer *);
     extern /* Subroutine */ int dormbr_(char *, char *, char *, integer *, 
-	    integer *, integer *, doublereal *, integer *, doublereal *, 
-	    doublereal *, integer *, doublereal *, integer *, integer *), dorglq_(integer *, integer *, integer *, 
-	    doublereal *, integer *, doublereal *, doublereal *, integer *, 
-	    integer *), dorgqr_(integer *, integer *, integer *, doublereal *, 
-	     integer *, doublereal *, doublereal *, integer *, integer *);
+	    integer *, integer *, floatreal *, integer *, floatreal *, 
+	    floatreal *, integer *, floatreal *, integer *, integer *), dorglq_(integer *, integer *, integer *, 
+	    floatreal *, integer *, floatreal *, floatreal *, integer *, 
+	    integer *), dorgqr_(integer *, integer *, integer *, floatreal *, 
+	     integer *, floatreal *, floatreal *, integer *, integer *);
     integer ldwrkr, minwrk, ldwrku, maxwrk;
-    doublereal smlnum;
+    floatreal smlnum;
     logical lquery, wntuas, wntvas;
 
 
@@ -143,7 +143,7 @@ static doublereal c_b443 = 1.;
 /*  N       (input) INTEGER */
 /*          The number of columns of the input matrix A.  N >= 0. */
 
-/*  A       (input/output) DOUBLE PRECISION array, dimension (LDA,N) */
+/*  A       (input/output) float PRECISION array, dimension (LDA,N) */
 /*          On entry, the M-by-N matrix A. */
 /*          On exit, */
 /*          if JOBU = 'O',  A is overwritten with the first min(m,n) */
@@ -158,10 +158,10 @@ static doublereal c_b443 = 1.;
 /*  LDA     (input) INTEGER */
 /*          The leading dimension of the array A.  LDA >= max(1,M). */
 
-/*  S       (output) DOUBLE PRECISION array, dimension (min(M,N)) */
+/*  S       (output) float PRECISION array, dimension (min(M,N)) */
 /*          The singular values of A, sorted so that S(i) >= S(i+1). */
 
-/*  U       (output) DOUBLE PRECISION array, dimension (LDU,UCOL) */
+/*  U       (output) float PRECISION array, dimension (LDU,UCOL) */
 /*          (LDU,M) if JOBU = 'A' or (LDU,min(M,N)) if JOBU = 'S'. */
 /*          If JOBU = 'A', U contains the M-by-M orthogonal matrix U; */
 /*          if JOBU = 'S', U contains the first min(m,n) columns of U */
@@ -172,7 +172,7 @@ static doublereal c_b443 = 1.;
 /*          The leading dimension of the array U.  LDU >= 1; if */
 /*          JOBU = 'S' or 'A', LDU >= M. */
 
-/*  VT      (output) DOUBLE PRECISION array, dimension (LDVT,N) */
+/*  VT      (output) float PRECISION array, dimension (LDVT,N) */
 /*          If JOBVT = 'A', VT contains the N-by-N orthogonal matrix */
 /*          V**T; */
 /*          if JOBVT = 'S', VT contains the first min(m,n) rows of */
@@ -183,7 +183,7 @@ static doublereal c_b443 = 1.;
 /*          The leading dimension of the array VT.  LDVT >= 1; if */
 /*          JOBVT = 'A', LDVT >= N; if JOBVT = 'S', LDVT >= min(M,N). */
 
-/*  WORK    (workspace/output) DOUBLE PRECISION array, dimension (MAX(1,LWORK)) */
+/*  WORK    (workspace/output) float PRECISION array, dimension (MAX(1,LWORK)) */
 /*          On exit, if INFO = 0, WORK(1) returns the optimal LWORK; */
 /*          if INFO > 0, WORK(2:MIN(M,N)) contains the unconverged */
 /*          superdiagonal elements of an upper bidiagonal matrix B */
@@ -827,7 +827,7 @@ static doublereal c_b443 = 1.;
 	    }
 	}
 	maxwrk = max(maxwrk,minwrk);
-	work[1] = (doublereal) maxwrk;
+	work[1] = (floatreal) maxwrk;
 
 	if (*lwork < minwrk && ! lquery) {
 	    *info = -13;
@@ -4040,7 +4040,7 @@ static doublereal c_b443 = 1.;
 
 /*     Return optimal workspace in WORK(1) */
 
-    work[1] = (doublereal) maxwrk;
+    work[1] = (floatreal) maxwrk;
 
     return 0;
 

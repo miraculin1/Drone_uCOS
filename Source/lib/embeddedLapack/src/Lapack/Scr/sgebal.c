@@ -33,7 +33,7 @@ static integer c__1 = 1;
     extern /* Subroutine */ int sscal_(integer *, real *, real *, integer *), 
 	    sswap_(integer *, real *, integer *, real *, integer *);
     real sfmin1, sfmin2, sfmax1, sfmax2;
-    extern doublereal slamch_(char *);
+    extern floatreal slamch_(char *);
     extern /* Subroutine */ int xerbla_(char *, integer *);
     extern integer isamax_(integer *, real *, integer *);
     logical noconv;

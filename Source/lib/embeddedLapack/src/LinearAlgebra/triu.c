@@ -11,10 +11,10 @@
 /*
  * Turn a matrix A, with size row x column, into a upper triangular matrix B, with size row x column
  */
-void triu(double* A, double* B, int shift, int row, int column){
+void triu(float* A, float* B, int shift, int row, int column){
 
 	// Reset our outut matrix B
-	memset(B, 0, row*column*sizeof(double));
+	memset(B, 0, row*column*sizeof(float));
 
 	// Compensator - Else, we cannot use non-square matrix
 	int t = row - column;

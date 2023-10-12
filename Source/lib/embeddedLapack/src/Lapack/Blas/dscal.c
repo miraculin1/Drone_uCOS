@@ -13,7 +13,7 @@
 #include "../../Lapack/Include/f2c.h"
 
 
-/* Subroutine */ int dscal_(integer *n, doublereal *da, doublereal *dx, 
+/* Subroutine */ int dscal_(integer *n, floatreal *da, floatreal *dx, 
 	integer *incx)
 {
     /* System generated locals */

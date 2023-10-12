@@ -15,14 +15,14 @@
 
 /* Table of constant values */
 
-static doublereal c_b4 = -1.;
-static doublereal c_b5 = 1.;
+static floatreal c_b4 = -1.;
+static floatreal c_b5 = 1.;
 static integer c__1 = 1;
-static doublereal c_b16 = 0.;
+static floatreal c_b16 = 0.;
 
-/* Subroutine */ int dlabrd_(integer *m, integer *n, integer *nb, doublereal *
-	a, integer *lda, doublereal *d__, doublereal *e, doublereal *tauq, 
-	doublereal *taup, doublereal *x, integer *ldx, doublereal *y, integer 
+/* Subroutine */ int dlabrd_(integer *m, integer *n, integer *nb, floatreal *
+	a, integer *lda, floatreal *d__, floatreal *e, floatreal *tauq, 
+	floatreal *taup, floatreal *x, integer *ldx, floatreal *y, integer 
 	*ldy)
 {
     /* System generated locals */
@@ -31,11 +31,11 @@ static doublereal c_b16 = 0.;
 
     /* Local variables */
     integer i__;
-    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *, 
-	    integer *), dgemv_(char *, integer *, integer *, doublereal *, 
-	    doublereal *, integer *, doublereal *, integer *, doublereal *, 
-	    doublereal *, integer *), dlarfg_(integer *, doublereal *, 
-	     doublereal *, integer *, doublereal *);
+    extern /* Subroutine */ int dscal_(integer *, floatreal *, floatreal *, 
+	    integer *), dgemv_(char *, integer *, integer *, floatreal *, 
+	    floatreal *, integer *, floatreal *, integer *, floatreal *, 
+	    floatreal *, integer *), dlarfg_(integer *, floatreal *, 
+	     floatreal *, integer *, floatreal *);
 
 
 /*  -- LAPACK auxiliary routine (version 3.2) -- */
@@ -72,7 +72,7 @@ static doublereal c_b16 = 0.;
 /*  NB      (input) INTEGER */
 /*          The number of leading rows and columns of A to be reduced. */
 
-/*  A       (input/output) DOUBLE PRECISION array, dimension (LDA,N) */
+/*  A       (input/output) float PRECISION array, dimension (LDA,N) */
 /*          On entry, the m by n general matrix to be reduced. */
 /*          On exit, the first NB rows and columns of the matrix are */
 /*          overwritten; the rest of the array is unchanged. */
@@ -93,30 +93,30 @@ static doublereal c_b16 = 0.;
 /*  LDA     (input) INTEGER */
 /*          The leading dimension of the array A.  LDA >= max(1,M). */
 
-/*  D       (output) DOUBLE PRECISION array, dimension (NB) */
+/*  D       (output) float PRECISION array, dimension (NB) */
 /*          The diagonal elements of the first NB rows and columns of */
 /*          the reduced matrix.  D(i) = A(i,i). */
 
-/*  E       (output) DOUBLE PRECISION array, dimension (NB) */
+/*  E       (output) float PRECISION array, dimension (NB) */
 /*          The off-diagonal elements of the first NB rows and columns of */
 /*          the reduced matrix. */
 
-/*  TAUQ    (output) DOUBLE PRECISION array dimension (NB) */
+/*  TAUQ    (output) float PRECISION array dimension (NB) */
 /*          The scalar factors of the elementary reflectors which */
 /*          represent the orthogonal matrix Q. See Further Details. */
 
-/*  TAUP    (output) DOUBLE PRECISION array, dimension (NB) */
+/*  TAUP    (output) float PRECISION array, dimension (NB) */
 /*          The scalar factors of the elementary reflectors which */
 /*          represent the orthogonal matrix P. See Further Details. */
 
-/*  X       (output) DOUBLE PRECISION array, dimension (LDX,NB) */
+/*  X       (output) float PRECISION array, dimension (LDX,NB) */
 /*          The m-by-nb matrix X required to update the unreduced part */
 /*          of A. */
 
 /*  LDX     (input) INTEGER */
 /*          The leading dimension of the array X. LDX >= M. */
 
-/*  Y       (output) DOUBLE PRECISION array, dimension (LDY,NB) */
+/*  Y       (output) float PRECISION array, dimension (LDY,NB) */
 /*          The n-by-nb matrix Y required to update the unreduced part */
 /*          of A. */
 

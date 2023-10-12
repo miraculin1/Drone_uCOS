@@ -17,65 +17,65 @@
 
 static logical c_false = FALSE_;
 static integer c__1 = 1;
-static doublereal c_b22 = 1.;
-static doublereal c_b25 = 0.;
+static floatreal c_b22 = 1.;
+static floatreal c_b25 = 0.;
 static integer c__2 = 2;
 static logical c_true = TRUE_;
 
 /* Subroutine */ int dtrevc_(char *side, char *howmny, logical *select, 
-	integer *n, doublereal *t, integer *ldt, doublereal *vl, integer *
-	ldvl, doublereal *vr, integer *ldvr, integer *mm, integer *m, 
-	doublereal *work, integer *info)
+	integer *n, floatreal *t, integer *ldt, floatreal *vl, integer *
+	ldvl, floatreal *vr, integer *ldvr, integer *mm, integer *m, 
+	floatreal *work, integer *info)
 {
     /* System generated locals */
     integer t_dim1, t_offset, vl_dim1, vl_offset, vr_dim1, vr_offset, i__1, 
 	    i__2, i__3;
-    doublereal d__1, d__2, d__3, d__4;
+    floatreal d__1, d__2, d__3, d__4;
 
     /* Builtin functions */
-    double sqrt(doublereal);
+    float sqrt(floatreal);
 
     /* Local variables */
     integer i__, j, k;
-    doublereal x[4]	/* was [2][2] */;
+    floatreal x[4]	/* was [2][2] */;
     integer j1, j2, n2, ii, ki, ip, is;
-    doublereal wi, wr, rec, ulp, beta, emax;
+    floatreal wi, wr, rec, ulp, beta, emax;
     logical pair;
-    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *, 
+    extern floatreal ddot_(integer *, floatreal *, integer *, floatreal *, 
 	    integer *);
     logical allv;
     integer ierr;
-    doublereal unfl, ovfl, smin;
+    floatreal unfl, ovfl, smin;
     logical over;
-    doublereal vmax;
+    floatreal vmax;
     integer jnxt;
-    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *, 
+    extern /* Subroutine */ int dscal_(integer *, floatreal *, floatreal *, 
 	    integer *);
-    doublereal scale;
+    floatreal scale;
     extern logical lsame_(char *, char *);
     extern /* Subroutine */ int dgemv_(char *, integer *, integer *, 
-	    doublereal *, doublereal *, integer *, doublereal *, integer *, 
-	    doublereal *, doublereal *, integer *);
-    doublereal remax;
-    extern /* Subroutine */ int dcopy_(integer *, doublereal *, integer *, 
-	    doublereal *, integer *);
+	    floatreal *, floatreal *, integer *, floatreal *, integer *, 
+	    floatreal *, floatreal *, integer *);
+    floatreal remax;
+    extern /* Subroutine */ int dcopy_(integer *, floatreal *, integer *, 
+	    floatreal *, integer *);
     logical leftv, bothv;
-    extern /* Subroutine */ int daxpy_(integer *, doublereal *, doublereal *, 
-	    integer *, doublereal *, integer *);
-    doublereal vcrit;
+    extern /* Subroutine */ int daxpy_(integer *, floatreal *, floatreal *, 
+	    integer *, floatreal *, integer *);
+    floatreal vcrit;
     logical somev;
-    doublereal xnorm;
+    floatreal xnorm;
     extern /* Subroutine */ int dlaln2_(logical *, integer *, integer *, 
-	    doublereal *, doublereal *, doublereal *, integer *, doublereal *, 
-	     doublereal *, doublereal *, integer *, doublereal *, doublereal *
-, doublereal *, integer *, doublereal *, doublereal *, integer *),
-	     dlabad_(doublereal *, doublereal *);
-    extern doublereal dlamch_(char *);
-    extern integer idamax_(integer *, doublereal *, integer *);
+	    floatreal *, floatreal *, floatreal *, integer *, floatreal *, 
+	     floatreal *, floatreal *, integer *, floatreal *, floatreal *
+, floatreal *, integer *, floatreal *, floatreal *, integer *),
+	     dlabad_(floatreal *, floatreal *);
+    extern floatreal dlamch_(char *);
+    extern integer idamax_(integer *, floatreal *, integer *);
     extern /* Subroutine */ int xerbla_(char *, integer *);
-    doublereal bignum;
+    floatreal bignum;
     logical rightv;
-    doublereal smlnum;
+    floatreal smlnum;
 
 
 /*  -- LAPACK routine (version 3.2) -- */
@@ -140,13 +140,13 @@ static logical c_true = TRUE_;
 /*  N       (input) INTEGER */
 /*          The order of the matrix T. N >= 0. */
 
-/*  T       (input) DOUBLE PRECISION array, dimension (LDT,N) */
+/*  T       (input) float PRECISION array, dimension (LDT,N) */
 /*          The upper quasi-triangular matrix T in Schur canonical form. */
 
 /*  LDT     (input) INTEGER */
 /*          The leading dimension of the array T. LDT >= max(1,N). */
 
-/*  VL      (input/output) DOUBLE PRECISION array, dimension (LDVL,MM) */
+/*  VL      (input/output) float PRECISION array, dimension (LDVL,MM) */
 /*          On entry, if SIDE = 'L' or 'B' and HOWMNY = 'B', VL must */
 /*          contain an N-by-N matrix Q (usually the orthogonal matrix Q */
 /*          of Schur vectors returned by DHSEQR). */
@@ -166,7 +166,7 @@ static logical c_true = TRUE_;
 /*          The leading dimension of the array VL.  LDVL >= 1, and if */
 /*          SIDE = 'L' or 'B', LDVL >= N. */
 
-/*  VR      (input/output) DOUBLE PRECISION array, dimension (LDVR,MM) */
+/*  VR      (input/output) float PRECISION array, dimension (LDVR,MM) */
 /*          On entry, if SIDE = 'R' or 'B' and HOWMNY = 'B', VR must */
 /*          contain an N-by-N matrix Q (usually the orthogonal matrix Q */
 /*          of Schur vectors returned by DHSEQR). */
@@ -196,7 +196,7 @@ static logical c_true = TRUE_;
 /*          Each selected real eigenvector occupies one column and each */
 /*          selected complex eigenvector occupies two columns. */
 
-/*  WORK    (workspace) DOUBLE PRECISION array, dimension (3*N) */
+/*  WORK    (workspace) float PRECISION array, dimension (3*N) */
 
 /*  INFO    (output) INTEGER */
 /*          = 0:  successful exit */

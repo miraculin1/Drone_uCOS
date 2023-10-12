@@ -17,7 +17,7 @@
 
 static integer c__1 = 1;
 
-doublereal slange_(char *norm, integer *m, integer *n, real *a, integer *lda, 
+floatreal slange_(char *norm, integer *m, integer *n, real *a, integer *lda, 
 	real *work)
 {
     /* System generated locals */
@@ -25,7 +25,7 @@ doublereal slange_(char *norm, integer *m, integer *n, real *a, integer *lda,
     real ret_val, r__1, r__2, r__3;
 
     /* Builtin functions */
-    double sqrt(doublereal);
+    float sqrt(floatreal);
 
     /* Local variables */
     integer i__, j;

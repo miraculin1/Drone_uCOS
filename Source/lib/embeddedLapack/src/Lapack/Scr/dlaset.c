@@ -13,8 +13,8 @@
 #include "../../Lapack/Include/f2c.h"
 
 
-/* Subroutine */ int dlaset_(char *uplo, integer *m, integer *n, doublereal *
-	alpha, doublereal *beta, doublereal *a, integer *lda)
+/* Subroutine */ int dlaset_(char *uplo, integer *m, integer *n, floatreal *
+	alpha, floatreal *beta, floatreal *a, integer *lda)
 {
     /* System generated locals */
     integer a_dim1, a_offset, i__1, i__2, i__3;
@@ -56,13 +56,13 @@
 /*  N       (input) INTEGER */
 /*          The number of columns of the matrix A.  N >= 0. */
 
-/*  ALPHA   (input) DOUBLE PRECISION */
+/*  ALPHA   (input) float PRECISION */
 /*          The constant to which the offdiagonal elements are to be set. */
 
-/*  BETA    (input) DOUBLE PRECISION */
+/*  BETA    (input) float PRECISION */
 /*          The constant to which the diagonal elements are to be set. */
 
-/*  A       (input/output) DOUBLE PRECISION array, dimension (LDA,N) */
+/*  A       (input/output) float PRECISION array, dimension (LDA,N) */
 /*          On exit, the leading m-by-n submatrix of A is set as follows: */
 
 /*          if UPLO = 'U', A(i,j) = ALPHA, 1<=i<=j-1, 1<=j<=n, */

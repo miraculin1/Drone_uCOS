@@ -16,26 +16,26 @@
 /* Table of constant values */
 
 static integer c__1 = 1;
-static doublereal c_b8 = -1.;
+static floatreal c_b8 = -1.;
 
-/* Subroutine */ int dgetf2_(integer *m, integer *n, doublereal *a, integer *
+/* Subroutine */ int dgetf2_(integer *m, integer *n, floatreal *a, integer *
 	lda, integer *ipiv, integer *info)
 {
     /* System generated locals */
     integer a_dim1, a_offset, i__1, i__2, i__3;
-    doublereal d__1;
+    floatreal d__1;
 
     /* Local variables */
     integer i__, j, jp;
-    extern /* Subroutine */ int dger_(integer *, integer *, doublereal *, 
-	    doublereal *, integer *, doublereal *, integer *, doublereal *, 
-	    integer *), dscal_(integer *, doublereal *, doublereal *, integer 
+    extern /* Subroutine */ int dger_(integer *, integer *, floatreal *, 
+	    floatreal *, integer *, floatreal *, integer *, floatreal *, 
+	    integer *), dscal_(integer *, floatreal *, floatreal *, integer 
 	    *);
-    doublereal sfmin;
-    extern /* Subroutine */ int dswap_(integer *, doublereal *, integer *, 
-	    doublereal *, integer *);
-    extern doublereal dlamch_(char *);
-    extern integer idamax_(integer *, doublereal *, integer *);
+    floatreal sfmin;
+    extern /* Subroutine */ int dswap_(integer *, floatreal *, integer *, 
+	    floatreal *, integer *);
+    extern floatreal dlamch_(char *);
+    extern integer idamax_(integer *, floatreal *, integer *);
     extern /* Subroutine */ int xerbla_(char *, integer *);
 
 
@@ -71,7 +71,7 @@ static doublereal c_b8 = -1.;
 /*  N       (input) INTEGER */
 /*          The number of columns of the matrix A.  N >= 0. */
 
-/*  A       (input/output) DOUBLE PRECISION array, dimension (LDA,N) */
+/*  A       (input/output) float PRECISION array, dimension (LDA,N) */
 /*          On entry, the m by n matrix to be factored. */
 /*          On exit, the factors L and U from the factorization */
 /*          A = P*L*U; the unit diagonal elements of L are not stored. */

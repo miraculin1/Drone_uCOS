@@ -1,7 +1,7 @@
 #include "Includes.h"
 #define HMCAdd 0x3c
 
-double HMCmGaussPerLSB = 0;
+float HMCmGaussPerLSB = 0;
 
 // 8-avg 15Hz normal measurement continuos
 // need to delay at least 65ms before write in
@@ -67,27 +67,27 @@ void MagRawData(int16_t out[3]) {
   out[2] = tmp;
 }
 
-void MagmGuassData(double dest[3], double *bias) {
+void MagmGuassData(float dest[3], float *bias) {
   int16_t data[3];
   if (bias == NULL) {
     MagRawData(data);
     for (int i = 0; i < 3; i++) {
-      dest[i] = ((double)data[i] * HMCmGaussPerLSB);
+      dest[i] = ((float)data[i] * HMCmGaussPerLSB);
     }
   } else {
     MagRawData(data);
     for (int i = 0; i < 3; i++) {
       dest[i] =
-          ((double)data[i] * HMCmGaussPerLSB - bias[i]) / bias[3 + i];
+          ((float)data[i] * HMCmGaussPerLSB - bias[i]) / bias[3 + i];
     }
   }
 }
 
 /* // TODO: implimant the RLS algorisim to get a "online" calibration */
-/* void HMCHardCal(double msr[9]) { */
-/* static double lamda = 0.98; */
-/* double theta[4] = {0}; */
-/* double P[4][4]; */
+/* void HMCHardCal(float msr[9]) { */
+/* static float lamda = 0.98; */
+/* float theta[4] = {0}; */
+/* float P[4][4]; */
 /*  */
 /* for (int i = 0; i < MAGCALSAMPLES; ++i) { */
 /* // take single sample */

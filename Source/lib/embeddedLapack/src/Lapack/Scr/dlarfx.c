@@ -17,19 +17,19 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int dlarfx_(char *side, integer *m, integer *n, doublereal *
-	v, doublereal *tau, doublereal *c__, integer *ldc, doublereal *work)
+/* Subroutine */ int dlarfx_(char *side, integer *m, integer *n, floatreal *
+	v, floatreal *tau, floatreal *c__, integer *ldc, floatreal *work)
 {
     /* System generated locals */
     integer c_dim1, c_offset, i__1;
 
     /* Local variables */
     integer j;
-    doublereal t1, t2, t3, t4, t5, t6, t7, t8, t9, v1, v2, v3, v4, v5, v6, v7,
+    floatreal t1, t2, t3, t4, t5, t6, t7, t8, t9, v1, v2, v3, v4, v5, v6, v7,
 	     v8, v9, t10, v10, sum;
     extern /* Subroutine */ int dlarf_(char *, integer *, integer *, 
-	    doublereal *, integer *, doublereal *, doublereal *, integer *, 
-	    doublereal *);
+	    floatreal *, integer *, floatreal *, floatreal *, integer *, 
+	    floatreal *);
     extern logical lsame_(char *, char *);
 
 
@@ -70,14 +70,14 @@ static integer c__1 = 1;
 /*  N       (input) INTEGER */
 /*          The number of columns of the matrix C. */
 
-/*  V       (input) DOUBLE PRECISION array, dimension (M) if SIDE = 'L' */
+/*  V       (input) float PRECISION array, dimension (M) if SIDE = 'L' */
 /*                                     or (N) if SIDE = 'R' */
 /*          The vector v in the representation of H. */
 
-/*  TAU     (input) DOUBLE PRECISION */
+/*  TAU     (input) float PRECISION */
 /*          The value tau in the representation of H. */
 
-/*  C       (input/output) DOUBLE PRECISION array, dimension (LDC,N) */
+/*  C       (input/output) float PRECISION array, dimension (LDC,N) */
 /*          On entry, the m by n matrix C. */
 /*          On exit, C is overwritten by the matrix H * C if SIDE = 'L', */
 /*          or C * H if SIDE = 'R'. */
@@ -85,7 +85,7 @@ static integer c__1 = 1;
 /*  LDC     (input) INTEGER */
 /*          The leading dimension of the array C. LDA >= (1,M). */
 
-/*  WORK    (workspace) DOUBLE PRECISION array, dimension */
+/*  WORK    (workspace) float PRECISION array, dimension */
 /*                      (N) if SIDE = 'L' */
 /*                      or (M) if SIDE = 'R' */
 /*          WORK is not referenced if H has order < 11. */

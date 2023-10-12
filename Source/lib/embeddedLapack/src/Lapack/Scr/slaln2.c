@@ -42,7 +42,7 @@
     real bbnd, cmax, ui11r, ui12s, temp, ur11r, ur12s, u22abs;
     integer icmax;
     real bnorm, cnorm, smini;
-    extern doublereal slamch_(char *);
+    extern floatreal slamch_(char *);
     real bignum;
     extern /* Subroutine */ int sladiv_(real *, real *, real *, real *, real *
 , real *);

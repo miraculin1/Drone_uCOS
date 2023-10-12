@@ -10,8 +10,8 @@ static void magBaseTest(EKF_T *ekf) {
   /* } */
   /* printf("   "); */
 
-  double v[4], conx[4];
-  double qtmp[4];
+  float v[4], conx[4];
+  float qtmp[4];
   quatConj(ekf->x, conx);
   vec2Quat(ekf->magBase, v);
   quatMulQuat(conx, v, qtmp);
@@ -31,8 +31,8 @@ static void magBaseTest(EKF_T *ekf) {
 static void accBaseTest(EKF_T *ekf) {
   msr2State(ekf);
 
-  double v[4], conx[4];
-  double qtmp[4];
+  float v[4], conx[4];
+  float qtmp[4];
   quatConj(ekf->x, conx);
   vec2Quat(ekf->z, v);
   quatMulQuat(ekf->x, v, qtmp);
@@ -50,7 +50,7 @@ static void accBaseTest(EKF_T *ekf) {
 }
 
 static void printMagForPlot() {
-  double data[3];
+  float data[3];
   MagmGuassData(data, magBias);
   printf("%.2f ", data[0]);
   printf("%.2f ", data[1]);
@@ -59,7 +59,7 @@ static void printMagForPlot() {
 
 void SendInfo() {
   while (1) {
-    double yaw, pitch, roll;
+    float yaw, pitch, roll;
     outputYPR(&yaw, &pitch, &roll);
     printf("%.2f %.2f %.2f %d, %d\n", yaw, pitch, roll, deltatick, OSCPUUsage);
 

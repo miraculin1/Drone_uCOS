@@ -16,11 +16,11 @@
 
 static integer c__1 = 1;
 static integer c_n1 = -1;
-static doublereal c_b16 = 1.;
-static doublereal c_b19 = -1.;
+static floatreal c_b16 = 1.;
+static floatreal c_b19 = -1.;
 
-/* Subroutine */ int dgetrf_(integer *m, integer *n, doublereal *a, integer *
-	lda, integer *ipiv, integer *info, double* IPIV_d)
+/* Subroutine */ int dgetrf_(integer *m, integer *n, floatreal *a, integer *
+	lda, integer *ipiv, integer *info, float* IPIV_d)
 {
     /* System generated locals */
     integer a_dim1, a_offset, i__1, i__2, i__3, i__4, i__5;
@@ -28,17 +28,17 @@ static doublereal c_b19 = -1.;
     /* Local variables */
     integer i__, j, jb, nb;
     extern /* Subroutine */ int dgemm_(char *, char *, integer *, integer *, 
-	    integer *, doublereal *, doublereal *, integer *, doublereal *, 
-	    integer *, doublereal *, doublereal *, integer *);
+	    integer *, floatreal *, floatreal *, integer *, floatreal *, 
+	    integer *, floatreal *, floatreal *, integer *);
     integer iinfo;
     extern /* Subroutine */ int dtrsm_(char *, char *, char *, char *, 
-	    integer *, integer *, doublereal *, doublereal *, integer *, 
-	    doublereal *, integer *), dgetf2_(
-	    integer *, integer *, doublereal *, integer *, integer *, integer 
+	    integer *, integer *, floatreal *, floatreal *, integer *, 
+	    floatreal *, integer *), dgetf2_(
+	    integer *, integer *, floatreal *, integer *, integer *, integer 
 	    *), xerbla_(char *, integer *);
     extern integer ilaenv_(integer *, char *, char *, integer *, integer *, 
 	    integer *, integer *);
-    extern /* Subroutine */ int dlaswp_(integer *, doublereal *, integer *, 
+    extern /* Subroutine */ int dlaswp_(integer *, floatreal *, integer *, 
 	    integer *, integer *, integer *, integer *);
 
 
@@ -74,7 +74,7 @@ static doublereal c_b19 = -1.;
 /*  N       (input) INTEGER */
 /*          The number of columns of the matrix A.  N >= 0. */
 
-/*  A       (input/output) DOUBLE PRECISION array, dimension (LDA,N) */
+/*  A       (input/output) float PRECISION array, dimension (LDA,N) */
 /*          On entry, the M-by-N matrix to be factored. */
 /*          On exit, the factors L and U from the factorization */
 /*          A = P*L*U; the unit diagonal elements of L are not stored. */
@@ -214,7 +214,7 @@ static doublereal c_b19 = -1.;
 	
     // Add to IPIV_d due to memory loss from ipiv when using LU.c file. 
     for(int i = 1; i <= min(*m, *n); i++)
-	IPIV_d[i] = (double) ipiv[i];
+	IPIV_d[i] = (float) ipiv[i];
 
     return 0;
 

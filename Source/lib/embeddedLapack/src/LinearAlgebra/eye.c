@@ -10,9 +10,9 @@
 /*
  * Create a identity matrix with size row x column
  */
-void eye(double* A, int row, int column) {
+void eye(float* A, int row, int column) {
 	// Reset first
-	memset(A, 0, row * column * sizeof(double));
+	memset(A, 0, row * column * sizeof(float));
 
 	for (int i = 0; i < row; i++) {
 		*A = 1.0;

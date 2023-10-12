@@ -17,9 +17,9 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int dgebd2_(integer *m, integer *n, doublereal *a, integer *
-	lda, doublereal *d__, doublereal *e, doublereal *tauq, doublereal *
-	taup, doublereal *work, integer *info)
+/* Subroutine */ int dgebd2_(integer *m, integer *n, floatreal *a, integer *
+	lda, floatreal *d__, floatreal *e, floatreal *tauq, floatreal *
+	taup, floatreal *work, integer *info)
 {
     /* System generated locals */
     integer a_dim1, a_offset, i__1, i__2, i__3;
@@ -27,9 +27,9 @@ static integer c__1 = 1;
     /* Local variables */
     integer i__;
     extern /* Subroutine */ int dlarf_(char *, integer *, integer *, 
-	    doublereal *, integer *, doublereal *, doublereal *, integer *, 
-	    doublereal *), dlarfg_(integer *, doublereal *, 
-	    doublereal *, integer *, doublereal *), xerbla_(char *, integer *);
+	    floatreal *, integer *, floatreal *, floatreal *, integer *, 
+	    floatreal *), dlarfg_(integer *, floatreal *, 
+	    floatreal *, integer *, floatreal *), xerbla_(char *, integer *);
 
 
 /*  -- LAPACK routine (version 3.2) -- */
@@ -58,7 +58,7 @@ static integer c__1 = 1;
 /*  N       (input) INTEGER */
 /*          The number of columns in the matrix A.  N >= 0. */
 
-/*  A       (input/output) DOUBLE PRECISION array, dimension (LDA,N) */
+/*  A       (input/output) float PRECISION array, dimension (LDA,N) */
 /*          On entry, the m by n general matrix to be reduced. */
 /*          On exit, */
 /*          if m >= n, the diagonal and the first superdiagonal are */
@@ -80,24 +80,24 @@ static integer c__1 = 1;
 /*  LDA     (input) INTEGER */
 /*          The leading dimension of the array A.  LDA >= max(1,M). */
 
-/*  D       (output) DOUBLE PRECISION array, dimension (min(M,N)) */
+/*  D       (output) float PRECISION array, dimension (min(M,N)) */
 /*          The diagonal elements of the bidiagonal matrix B: */
 /*          D(i) = A(i,i). */
 
-/*  E       (output) DOUBLE PRECISION array, dimension (min(M,N)-1) */
+/*  E       (output) float PRECISION array, dimension (min(M,N)-1) */
 /*          The off-diagonal elements of the bidiagonal matrix B: */
 /*          if m >= n, E(i) = A(i,i+1) for i = 1,2,...,n-1; */
 /*          if m < n, E(i) = A(i+1,i) for i = 1,2,...,m-1. */
 
-/*  TAUQ    (output) DOUBLE PRECISION array dimension (min(M,N)) */
+/*  TAUQ    (output) float PRECISION array dimension (min(M,N)) */
 /*          The scalar factors of the elementary reflectors which */
 /*          represent the orthogonal matrix Q. See Further Details. */
 
-/*  TAUP    (output) DOUBLE PRECISION array, dimension (min(M,N)) */
+/*  TAUP    (output) float PRECISION array, dimension (min(M,N)) */
 /*          The scalar factors of the elementary reflectors which */
 /*          represent the orthogonal matrix P. See Further Details. */
 
-/*  WORK    (workspace) DOUBLE PRECISION array, dimension (max(M,N)) */
+/*  WORK    (workspace) float PRECISION array, dimension (max(M,N)) */
 
 /*  INFO    (output) INTEGER */
 /*          = 0: successful exit. */

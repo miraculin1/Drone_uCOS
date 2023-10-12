@@ -15,60 +15,60 @@
 
 /* Table of constant values */
 
-static doublereal c_b7 = 0.;
-static doublereal c_b8 = 1.;
+static floatreal c_b7 = 0.;
+static floatreal c_b8 = 1.;
 static integer c__3 = 3;
 static integer c__1 = 1;
 static integer c__2 = 2;
 
 /* Subroutine */ int dlaqr5_(logical *wantt, logical *wantz, integer *kacc22, 
-	integer *n, integer *ktop, integer *kbot, integer *nshfts, doublereal 
-	*sr, doublereal *si, doublereal *h__, integer *ldh, integer *iloz, 
-	integer *ihiz, doublereal *z__, integer *ldz, doublereal *v, integer *
-	ldv, doublereal *u, integer *ldu, integer *nv, doublereal *wv, 
-	integer *ldwv, integer *nh, doublereal *wh, integer *ldwh)
+	integer *n, integer *ktop, integer *kbot, integer *nshfts, floatreal 
+	*sr, floatreal *si, floatreal *h__, integer *ldh, integer *iloz, 
+	integer *ihiz, floatreal *z__, integer *ldz, floatreal *v, integer *
+	ldv, floatreal *u, integer *ldu, integer *nv, floatreal *wv, 
+	integer *ldwv, integer *nh, floatreal *wh, integer *ldwh)
 {
     /* System generated locals */
     integer h_dim1, h_offset, u_dim1, u_offset, v_dim1, v_offset, wh_dim1, 
 	    wh_offset, wv_dim1, wv_offset, z_dim1, z_offset, i__1, i__2, i__3,
 	     i__4, i__5, i__6, i__7;
-    doublereal d__1, d__2, d__3, d__4, d__5;
+    floatreal d__1, d__2, d__3, d__4, d__5;
 
     /* Local variables */
     integer i__, j, k, m, i2, j2, i4, j4, k1;
-    doublereal h11, h12, h21, h22;
+    floatreal h11, h12, h21, h22;
     integer m22, ns, nu;
-    doublereal vt[3], scl;
+    floatreal vt[3], scl;
     integer kdu, kms;
-    doublereal ulp;
+    floatreal ulp;
     integer knz, kzs;
-    doublereal tst1, tst2, beta;
+    floatreal tst1, tst2, beta;
     logical blk22, bmp22;
     integer mend, jcol, jlen, jbot, mbot;
-    doublereal swap;
+    floatreal swap;
     integer jtop, jrow, mtop;
-    doublereal alpha;
+    floatreal alpha;
     logical accum;
     extern /* Subroutine */ int dgemm_(char *, char *, integer *, integer *, 
-	    integer *, doublereal *, doublereal *, integer *, doublereal *, 
-	    integer *, doublereal *, doublereal *, integer *);
+	    integer *, floatreal *, floatreal *, integer *, floatreal *, 
+	    integer *, floatreal *, floatreal *, integer *);
     integer ndcol, incol, krcol, nbmps;
     extern /* Subroutine */ int dtrmm_(char *, char *, char *, char *, 
-	    integer *, integer *, doublereal *, doublereal *, integer *, 
-	    doublereal *, integer *), dlaqr1_(
-	    integer *, doublereal *, integer *, doublereal *, doublereal *, 
-	    doublereal *, doublereal *, doublereal *), dlabad_(doublereal *, 
-	    doublereal *);
-    extern doublereal dlamch_(char *);
-    extern /* Subroutine */ int dlarfg_(integer *, doublereal *, doublereal *, 
-	     integer *, doublereal *), dlacpy_(char *, integer *, integer *, 
-	    doublereal *, integer *, doublereal *, integer *);
-    doublereal safmin;
+	    integer *, integer *, floatreal *, floatreal *, integer *, 
+	    floatreal *, integer *), dlaqr1_(
+	    integer *, floatreal *, integer *, floatreal *, floatreal *, 
+	    floatreal *, floatreal *, floatreal *), dlabad_(floatreal *, 
+	    floatreal *);
+    extern floatreal dlamch_(char *);
+    extern /* Subroutine */ int dlarfg_(integer *, floatreal *, floatreal *, 
+	     integer *, floatreal *), dlacpy_(char *, integer *, integer *, 
+	    floatreal *, integer *, floatreal *, integer *);
+    floatreal safmin;
     extern /* Subroutine */ int dlaset_(char *, integer *, integer *, 
-	    doublereal *, doublereal *, doublereal *, integer *);
-    doublereal safmax, refsum;
+	    floatreal *, floatreal *, floatreal *, integer *);
+    floatreal safmax, refsum;
     integer mstart;
-    doublereal smlnum;
+    floatreal smlnum;
 
 
 /*  -- LAPACK auxiliary routine (version 3.2) -- */
@@ -121,14 +121,14 @@ static integer c__2 = 2;
 /*             NSHFTS gives the number of simultaneous shifts.  NSHFTS */
 /*             must be positive and even. */
 
-/*      SR     (input/output) DOUBLE PRECISION array of size (NSHFTS) */
-/*      SI     (input/output) DOUBLE PRECISION array of size (NSHFTS) */
+/*      SR     (input/output) float PRECISION array of size (NSHFTS) */
+/*      SI     (input/output) float PRECISION array of size (NSHFTS) */
 /*             SR contains the real parts and SI contains the imaginary */
 /*             parts of the NSHFTS shifts of origin that define the */
 /*             multi-shift QR sweep.  On output SR and SI may be */
 /*             reordered. */
 
-/*      H      (input/output) DOUBLE PRECISION array of size (LDH,N) */
+/*      H      (input/output) float PRECISION array of size (LDH,N) */
 /*             On input H contains a Hessenberg matrix.  On output a */
 /*             multi-shift QR sweep with shifts SR(J)+i*SI(J) is applied */
 /*             to the isolated diagonal block in rows and columns KTOP */
@@ -143,7 +143,7 @@ static integer c__2 = 2;
 /*             Specify the rows of Z to which transformations must be */
 /*             applied if WANTZ is .TRUE.. 1 .LE. ILOZ .LE. IHIZ .LE. N */
 
-/*      Z      (input/output) DOUBLE PRECISION array of size (LDZ,IHI) */
+/*      Z      (input/output) float PRECISION array of size (LDZ,IHI) */
 /*             If WANTZ = .TRUE., then the QR Sweep orthogonal */
 /*             similarity transformation is accumulated into */
 /*             Z(ILOZ:IHIZ,ILO:IHI) from the right. */
@@ -153,13 +153,13 @@ static integer c__2 = 2;
 /*             LDA is the leading dimension of Z just as declared in */
 /*             the calling procedure. LDZ.GE.N. */
 
-/*      V      (workspace) DOUBLE PRECISION array of size (LDV,NSHFTS/2) */
+/*      V      (workspace) float PRECISION array of size (LDV,NSHFTS/2) */
 
 /*      LDV    (input) integer scalar */
 /*             LDV is the leading dimension of V as declared in the */
 /*             calling procedure.  LDV.GE.3. */
 
-/*      U      (workspace) DOUBLE PRECISION array of size */
+/*      U      (workspace) float PRECISION array of size */
 /*             (LDU,3*NSHFTS-3) */
 
 /*      LDU    (input) integer scalar */
@@ -170,7 +170,7 @@ static integer c__2 = 2;
 /*             NH is the number of columns in array WH available for */
 /*             workspace. NH.GE.1. */
 
-/*      WH     (workspace) DOUBLE PRECISION array of size (LDWH,NH) */
+/*      WH     (workspace) float PRECISION array of size (LDWH,NH) */
 
 /*      LDWH   (input) integer scalar */
 /*             Leading dimension of WH just as declared in the */
@@ -180,7 +180,7 @@ static integer c__2 = 2;
 /*             NV is the number of rows in WV agailable for workspace. */
 /*             NV.GE.1. */
 
-/*      WV     (workspace) DOUBLE PRECISION array of size */
+/*      WV     (workspace) float PRECISION array of size */
 /*             (LDWV,3*NSHFTS-3) */
 
 /*      LDWV   (input) integer scalar */
@@ -287,7 +287,7 @@ static integer c__2 = 2;
     safmax = 1. / safmin;
     dlabad_(&safmin, &safmax);
     ulp = dlamch_("PRECISION");
-    smlnum = safmin * ((doublereal) (*n) / ulp);
+    smlnum = safmin * ((floatreal) (*n) / ulp);
 
 /*     ==== Use accumulated reflections to update far-from-diagonal */
 /*     .    entries ? ==== */
@@ -340,7 +340,7 @@ static integer c__2 = 2;
 	i__3 = min(i__4,i__5);
 	for (krcol = incol; krcol <= i__3; ++krcol) {
 
-/*           ==== Bulges number MTOP to MBOT are active double implicit */
+/*           ==== Bulges number MTOP to MBOT are active float implicit */
 /*           .    shift bulges.  There may or may not also be small */
 /*           .    2-by-2 bulge, if there is room.  The inactive bulges */
 /*           .    (if any) must wait until the active bulges have moved */

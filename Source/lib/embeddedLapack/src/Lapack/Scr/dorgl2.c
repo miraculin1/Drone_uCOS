@@ -13,18 +13,18 @@
 #include "../../Lapack/Include/f2c.h"
 
 
-/* Subroutine */ int dorgl2_(integer *m, integer *n, integer *k, doublereal *
-	a, integer *lda, doublereal *tau, doublereal *work, integer *info)
+/* Subroutine */ int dorgl2_(integer *m, integer *n, integer *k, floatreal *
+	a, integer *lda, floatreal *tau, floatreal *work, integer *info)
 {
     /* System generated locals */
     integer a_dim1, a_offset, i__1, i__2;
-    doublereal d__1;
+    floatreal d__1;
 
     /* Local variables */
     integer i__, j, l;
-    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *, 
-	    integer *), dlarf_(char *, integer *, integer *, doublereal *, 
-	    integer *, doublereal *, doublereal *, integer *, doublereal *), xerbla_(char *, integer *);
+    extern /* Subroutine */ int dscal_(integer *, floatreal *, floatreal *, 
+	    integer *), dlarf_(char *, integer *, integer *, floatreal *, 
+	    integer *, floatreal *, floatreal *, integer *, floatreal *), xerbla_(char *, integer *);
 
 
 /*  -- LAPACK routine (version 3.2) -- */
@@ -60,7 +60,7 @@
 /*          The number of elementary reflectors whose product defines the */
 /*          matrix Q. M >= K >= 0. */
 
-/*  A       (input/output) DOUBLE PRECISION array, dimension (LDA,N) */
+/*  A       (input/output) float PRECISION array, dimension (LDA,N) */
 /*          On entry, the i-th row must contain the vector which defines */
 /*          the elementary reflector H(i), for i = 1,2,...,k, as returned */
 /*          by DGELQF in the first k rows of its array argument A. */
@@ -69,11 +69,11 @@
 /*  LDA     (input) INTEGER */
 /*          The first dimension of the array A. LDA >= max(1,M). */
 
-/*  TAU     (input) DOUBLE PRECISION array, dimension (K) */
+/*  TAU     (input) float PRECISION array, dimension (K) */
 /*          TAU(i) must contain the scalar factor of the elementary */
 /*          reflector H(i), as returned by DGELQF. */
 
-/*  WORK    (workspace) DOUBLE PRECISION array, dimension (M) */
+/*  WORK    (workspace) float PRECISION array, dimension (M) */
 
 /*  INFO    (output) INTEGER */
 /*          = 0: successful exit */

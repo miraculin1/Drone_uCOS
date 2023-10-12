@@ -12,10 +12,10 @@
  * Matrix A have the size row x column
  */
 
-void move(double* A, int row, int column, int down, int right) {
+void move(float* A, int row, int column, int down, int right) {
 
-	double B[row*column];
-	memset(B, 0, row*column*sizeof(double));
+	float B[row*column];
+	memset(B, 0, row*column*sizeof(float));
 
 	/*
 	 * We take -1 due to indexing from zero
@@ -32,5 +32,5 @@ void move(double* A, int row, int column, int down, int right) {
 	}
 
 
-	memcpy(A, B, row*column*sizeof(double));
+	memcpy(A, B, row*column*sizeof(float));
 }

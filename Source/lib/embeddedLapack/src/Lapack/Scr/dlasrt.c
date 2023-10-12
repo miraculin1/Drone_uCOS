@@ -13,7 +13,7 @@
 #include "../../Lapack/Include/f2c.h"
 
 
-/* Subroutine */ int dlasrt_(char *id, integer *n, doublereal *d__, integer *
+/* Subroutine */ int dlasrt_(char *id, integer *n, floatreal *d__, integer *
 	info)
 {
     /* System generated locals */
@@ -21,13 +21,13 @@
 
     /* Local variables */
     integer i__, j;
-    doublereal d1, d2, d3;
+    floatreal d1, d2, d3;
     integer dir;
-    doublereal tmp;
+    floatreal tmp;
     integer endd;
     extern logical lsame_(char *, char *);
     integer stack[64]	/* was [2][32] */;
-    doublereal dmnmx;
+    floatreal dmnmx;
     integer start;
     extern /* Subroutine */ int xerbla_(char *, integer *);
     integer stkpnt;
@@ -61,7 +61,7 @@
 /*  N       (input) INTEGER */
 /*          The length of the array D. */
 
-/*  D       (input/output) DOUBLE PRECISION array, dimension (N) */
+/*  D       (input/output) float PRECISION array, dimension (N) */
 /*          On entry, the array to be sorted. */
 /*          On exit, D has been sorted into increasing order */
 /*          (D(1) <= ... <= D(N) ) or into decreasing order */

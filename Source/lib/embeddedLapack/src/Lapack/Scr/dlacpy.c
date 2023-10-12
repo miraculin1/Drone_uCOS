@@ -13,8 +13,8 @@
 #include "../../Lapack/Include/f2c.h"
 
 
-/* Subroutine */ int dlacpy_(char *uplo, integer *m, integer *n, doublereal *
-	a, integer *lda, doublereal *b, integer *ldb)
+/* Subroutine */ int dlacpy_(char *uplo, integer *m, integer *n, floatreal *
+	a, integer *lda, floatreal *b, integer *ldb)
 {
     /* System generated locals */
     integer a_dim1, a_offset, b_dim1, b_offset, i__1, i__2;
@@ -54,7 +54,7 @@
 /*  N       (input) INTEGER */
 /*          The number of columns of the matrix A.  N >= 0. */
 
-/*  A       (input) DOUBLE PRECISION array, dimension (LDA,N) */
+/*  A       (input) float PRECISION array, dimension (LDA,N) */
 /*          The m by n matrix A.  If UPLO = 'U', only the upper triangle */
 /*          or trapezoid is accessed; if UPLO = 'L', only the lower */
 /*          triangle or trapezoid is accessed. */
@@ -62,7 +62,7 @@
 /*  LDA     (input) INTEGER */
 /*          The leading dimension of the array A.  LDA >= max(1,M). */
 
-/*  B       (output) DOUBLE PRECISION array, dimension (LDB,N) */
+/*  B       (output) float PRECISION array, dimension (LDB,N) */
 /*          On exit, B = A in the locations specified by UPLO. */
 
 /*  LDB     (input) INTEGER */

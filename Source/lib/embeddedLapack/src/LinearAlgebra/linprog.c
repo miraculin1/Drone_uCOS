@@ -7,7 +7,7 @@
 
 #include "declareFunctions.h"
 
-static void opti(double* c, double* A, double* b, double* x, int row_a, int column_a, uint8_t max_or_min, int iteration_limit);
+static void opti(float* c, float* A, float* b, float* x, int row_a, int column_a, uint8_t max_or_min, int iteration_limit);
 
 
 /**
@@ -41,7 +41,7 @@ static void opti(double* c, double* A, double* b, double* x, int row_a, int colu
  * Source Simplex method: https://www.youtube.com/watch?v=yL7JByLlfrw
  * Source Simplex Dual method: https://www.youtube.com/watch?v=8_D3gkrgeK8
  */
-void linprog(double* c, double* A, double* b, double* x, int row_a, int column_a, uint8_t max_or_min, int iteration_limit){
+void linprog(float* c, float* A, float* b, float* x, int row_a, int column_a, uint8_t max_or_min, int iteration_limit){
 
 	if(max_or_min == 0){
 		// Maximization
@@ -55,23 +55,23 @@ void linprog(double* c, double* A, double* b, double* x, int row_a, int column_a
 
 }
 // This is Simplex method with the Dual included
-static void opti(double* c, double* A, double* b, double* x, int row_a, int column_a, uint8_t max_or_min, int iteration_limit){
+static void opti(float* c, float* A, float* b, float* x, int row_a, int column_a, uint8_t max_or_min, int iteration_limit){
 
 	// Clear the solution
 	if(max_or_min == 0)
-		memset(x, 0, column_a*sizeof(double));
+		memset(x, 0, column_a*sizeof(float));
 	else
-		memset(x, 0, row_a*sizeof(double));
+		memset(x, 0, row_a*sizeof(float));
 
 	// Create the tableau with space for the slack variables s and p as well
-	double tableau[(row_a+1)*(column_a+row_a+2)]; // +1 because the extra row for objective function and +2 for the b vector and slackvariable for objective function
-	memset(tableau, 0, (row_a+1)*(column_a+row_a+2)*sizeof(double));
+	float tableau[(row_a+1)*(column_a+row_a+2)]; // +1 because the extra row for objective function and +2 for the b vector and slackvariable for objective function
+	memset(tableau, 0, (row_a+1)*(column_a+row_a+2)*sizeof(float));
 
 	// Load the constraints
 	int j = 0;
 	for(int i = 0; i < row_a; i++){
 		// First row
-		memcpy(tableau + i*(column_a+row_a+2), A + i*column_a, column_a*sizeof(double));
+		memcpy(tableau + i*(column_a+row_a+2), A + i*column_a, column_a*sizeof(float));
 
 		// Slack variable s
 		j = column_a + i;
@@ -95,14 +95,14 @@ static void opti(double* c, double* A, double* b, double* x, int row_a, int colu
 	//print(tableau,(row_a+1),(column_a+row_a+2));
 
 	// Do row operations
-	double entry = 0.0;
+	float entry = 0.0;
 	int pivotColumIndex = 0;
 	int pivotRowIndex = 0;
-	double pivot = 0.0;
-	double value1 = 0.0;
-	double value2 = 0.0;
-	double value3 = 0.0;
-	double smallest = 0.0;
+	float pivot = 0.0;
+	float value1 = 0.0;
+	float value2 = 0.0;
+	float value3 = 0.0;
+	float smallest = 0.0;
 	int count = 0;
 	do{
 		// Find our pivot column

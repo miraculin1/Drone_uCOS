@@ -290,7 +290,7 @@ returnValue solveOQPbenchmark(	int nQP, int nV, int nC, int nEC,
 		*avgCPUtime += CPUtimeCur;
 	}
 	*avgNWSR /= nQP;
-	*avgCPUtime /= ((double)nQP);
+	*avgCPUtime /= ((float)nQP);
 
 	return SUCCESSFUL_RETURN;
 }
@@ -401,7 +401,7 @@ returnValue solveOQPbenchmarkB(	int nQP, int nV,
 		*avgCPUtime += CPUtimeCur;
 	}
 	*avgNWSR /= nQP;
-	*avgCPUtime /= ((double)nQP);
+	*avgCPUtime /= ((float)nQP);
 
 	return SUCCESSFUL_RETURN;
 }

@@ -266,7 +266,7 @@ static inline BooleanType Bounds_hasNoUpper(	Bounds* _THIS
  *  offset. This offset has to lie within the range [0,n/2] and has to
  *  be an integer divisor of the total number of bounds n.
  *  Type and status of the first \<offset\> bounds is thrown away,
- *  type and status of the last \<offset\> bounds is doubled,
+ *  type and status of the last \<offset\> bounds is floatd,
  *  e.g. for offset = 2: \n
  *  shift( {b1,b2,b3,b4,b5,b6} ) = {b3,b4,b5,b6,b5,b6}
  *	\return SUCCESSFUL_RETURN \n

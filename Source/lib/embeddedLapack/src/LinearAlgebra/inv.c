@@ -11,10 +11,10 @@
  * Turn A into A^-1. A have the size row x row
  */
 
-void inv(double* A, int row) {
+void inv(float* A, int row) {
 
 	// Create identity matrix
-	double I[row*row];
+	float I[row*row];
 	eye(I, row, row);
 
 	//Do inverse of A

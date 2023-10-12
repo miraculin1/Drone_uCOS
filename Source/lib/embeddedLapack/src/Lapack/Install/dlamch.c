@@ -15,9 +15,9 @@
 /* Table of constant values */
 
 static integer c__1 = 1;
-static doublereal c_b32 = 0.;
+static floatreal c_b32 = 0.;
 
-doublereal dlamch_(char *cmach)
+floatreal dlamch_(char *cmach)
 {
     /* Initialized data */
 
@@ -25,26 +25,26 @@ doublereal dlamch_(char *cmach)
 
     /* System generated locals */
     integer i__1;
-    doublereal ret_val;
+    floatreal ret_val;
 
     /* Builtin functions */
-    double pow_di(doublereal *, integer *);
+    float pow_di(floatreal *, integer *);
 
     /* Local variables */
-    static doublereal t;
+    static floatreal t;
     integer it;
-    static doublereal rnd, eps, base;
+    static floatreal rnd, eps, base;
     integer beta;
-    static doublereal emin, prec, emax;
+    static floatreal emin, prec, emax;
     integer imin, imax;
     logical lrnd;
-    static doublereal rmin, rmax;
-    doublereal rmach;
+    static floatreal rmin, rmax;
+    floatreal rmach;
     extern logical lsame_(char *, char *);
-    doublereal small;
-    static doublereal sfmin;
+    floatreal small;
+    static floatreal sfmin;
     extern /* Subroutine */ int dlamc2_(integer *, integer *, logical *, 
-	    doublereal *, integer *, doublereal *, integer *, doublereal *);
+	    floatreal *, integer *, floatreal *, integer *, floatreal *);
 
 
 /*  -- LAPACK auxiliary routine (version 3.2) -- */
@@ -57,7 +57,7 @@ doublereal dlamch_(char *cmach)
 /*  Purpose */
 /*  ======= */
 
-/*  DLAMCH determines double precision machine parameters. */
+/*  DLAMCH determines float precision machine parameters. */
 
 /*  Arguments */
 /*  ========= */
@@ -106,8 +106,8 @@ doublereal dlamch_(char *cmach)
 
     if (first) {
 	dlamc2_(&beta, &it, &lrnd, &eps, &imin, &rmin, &imax, &rmax);
-	base = (doublereal) beta;
-	t = (doublereal) it;
+	base = (floatreal) beta;
+	t = (floatreal) it;
 	if (lrnd) {
 	    rnd = 1.;
 	    i__1 = 1 - it;
@@ -118,8 +118,8 @@ doublereal dlamch_(char *cmach)
 	    eps = pow_di(&base, &i__1);
 	}
 	prec = eps * base;
-	emin = (doublereal) imin;
-	emax = (doublereal) imax;
+	emin = (floatreal) imin;
+	emax = (floatreal) imax;
 	sfmin = rmin;
 	small = 1. / rmax;
 	if (small >= sfmin) {
@@ -172,16 +172,16 @@ doublereal dlamch_(char *cmach)
     static logical first = TRUE_;
 
     /* System generated locals */
-    doublereal d__1, d__2;
+    floatreal d__1, d__2;
 
     /* Local variables */
-    doublereal a, b, c__, f, t1, t2;
+    floatreal a, b, c__, f, t1, t2;
     static integer lt;
-    doublereal one, qtr;
+    floatreal one, qtr;
     static logical lrnd;
     static integer lbeta;
-    doublereal savec;
-    extern doublereal dlamc3_(doublereal *, doublereal *);
+    floatreal savec;
+    extern floatreal dlamc3_(floatreal *, floatreal *);
     static logical lieee1;
 
 
@@ -302,7 +302,7 @@ L20:
 /*        Now determine whether rounding or chopping occurs,  by adding a */
 /*        bit  less  than  beta/2  and a  bit  more  than  beta/2  to  a. */
 
-	b = (doublereal) lbeta;
+	b = (floatreal) lbeta;
 	d__1 = b / 2;
 	d__2 = -b / 100;
 	f = dlamc3_(&d__1, &d__2);
@@ -372,8 +372,8 @@ L30:
 /* *********************************************************************** */
 
 /* Subroutine */ int dlamc2_(integer *beta, integer *t, logical *rnd, 
-	doublereal *eps, integer *emin, doublereal *rmin, integer *emax, 
-	doublereal *rmax)
+	floatreal *eps, integer *emin, floatreal *rmin, integer *emax, 
+	floatreal *rmax)
 {
     /* Initialized data */
 
@@ -389,38 +389,38 @@ L30:
 
     /* System generated locals */
     integer i__1;
-    doublereal d__1, d__2, d__3, d__4, d__5;
+    floatreal d__1, d__2, d__3, d__4, d__5;
 
     /* Builtin functions */
-    double pow_di(doublereal *, integer *);
+    float pow_di(floatreal *, integer *);
     integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen), e_wsfe(void);
 
     /* Local variables */
-    doublereal a, b, c__;
+    floatreal a, b, c__;
     integer i__;
     static integer lt;
-    doublereal one, two;
+    floatreal one, two;
     logical ieee;
-    doublereal half;
+    floatreal half;
     logical lrnd;
-    static doublereal leps;
-    doublereal zero;
+    static floatreal leps;
+    floatreal zero;
     static integer lbeta;
-    doublereal rbase;
+    floatreal rbase;
     static integer lemin, lemax;
     integer gnmin;
-    doublereal small;
+    floatreal small;
     integer gpmin;
-    doublereal third;
-    static doublereal lrmin, lrmax;
-    doublereal sixth;
+    floatreal third;
+    static floatreal lrmin, lrmax;
+    floatreal sixth;
     extern /* Subroutine */ int dlamc1_(integer *, integer *, logical *, 
 	    logical *);
-    extern doublereal dlamc3_(doublereal *, doublereal *);
+    extern floatreal dlamc3_(floatreal *, floatreal *);
     logical lieee1;
-    extern /* Subroutine */ int dlamc4_(integer *, doublereal *, integer *), 
+    extern /* Subroutine */ int dlamc4_(integer *, floatreal *, integer *), 
 	    dlamc5_(integer *, integer *, integer *, logical *, integer *, 
-	    doublereal *);
+	    floatreal *);
     integer ngnmin, ngpmin;
 
     /* Fortran I/O blocks */
@@ -456,7 +456,7 @@ L30:
 /*          be a reliable guide to the way in which the machine performs */
 /*          its arithmetic. */
 
-/*  EPS     (output) DOUBLE PRECISION */
+/*  EPS     (output) float PRECISION */
 /*          The smallest positive number such that */
 
 /*             fl( 1.0 - EPS ) .LT. 1.0, */
@@ -466,7 +466,7 @@ L30:
 /*  EMIN    (output) INTEGER */
 /*          The minimum exponent before (gradual) underflow occurs. */
 
-/*  RMIN    (output) DOUBLE PRECISION */
+/*  RMIN    (output) float PRECISION */
 /*          The smallest normalized number for the machine, given by */
 /*          BASE**( EMIN - 1 ), where  BASE  is the floating point value */
 /*          of BETA. */
@@ -474,7 +474,7 @@ L30:
 /*  EMAX    (output) INTEGER */
 /*          The maximum exponent before overflow occurs. */
 
-/*  RMAX    (output) DOUBLE PRECISION */
+/*  RMAX    (output) float PRECISION */
 /*          The largest positive number for the machine, given by */
 /*          BASE**EMAX * ( 1 - EPS ), where  BASE  is the floating point */
 /*          value of BETA. */
@@ -519,7 +519,7 @@ L30:
 
 /*        Start to find EPS. */
 
-	b = (doublereal) lbeta;
+	b = (floatreal) lbeta;
 	i__1 = -lt;
 	a = pow_di(&b, &i__1);
 	leps = a;
@@ -688,10 +688,10 @@ L10:
 
 /* *********************************************************************** */
 
-doublereal dlamc3_(doublereal *a, doublereal *b)
+floatreal dlamc3_(floatreal *a, floatreal *b)
 {
     /* System generated locals */
-    doublereal ret_val;
+    floatreal ret_val;
 
 
 /*  -- LAPACK auxiliary routine (version 3.2) -- */
@@ -711,8 +711,8 @@ doublereal dlamc3_(doublereal *a, doublereal *b)
 /*  Arguments */
 /*  ========= */
 
-/*  A       (input) DOUBLE PRECISION */
-/*  B       (input) DOUBLE PRECISION */
+/*  A       (input) float PRECISION */
+/*  B       (input) float PRECISION */
 /*          The values A and B. */
 
 /* ===================================================================== */
@@ -730,17 +730,17 @@ doublereal dlamc3_(doublereal *a, doublereal *b)
 
 /* *********************************************************************** */
 
-/* Subroutine */ int dlamc4_(integer *emin, doublereal *start, integer *base)
+/* Subroutine */ int dlamc4_(integer *emin, floatreal *start, integer *base)
 {
     /* System generated locals */
     integer i__1;
-    doublereal d__1;
+    floatreal d__1;
 
     /* Local variables */
-    doublereal a;
+    floatreal a;
     integer i__;
-    doublereal b1, b2, c1, c2, d1, d2, one, zero, rbase;
-    extern doublereal dlamc3_(doublereal *, doublereal *);
+    floatreal b1, b2, c1, c2, d1, d2, one, zero, rbase;
+    extern floatreal dlamc3_(floatreal *, floatreal *);
 
 
 /*  -- LAPACK auxiliary routine (version 3.2) -- */
@@ -763,7 +763,7 @@ doublereal dlamc3_(doublereal *a, doublereal *b)
 /*          setting A = START and dividing by BASE until the previous A */
 /*          can not be recovered. */
 
-/*  START   (input) DOUBLE PRECISION */
+/*  START   (input) float PRECISION */
 /*          The starting point for determining EMIN. */
 
 /*  BASE    (input) INTEGER */
@@ -828,20 +828,20 @@ L10:
 /* *********************************************************************** */
 
 /* Subroutine */ int dlamc5_(integer *beta, integer *p, integer *emin, 
-	logical *ieee, integer *emax, doublereal *rmax)
+	logical *ieee, integer *emax, floatreal *rmax)
 {
     /* System generated locals */
     integer i__1;
-    doublereal d__1;
+    floatreal d__1;
 
     /* Local variables */
     integer i__;
-    doublereal y, z__;
+    floatreal y, z__;
     integer try__, lexp;
-    doublereal oldy;
+    floatreal oldy;
     integer uexp, nbits;
-    extern doublereal dlamc3_(doublereal *, doublereal *);
-    doublereal recbas;
+    extern floatreal dlamc3_(floatreal *, floatreal *);
+    floatreal recbas;
     integer exbits, expsum;
 
 
@@ -882,7 +882,7 @@ L10:
 /*  EMAX    (output) INTEGER */
 /*          The largest exponent before overflow */
 
-/*  RMAX    (output) DOUBLE PRECISION */
+/*  RMAX    (output) float PRECISION */
 /*          The largest machine floating-point number. */
 
 /* ===================================================================== */

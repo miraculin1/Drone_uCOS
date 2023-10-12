@@ -9,7 +9,7 @@
  * Add C = A+B with A size row_a x column_a and B have the size row_a x column_b and C have the size row_a x column_a
  */
 
-void add(double* A, double* B, double* C, int row_a, int column_a, int column_b) {
+void add(float* A, float* B, float* C, int row_a, int column_a, int column_b) {
 
 	/*
 	 * This uses the formula C=A+B

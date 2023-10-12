@@ -33,7 +33,7 @@ static real c_b8 = -1.f;
     real sfmin;
     extern /* Subroutine */ int sswap_(integer *, real *, integer *, real *, 
 	    integer *);
-    extern doublereal slamch_(char *);
+    extern floatreal slamch_(char *);
     extern /* Subroutine */ int xerbla_(char *, integer *);
     extern integer isamax_(integer *, real *, integer *);
 

@@ -13,7 +13,7 @@
 #include "../../Lapack/Include/f2c.h"
 
 
-/* Subroutine */ int dlaswp_(integer *n, doublereal *a, integer *lda, integer 
+/* Subroutine */ int dlaswp_(integer *n, floatreal *a, integer *lda, integer 
 	*k1, integer *k2, integer *ipiv, integer *incx)
 {
     /* System generated locals */
@@ -21,7 +21,7 @@
 
     /* Local variables */
     integer i__, j, k, i1, i2, n32, ip, ix, ix0, inc;
-    doublereal temp;
+    floatreal temp;
 
 
 /*  -- LAPACK auxiliary routine (version 3.2) -- */
@@ -45,7 +45,7 @@
 /*  N       (input) INTEGER */
 /*          The number of columns of the matrix A. */
 
-/*  A       (input/output) DOUBLE PRECISION array, dimension (LDA,N) */
+/*  A       (input/output) float PRECISION array, dimension (LDA,N) */
 /*          On entry, the matrix of column dimension N to which the row */
 /*          interchanges will be applied. */
 /*          On exit, the permuted matrix. */

@@ -20,8 +20,8 @@ static integer c_n1 = -1;
 static integer c__3 = 3;
 static integer c__2 = 2;
 
-/* Subroutine */ int dorgqr_(integer *m, integer *n, integer *k, doublereal *
-	a, integer *lda, doublereal *tau, doublereal *work, integer *lwork, 
+/* Subroutine */ int dorgqr_(integer *m, integer *n, integer *k, floatreal *
+	a, integer *lda, floatreal *tau, floatreal *work, integer *lwork, 
 	integer *info)
 {
     /* System generated locals */
@@ -30,11 +30,11 @@ static integer c__2 = 2;
     /* Local variables */
     integer i__, j, l, ib, nb, ki, kk, nx, iws, nbmin, iinfo;
     extern /* Subroutine */ int dorg2r_(integer *, integer *, integer *, 
-	    doublereal *, integer *, doublereal *, doublereal *, integer *), 
+	    floatreal *, integer *, floatreal *, floatreal *, integer *), 
 	    dlarfb_(char *, char *, char *, char *, integer *, integer *, 
-	    integer *, doublereal *, integer *, doublereal *, integer *, 
-	    doublereal *, integer *, doublereal *, integer *), dlarft_(char *, char *, integer *, integer *, 
-	    doublereal *, integer *, doublereal *, doublereal *, integer *), xerbla_(char *, integer *);
+	    integer *, floatreal *, integer *, floatreal *, integer *, 
+	    floatreal *, integer *, floatreal *, integer *), dlarft_(char *, char *, integer *, integer *, 
+	    floatreal *, integer *, floatreal *, floatreal *, integer *), xerbla_(char *, integer *);
     extern integer ilaenv_(integer *, char *, char *, integer *, integer *, 
 	    integer *, integer *);
     integer ldwork, lwkopt;
@@ -74,7 +74,7 @@ static integer c__2 = 2;
 /*          The number of elementary reflectors whose product defines the */
 /*          matrix Q. N >= K >= 0. */
 
-/*  A       (input/output) DOUBLE PRECISION array, dimension (LDA,N) */
+/*  A       (input/output) float PRECISION array, dimension (LDA,N) */
 /*          On entry, the i-th column must contain the vector which */
 /*          defines the elementary reflector H(i), for i = 1,2,...,k, as */
 /*          returned by DGEQRF in the first k columns of its array */
@@ -84,11 +84,11 @@ static integer c__2 = 2;
 /*  LDA     (input) INTEGER */
 /*          The first dimension of the array A. LDA >= max(1,M). */
 
-/*  TAU     (input) DOUBLE PRECISION array, dimension (K) */
+/*  TAU     (input) float PRECISION array, dimension (K) */
 /*          TAU(i) must contain the scalar factor of the elementary */
 /*          reflector H(i), as returned by DGEQRF. */
 
-/*  WORK    (workspace/output) DOUBLE PRECISION array, dimension (MAX(1,LWORK)) */
+/*  WORK    (workspace/output) float PRECISION array, dimension (MAX(1,LWORK)) */
 /*          On exit, if INFO = 0, WORK(1) returns the optimal LWORK. */
 
 /*  LWORK   (input) INTEGER */
@@ -132,7 +132,7 @@ static integer c__2 = 2;
     *info = 0;
     nb = ilaenv_(&c__1, "DORGQR", " ", m, n, k, &c_n1);
     lwkopt = max(1,*n) * nb;
-    work[1] = (doublereal) lwkopt;
+    work[1] = (floatreal) lwkopt;
     lquery = *lwork == -1;
     if (*m < 0) {
 	*info = -1;
@@ -273,7 +273,7 @@ static integer c__2 = 2;
 	}
     }
 
-    work[1] = (doublereal) iws;
+    work[1] = (floatreal) iws;
     return 0;
 
 /*     End of DORGQR */

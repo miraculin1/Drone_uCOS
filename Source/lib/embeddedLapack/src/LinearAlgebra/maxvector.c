@@ -10,9 +10,9 @@
 /*
  * Find the maximum value of vector A with size row x 1, return maximum value and the index of that maximum value
  */
-void maxvector(double* A, int row, double* val, int* index) {
+void maxvector(float* A, int row, float* val, int* index) {
 
-	double past_val = 0; // initial
+	float past_val = 0; // initial
 	*index = 0;
 	*val = *(A);
 

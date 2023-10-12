@@ -15,38 +15,38 @@
 
 /* Table of constant values */
 
-static doublereal c_b4 = -1.;
-static doublereal c_b5 = 1.;
+static floatreal c_b4 = -1.;
+static floatreal c_b5 = 1.;
 static integer c__1 = 1;
-static doublereal c_b38 = 0.;
+static floatreal c_b38 = 0.;
 
-/* Subroutine */ int dlahr2_(integer *n, integer *k, integer *nb, doublereal *
-	a, integer *lda, doublereal *tau, doublereal *t, integer *ldt, 
-	doublereal *y, integer *ldy)
+/* Subroutine */ int dlahr2_(integer *n, integer *k, integer *nb, floatreal *
+	a, integer *lda, floatreal *tau, floatreal *t, integer *ldt, 
+	floatreal *y, integer *ldy)
 {
     /* System generated locals */
     integer a_dim1, a_offset, t_dim1, t_offset, y_dim1, y_offset, i__1, i__2, 
 	    i__3;
-    doublereal d__1;
+    floatreal d__1;
 
     /* Local variables */
     integer i__;
-    doublereal ei;
-    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *, 
+    floatreal ei;
+    extern /* Subroutine */ int dscal_(integer *, floatreal *, floatreal *, 
 	    integer *), dgemm_(char *, char *, integer *, integer *, integer *
-, doublereal *, doublereal *, integer *, doublereal *, integer *, 
-	    doublereal *, doublereal *, integer *), dgemv_(
-	    char *, integer *, integer *, doublereal *, doublereal *, integer 
-	    *, doublereal *, integer *, doublereal *, doublereal *, integer *), dcopy_(integer *, doublereal *, integer *, doublereal *, 
+, floatreal *, floatreal *, integer *, floatreal *, integer *, 
+	    floatreal *, floatreal *, integer *), dgemv_(
+	    char *, integer *, integer *, floatreal *, floatreal *, integer 
+	    *, floatreal *, integer *, floatreal *, floatreal *, integer *), dcopy_(integer *, floatreal *, integer *, floatreal *, 
 	     integer *), dtrmm_(char *, char *, char *, char *, integer *, 
-	    integer *, doublereal *, doublereal *, integer *, doublereal *, 
+	    integer *, floatreal *, floatreal *, integer *, floatreal *, 
 	    integer *), daxpy_(integer *, 
-	    doublereal *, doublereal *, integer *, doublereal *, integer *), 
-	    dtrmv_(char *, char *, char *, integer *, doublereal *, integer *, 
-	     doublereal *, integer *), dlarfg_(
-	    integer *, doublereal *, doublereal *, integer *, doublereal *), 
-	    dlacpy_(char *, integer *, integer *, doublereal *, integer *, 
-	    doublereal *, integer *);
+	    floatreal *, floatreal *, integer *, floatreal *, integer *), 
+	    dtrmv_(char *, char *, char *, integer *, floatreal *, integer *, 
+	     floatreal *, integer *), dlarfg_(
+	    integer *, floatreal *, floatreal *, integer *, floatreal *), 
+	    dlacpy_(char *, integer *, integer *, floatreal *, integer *, 
+	    floatreal *, integer *);
 
 
 /*  -- LAPACK auxiliary routine (version 3.2) -- */
@@ -83,7 +83,7 @@ static doublereal c_b38 = 0.;
 /*  NB      (input) INTEGER */
 /*          The number of columns to be reduced. */
 
-/*  A       (input/output) DOUBLE PRECISION array, dimension (LDA,N-K+1) */
+/*  A       (input/output) float PRECISION array, dimension (LDA,N-K+1) */
 /*          On entry, the n-by-(n-k+1) general matrix A. */
 /*          On exit, the elements on and above the k-th subdiagonal in */
 /*          the first NB columns are overwritten with the corresponding */
@@ -95,17 +95,17 @@ static doublereal c_b38 = 0.;
 /*  LDA     (input) INTEGER */
 /*          The leading dimension of the array A.  LDA >= max(1,N). */
 
-/*  TAU     (output) DOUBLE PRECISION array, dimension (NB) */
+/*  TAU     (output) float PRECISION array, dimension (NB) */
 /*          The scalar factors of the elementary reflectors. See Further */
 /*          Details. */
 
-/*  T       (output) DOUBLE PRECISION array, dimension (LDT,NB) */
+/*  T       (output) float PRECISION array, dimension (LDT,NB) */
 /*          The upper triangular matrix T. */
 
 /*  LDT     (input) INTEGER */
 /*          The leading dimension of the array T.  LDT >= NB. */
 
-/*  Y       (output) DOUBLE PRECISION array, dimension (LDY,NB) */
+/*  Y       (output) float PRECISION array, dimension (LDY,NB) */
 /*          The n-by-nb matrix Y. */
 
 /*  LDY     (input) INTEGER */

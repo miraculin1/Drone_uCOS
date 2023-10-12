@@ -17,18 +17,18 @@
  * Code: cut(A, 5, 6, B, 0, 2, 0, 2); // Because indexing from zero
  */
 
-void cut(double* A, int row, int column, double* B, int start_row, int stop_row, int start_column, int stop_column) {
+void cut(float* A, int row, int column, float* B, int start_row, int stop_row, int start_column, int stop_column) {
 
 	int in_columns = column;
-	double* data = A + start_row * in_columns + start_column;
+	float* data = A + start_row * in_columns + start_column;
 
 	// Create the output
-	//double* ptr = B;
+	//float* ptr = B;
 	int out_columns = stop_column - start_column + 1;
 
 	// Instead of having two for loops, we just copy the whole row at once.
 	for (int i = start_row; i < stop_row + 1; i++) {
-		memcpy(B, data, sizeof(double) * out_columns);
+		memcpy(B, data, sizeof(float) * out_columns);
 		B += out_columns;
 		data += in_columns;
 	}

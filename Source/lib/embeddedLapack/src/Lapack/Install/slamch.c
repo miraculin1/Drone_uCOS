@@ -18,7 +18,7 @@
 static integer c__1 = 1;
 static real c_b32 = 0.f;
 
-doublereal slamch_(char *cmach)
+floatreal slamch_(char *cmach)
 {
     /* Initialized data */
 
@@ -29,7 +29,7 @@ doublereal slamch_(char *cmach)
     real ret_val;
 
     /* Builtin functions */
-    double pow_ri(real *, integer *);
+    float pow_ri(real *, integer *);
 
     /* Local variables */
     static real t;
@@ -183,7 +183,7 @@ doublereal slamch_(char *cmach)
     static integer lbeta;
     real savec;
     static logical lieee1;
-    extern doublereal slamc3_(real *, real *);
+    extern floatreal slamc3_(real *, real *);
 
 
 /*  -- LAPACK auxiliary routine (version 3.2) -- */
@@ -392,7 +392,7 @@ L30:
     real r__1, r__2, r__3, r__4, r__5;
 
     /* Builtin functions */
-    double pow_ri(real *, integer *);
+    float pow_ri(real *, integer *);
     integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen), e_wsfe(void);
 
     /* Local variables */
@@ -417,7 +417,7 @@ L30:
     logical lieee1;
     extern /* Subroutine */ int slamc1_(integer *, integer *, logical *, 
 	    logical *);
-    extern doublereal slamc3_(real *, real *);
+    extern floatreal slamc3_(real *, real *);
     extern /* Subroutine */ int slamc4_(integer *, real *, integer *), 
 	    slamc5_(integer *, integer *, integer *, logical *, integer *, 
 	    real *);
@@ -688,7 +688,7 @@ L10:
 
 /* *********************************************************************** */
 
-doublereal slamc3_(real *a, real *b)
+floatreal slamc3_(real *a, real *b)
 {
     /* System generated locals */
     real ret_val;
@@ -740,7 +740,7 @@ doublereal slamc3_(real *a, real *b)
     real a;
     integer i__;
     real b1, b2, c1, c2, d1, d2, one, zero, rbase;
-    extern doublereal slamc3_(real *, real *);
+    extern floatreal slamc3_(real *, real *);
 
 
 /*  -- LAPACK auxiliary routine (version 3.2) -- */
@@ -840,7 +840,7 @@ L10:
     integer try__, lexp;
     real oldy;
     integer uexp, nbits;
-    extern doublereal slamc3_(real *, real *);
+    extern floatreal slamc3_(real *, real *);
     real recbas;
     integer exbits, expsum;
 

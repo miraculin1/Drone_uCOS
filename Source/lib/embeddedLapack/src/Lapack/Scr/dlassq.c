@@ -13,16 +13,16 @@
 #include "../../Lapack/Include/f2c.h"
 
 
-/* Subroutine */ int dlassq_(integer *n, doublereal *x, integer *incx, 
-	doublereal *scale, doublereal *sumsq)
+/* Subroutine */ int dlassq_(integer *n, floatreal *x, integer *incx, 
+	floatreal *scale, floatreal *sumsq)
 {
     /* System generated locals */
     integer i__1, i__2;
-    doublereal d__1;
+    floatreal d__1;
 
     /* Local variables */
     integer ix;
-    doublereal absxi;
+    floatreal absxi;
 
 
 /*  -- LAPACK auxiliary routine (version 3.2) -- */
@@ -57,7 +57,7 @@
 /*  N       (input) INTEGER */
 /*          The number of elements to be used from the vector X. */
 
-/*  X       (input) DOUBLE PRECISION array, dimension (N) */
+/*  X       (input) float PRECISION array, dimension (N) */
 /*          The vector for which a scaled sum of squares is computed. */
 /*             x( i )  = X( 1 + ( i - 1 )*INCX ), 1 <= i <= n. */
 
@@ -65,12 +65,12 @@
 /*          The increment between successive values of the vector X. */
 /*          INCX > 0. */
 
-/*  SCALE   (input/output) DOUBLE PRECISION */
+/*  SCALE   (input/output) float PRECISION */
 /*          On entry, the value  scale  in the equation above. */
 /*          On exit, SCALE is overwritten with  scl , the scaling factor */
 /*          for the sum of squares. */
 
-/*  SUMSQ   (input/output) DOUBLE PRECISION */
+/*  SUMSQ   (input/output) float PRECISION */
 /*          On entry, the value  sumsq  in the equation above. */
 /*          On exit, SUMSQ is overwritten with  smsq , the basic sum of */
 /*          squares from which  scl  has been factored out. */

@@ -13,16 +13,16 @@
 #include "../../Lapack/Include/f2c.h"
 
 
-doublereal ddot_(integer *n, doublereal *dx, integer *incx, doublereal *dy, 
+floatreal ddot_(integer *n, floatreal *dx, integer *incx, floatreal *dy, 
 	integer *incy)
 {
     /* System generated locals */
     integer i__1;
-    doublereal ret_val;
+    floatreal ret_val;
 
     /* Local variables */
     integer i__, m, ix, iy, mp1;
-    doublereal dtemp;
+    floatreal dtemp;
 
 /*     .. Scalar Arguments .. */
 /*     .. */

@@ -256,7 +256,7 @@ static inline BooleanType Constraints_hasNoUpper(	Constraints* _THIS
  *  offset. This offset has to lie within the range [0,n/2] and has to
  *  be an integer divisor of the total number of constraints n.
  *  Type and status of the first \<offset\> constraints  is thrown away,
- *  type and status of the last \<offset\> constraints is doubled,
+ *  type and status of the last \<offset\> constraints is floatd,
  *  e.g. for offset = 2: \n
  *  shift( {c/b1,c/b2,c/b3,c/b4,c/b5,c/b6} ) = {c/b3,c/b4,c/b5,c/b6,c/b5,c/b6}
  *	\return SUCCESSFUL_RETURN \n

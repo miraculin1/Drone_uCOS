@@ -10,7 +10,7 @@
 /*
  * Turn a array A with the size 1 x length, into an matrix B with size length x length
  */
-void toeplitz(double* A, double* B, int length) {
+void toeplitz(float* A, float* B, int length) {
 
 	for (int i = 0; i < length; i++) {
 		for (int j = 0; j < length; j++) {

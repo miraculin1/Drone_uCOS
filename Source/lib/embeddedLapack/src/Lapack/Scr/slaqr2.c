@@ -34,7 +34,7 @@ static logical c_true = TRUE_;
     real r__1, r__2, r__3, r__4, r__5, r__6;
 
     /* Builtin functions */
-    double sqrt(doublereal);
+    float sqrt(floatreal);
 
     /* Local variables */
     integer i__, j, k;
@@ -58,7 +58,7 @@ static logical c_true = TRUE_;
     extern /* Subroutine */ int slanv2_(real *, real *, real *, real *, real *
 , real *, real *, real *, real *, real *), slabad_(real *, real *)
 	    ;
-    extern doublereal slamch_(char *);
+    extern floatreal slamch_(char *);
     extern /* Subroutine */ int sgehrd_(integer *, integer *, integer *, real 
 	    *, integer *, real *, real *, integer *, integer *);
     real safmin;

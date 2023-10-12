@@ -15,27 +15,27 @@
 
 /* Table of constant values */
 
-static doublereal c_b3 = 2.;
-static doublereal c_b4 = 1.;
+static floatreal c_b3 = 2.;
+static floatreal c_b4 = 1.;
 
-/* Subroutine */ int dlasv2_(doublereal *f, doublereal *g, doublereal *h__, 
-	doublereal *ssmin, doublereal *ssmax, doublereal *snr, doublereal *
-	csr, doublereal *snl, doublereal *csl)
+/* Subroutine */ int dlasv2_(floatreal *f, floatreal *g, floatreal *h__, 
+	floatreal *ssmin, floatreal *ssmax, floatreal *snr, floatreal *
+	csr, floatreal *snl, floatreal *csl)
 {
     /* System generated locals */
-    doublereal d__1;
+    floatreal d__1;
 
     /* Builtin functions */
-    double sqrt(doublereal), d_sign(doublereal *, doublereal *);
+    float sqrt(floatreal), d_sign(floatreal *, floatreal *);
 
     /* Local variables */
-    doublereal a, d__, l, m, r__, s, t, fa, ga, ha, ft, gt, ht, mm, tt, clt, 
+    floatreal a, d__, l, m, r__, s, t, fa, ga, ha, ft, gt, ht, mm, tt, clt, 
 	    crt, slt, srt;
     integer pmax;
-    doublereal temp;
+    floatreal temp;
     logical swap;
-    doublereal tsign;
-    extern doublereal dlamch_(char *);
+    floatreal tsign;
+    extern floatreal dlamch_(char *);
     logical gasmal;
 
 
@@ -63,28 +63,28 @@ static doublereal c_b4 = 1.;
 /*  Arguments */
 /*  ========= */
 
-/*  F       (input) DOUBLE PRECISION */
+/*  F       (input) float PRECISION */
 /*          The (1,1) element of the 2-by-2 matrix. */
 
-/*  G       (input) DOUBLE PRECISION */
+/*  G       (input) float PRECISION */
 /*          The (1,2) element of the 2-by-2 matrix. */
 
-/*  H       (input) DOUBLE PRECISION */
+/*  H       (input) float PRECISION */
 /*          The (2,2) element of the 2-by-2 matrix. */
 
-/*  SSMIN   (output) DOUBLE PRECISION */
+/*  SSMIN   (output) float PRECISION */
 /*          abs(SSMIN) is the smaller singular value. */
 
-/*  SSMAX   (output) DOUBLE PRECISION */
+/*  SSMAX   (output) float PRECISION */
 /*          abs(SSMAX) is the larger singular value. */
 
-/*  SNL     (output) DOUBLE PRECISION */
-/*  CSL     (output) DOUBLE PRECISION */
+/*  SNL     (output) float PRECISION */
+/*  CSL     (output) float PRECISION */
 /*          The vector (CSL, SNL) is a unit left singular vector for the */
 /*          singular value abs(SSMAX). */
 
-/*  SNR     (output) DOUBLE PRECISION */
-/*  CSR     (output) DOUBLE PRECISION */
+/*  SNR     (output) float PRECISION */
+/*  CSR     (output) float PRECISION */
 /*          The vector (CSR, SNR) is a unit right singular vector for the */
 /*          singular value abs(SSMAX). */
 

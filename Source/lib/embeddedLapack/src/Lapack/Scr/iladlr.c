@@ -13,7 +13,7 @@
 #include "../../Lapack/Include/f2c.h"
 
 
-integer iladlr_(integer *m, integer *n, doublereal *a, integer *lda)
+integer iladlr_(integer *m, integer *n, floatreal *a, integer *lda)
 {
     /* System generated locals */
     integer a_dim1, a_offset, ret_val, i__1;
@@ -48,7 +48,7 @@ integer iladlr_(integer *m, integer *n, doublereal *a, integer *lda)
 /*  N       (input) INTEGER */
 /*          The number of columns of the matrix A. */
 
-/*  A       (input) DOUBLE PRECISION array, dimension (LDA,N) */
+/*  A       (input) float PRECISION array, dimension (LDA,N) */
 /*          The m by n matrix A. */
 
 /*  LDA     (input) INTEGER */

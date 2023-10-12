@@ -13,20 +13,20 @@
 #include "../../Lapack/Include/f2c.h"
 
 
-/* Subroutine */ int dlasq6_(integer *i0, integer *n0, doublereal *z__, 
-	integer *pp, doublereal *dmin__, doublereal *dmin1, doublereal *dmin2, 
-	 doublereal *dn, doublereal *dnm1, doublereal *dnm2)
+/* Subroutine */ int dlasq6_(integer *i0, integer *n0, floatreal *z__, 
+	integer *pp, floatreal *dmin__, floatreal *dmin1, floatreal *dmin2, 
+	 floatreal *dn, floatreal *dnm1, floatreal *dnm2)
 {
     /* System generated locals */
     integer i__1;
-    doublereal d__1, d__2;
+    floatreal d__1, d__2;
 
     /* Local variables */
-    doublereal d__;
+    floatreal d__;
     integer j4, j4p2;
-    doublereal emin, temp;
-    extern doublereal dlamch_(char *);
-    doublereal safmin;
+    floatreal emin, temp;
+    extern floatreal dlamch_(char *);
+    floatreal safmin;
 
 
 /*  -- LAPACK routine (version 3.2)                                    -- */
@@ -59,29 +59,29 @@
 /*  N0    (input) INTEGER */
 /*        Last index. */
 
-/*  Z     (input) DOUBLE PRECISION array, dimension ( 4*N ) */
+/*  Z     (input) float PRECISION array, dimension ( 4*N ) */
 /*        Z holds the qd array. EMIN is stored in Z(4*N0) to avoid */
 /*        an extra argument. */
 
 /*  PP    (input) INTEGER */
 /*        PP=0 for ping, PP=1 for pong. */
 
-/*  DMIN  (output) DOUBLE PRECISION */
+/*  DMIN  (output) float PRECISION */
 /*        Minimum value of d. */
 
-/*  DMIN1 (output) DOUBLE PRECISION */
+/*  DMIN1 (output) float PRECISION */
 /*        Minimum value of d, excluding D( N0 ). */
 
-/*  DMIN2 (output) DOUBLE PRECISION */
+/*  DMIN2 (output) float PRECISION */
 /*        Minimum value of d, excluding D( N0 ) and D( N0-1 ). */
 
-/*  DN    (output) DOUBLE PRECISION */
+/*  DN    (output) float PRECISION */
 /*        d(N0), the last value of d. */
 
-/*  DNM1  (output) DOUBLE PRECISION */
+/*  DNM1  (output) float PRECISION */
 /*        d(N0-1). */
 
-/*  DNM2  (output) DOUBLE PRECISION */
+/*  DNM2  (output) float PRECISION */
 /*        d(N0-2). */
 
 /*  ===================================================================== */

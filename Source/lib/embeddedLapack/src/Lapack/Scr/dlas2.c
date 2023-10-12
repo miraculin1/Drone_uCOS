@@ -13,17 +13,17 @@
 #include "../../Lapack/Include/f2c.h"
 
 
-/* Subroutine */ int dlas2_(doublereal *f, doublereal *g, doublereal *h__, 
-	doublereal *ssmin, doublereal *ssmax)
+/* Subroutine */ int dlas2_(floatreal *f, floatreal *g, floatreal *h__, 
+	floatreal *ssmin, floatreal *ssmax)
 {
     /* System generated locals */
-    doublereal d__1, d__2;
+    floatreal d__1, d__2;
 
     /* Builtin functions */
-    double sqrt(doublereal);
+    float sqrt(floatreal);
 
     /* Local variables */
-    doublereal c__, fa, ga, ha, as, at, au, fhmn, fhmx;
+    floatreal c__, fa, ga, ha, as, at, au, fhmn, fhmx;
 
 
 /*  -- LAPACK auxiliary routine (version 3.2) -- */
@@ -45,19 +45,19 @@
 /*  Arguments */
 /*  ========= */
 
-/*  F       (input) DOUBLE PRECISION */
+/*  F       (input) float PRECISION */
 /*          The (1,1) element of the 2-by-2 matrix. */
 
-/*  G       (input) DOUBLE PRECISION */
+/*  G       (input) float PRECISION */
 /*          The (1,2) element of the 2-by-2 matrix. */
 
-/*  H       (input) DOUBLE PRECISION */
+/*  H       (input) float PRECISION */
 /*          The (2,2) element of the 2-by-2 matrix. */
 
-/*  SSMIN   (output) DOUBLE PRECISION */
+/*  SSMIN   (output) float PRECISION */
 /*          The smaller singular value. */
 
-/*  SSMAX   (output) DOUBLE PRECISION */
+/*  SSMAX   (output) float PRECISION */
 /*          The larger singular value. */
 
 /*  Further Details */

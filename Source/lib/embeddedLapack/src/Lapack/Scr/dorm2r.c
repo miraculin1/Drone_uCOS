@@ -18,19 +18,19 @@
 static integer c__1 = 1;
 
 /* Subroutine */ int dorm2r_(char *side, char *trans, integer *m, integer *n, 
-	integer *k, doublereal *a, integer *lda, doublereal *tau, doublereal *
-	c__, integer *ldc, doublereal *work, integer *info)
+	integer *k, floatreal *a, integer *lda, floatreal *tau, floatreal *
+	c__, integer *ldc, floatreal *work, integer *info)
 {
     /* System generated locals */
     integer a_dim1, a_offset, c_dim1, c_offset, i__1, i__2;
 
     /* Local variables */
     integer i__, i1, i2, i3, ic, jc, mi, ni, nq;
-    doublereal aii;
+    floatreal aii;
     logical left;
     extern /* Subroutine */ int dlarf_(char *, integer *, integer *, 
-	    doublereal *, integer *, doublereal *, doublereal *, integer *, 
-	    doublereal *);
+	    floatreal *, integer *, floatreal *, floatreal *, integer *, 
+	    floatreal *);
     extern logical lsame_(char *, char *);
     extern /* Subroutine */ int xerbla_(char *, integer *);
     logical notran;
@@ -89,7 +89,7 @@ static integer c__1 = 1;
 /*          If SIDE = 'L', M >= K >= 0; */
 /*          if SIDE = 'R', N >= K >= 0. */
 
-/*  A       (input) DOUBLE PRECISION array, dimension (LDA,K) */
+/*  A       (input) float PRECISION array, dimension (LDA,K) */
 /*          The i-th column must contain the vector which defines the */
 /*          elementary reflector H(i), for i = 1,2,...,k, as returned by */
 /*          DGEQRF in the first k columns of its array argument A. */
@@ -100,18 +100,18 @@ static integer c__1 = 1;
 /*          If SIDE = 'L', LDA >= max(1,M); */
 /*          if SIDE = 'R', LDA >= max(1,N). */
 
-/*  TAU     (input) DOUBLE PRECISION array, dimension (K) */
+/*  TAU     (input) float PRECISION array, dimension (K) */
 /*          TAU(i) must contain the scalar factor of the elementary */
 /*          reflector H(i), as returned by DGEQRF. */
 
-/*  C       (input/output) DOUBLE PRECISION array, dimension (LDC,N) */
+/*  C       (input/output) float PRECISION array, dimension (LDC,N) */
 /*          On entry, the m by n matrix C. */
 /*          On exit, C is overwritten by Q*C or Q'*C or C*Q' or C*Q. */
 
 /*  LDC     (input) INTEGER */
 /*          The leading dimension of the array C. LDC >= max(1,M). */
 
-/*  WORK    (workspace) DOUBLE PRECISION array, dimension */
+/*  WORK    (workspace) float PRECISION array, dimension */
 /*                                   (N) if SIDE = 'L', */
 /*                                   (M) if SIDE = 'R' */
 

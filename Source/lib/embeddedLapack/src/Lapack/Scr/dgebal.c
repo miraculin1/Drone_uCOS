@@ -17,26 +17,26 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int dgebal_(char *job, integer *n, doublereal *a, integer *
-	lda, integer *ilo, integer *ihi, doublereal *scale, integer *info)
+/* Subroutine */ int dgebal_(char *job, integer *n, floatreal *a, integer *
+	lda, integer *ilo, integer *ihi, floatreal *scale, integer *info)
 {
     /* System generated locals */
     integer a_dim1, a_offset, i__1, i__2;
-    doublereal d__1, d__2;
+    floatreal d__1, d__2;
 
     /* Local variables */
-    doublereal c__, f, g;
+    floatreal c__, f, g;
     integer i__, j, k, l, m;
-    doublereal r__, s, ca, ra;
+    floatreal r__, s, ca, ra;
     integer ica, ira, iexc;
-    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *, 
+    extern /* Subroutine */ int dscal_(integer *, floatreal *, floatreal *, 
 	    integer *);
     extern logical lsame_(char *, char *);
-    extern /* Subroutine */ int dswap_(integer *, doublereal *, integer *, 
-	    doublereal *, integer *);
-    doublereal sfmin1, sfmin2, sfmax1, sfmax2;
-    extern doublereal dlamch_(char *);
-    extern integer idamax_(integer *, doublereal *, integer *);
+    extern /* Subroutine */ int dswap_(integer *, floatreal *, integer *, 
+	    floatreal *, integer *);
+    floatreal sfmin1, sfmin2, sfmax1, sfmax2;
+    extern floatreal dlamch_(char *);
+    extern integer idamax_(integer *, floatreal *, integer *);
     extern /* Subroutine */ int xerbla_(char *, integer *);
     logical noconv;
 
@@ -77,7 +77,7 @@ static integer c__1 = 1;
 /*  N       (input) INTEGER */
 /*          The order of the matrix A.  N >= 0. */
 
-/*  A       (input/output) DOUBLE PRECISION array, dimension (LDA,N) */
+/*  A       (input/output) float PRECISION array, dimension (LDA,N) */
 /*          On entry, the input matrix A. */
 /*          On exit,  A is overwritten by the balanced matrix. */
 /*          If JOB = 'N', A is not referenced. */
@@ -92,7 +92,7 @@ static integer c__1 = 1;
 /*          A(i,j) = 0 if i > j and j = 1,...,ILO-1 or I = IHI+1,...,N. */
 /*          If JOB = 'N' or 'S', ILO = 1 and IHI = N. */
 
-/*  SCALE   (output) DOUBLE PRECISION array, dimension (N) */
+/*  SCALE   (output) float PRECISION array, dimension (N) */
 /*          Details of the permutations and scaling factors applied to */
 /*          A.  If P(j) is the index of the row and column interchanged */
 /*          with row and column j and D(j) is the scaling factor */
@@ -201,7 +201,7 @@ static integer c__1 = 1;
 /*     Row and column exchange. */
 
 L20:
-    scale[m] = (doublereal) j;
+    scale[m] = (floatreal) j;
     if (j == m) {
 	goto L30;
     }

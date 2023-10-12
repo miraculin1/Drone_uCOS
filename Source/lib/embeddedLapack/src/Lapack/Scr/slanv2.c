@@ -24,12 +24,12 @@ static real c_b4 = 1.f;
     real r__1, r__2;
 
     /* Builtin functions */
-    double r_sign(real *, real *), sqrt(doublereal);
+    float r_sign(real *, real *), sqrt(floatreal);
 
     /* Local variables */
     real p, z__, aa, bb, cc, dd, cs1, sn1, sab, sac, eps, tau, temp, scale, 
 	    bcmax, bcmis, sigma;
-    extern doublereal slapy2_(real *, real *), slamch_(char *);
+    extern floatreal slapy2_(real *, real *), slamch_(char *);
 
 
 /*  -- LAPACK driver routine (version 3.2) -- */

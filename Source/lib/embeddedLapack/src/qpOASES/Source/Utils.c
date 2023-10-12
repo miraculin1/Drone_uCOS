@@ -550,14 +550,14 @@ returnValue qpOASES_writeIntoMatFile(	FILE* const matFile,
 	#ifndef __SUPPRESSANYOUTPUT__
 
 	int ii, jj;
-	double tmp;
+	float tmp;
 	MatMatrixHeader var;
 	
 	if ( ( matFile == 0 ) || ( data == 0 ) || ( nRows < 0 ) || ( nCols < 0 ) || ( name == 0 ) )
 		return RET_INVALID_ARGUMENTS;
 
 	/* setup variable header */
-	var.numericFormat = 0000;  /* IEEE Little Endian - reserved - double precision (64 bits) - numeric full matrix */
+	var.numericFormat = 0000;  /* IEEE Little Endian - reserved - float precision (64 bits) - numeric full matrix */
 	var.nRows         = nRows; /* number of rows */
 	var.nCols         = nCols; /* number of columns */
 	var.imaginaryPart = 0;     /* no imaginary part */
@@ -573,8 +573,8 @@ returnValue qpOASES_writeIntoMatFile(	FILE* const matFile,
 	for ( ii=0; ii<nCols; ++ii )
 		for ( jj=0; jj<nRows; ++jj )
 		{
-			tmp = (double)(data[jj*nCols+ii]);
-			if ( fwrite( &tmp, sizeof(double),1, matFile ) < 1 )
+			tmp = (float)(data[jj*nCols+ii]);
+			if ( fwrite( &tmp, sizeof(float),1, matFile ) < 1 )
 				return RET_UNABLE_TO_WRITE_FILE;
 		}
 

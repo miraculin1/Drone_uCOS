@@ -13,10 +13,10 @@
 #include "../../Lapack/Include/f2c.h"
 
 
-/* Subroutine */ int dladiv_(doublereal *a, doublereal *b, doublereal *c__, 
-	doublereal *d__, doublereal *p, doublereal *q)
+/* Subroutine */ int dladiv_(floatreal *a, floatreal *b, floatreal *c__, 
+	floatreal *d__, floatreal *p, floatreal *q)
 {
-    doublereal e, f;
+    floatreal e, f;
 
 
 /*  -- LAPACK auxiliary routine (version 3.2) -- */
@@ -41,14 +41,14 @@
 /*  Arguments */
 /*  ========= */
 
-/*  A       (input) DOUBLE PRECISION */
-/*  B       (input) DOUBLE PRECISION */
-/*  C       (input) DOUBLE PRECISION */
-/*  D       (input) DOUBLE PRECISION */
+/*  A       (input) float PRECISION */
+/*  B       (input) float PRECISION */
+/*  C       (input) float PRECISION */
+/*  D       (input) float PRECISION */
 /*          The scalars a, b, c, and d in the above expression. */
 
-/*  P       (output) DOUBLE PRECISION */
-/*  Q       (output) DOUBLE PRECISION */
+/*  P       (output) float PRECISION */
+/*  Q       (output) float PRECISION */
 /*          The scalars p and q in the above expression. */
 
 /*  ===================================================================== */

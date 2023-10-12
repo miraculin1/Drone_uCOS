@@ -10,11 +10,11 @@
 /*
  * Turn a matrix A, with size row x column, into a lower triangular matrix B, with size row x column
  */
-void tril(double* A, double* B, int shift, int row, int column){
+void tril(float* A, float* B, int shift, int row, int column){
 
 
 	// Reset our output
-	memset(B, 0, row*column*sizeof(double));
+	memset(B, 0, row*column*sizeof(float));
 
 	// Compensator - Else, we cannot use non-square matrix
 	int t = row - column;

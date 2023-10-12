@@ -13,16 +13,16 @@
 #include "../../Lapack/Include/f2c.h"
 
 
-doublereal dlapy2_(doublereal *x, doublereal *y)
+floatreal dlapy2_(floatreal *x, floatreal *y)
 {
     /* System generated locals */
-    doublereal ret_val, d__1;
+    floatreal ret_val, d__1;
 
     /* Builtin functions */
-    double sqrt(doublereal);
+    float sqrt(floatreal);
 
     /* Local variables */
-    doublereal w, z__, xabs, yabs;
+    floatreal w, z__, xabs, yabs;
 
 
 /*  -- LAPACK auxiliary routine (version 3.2) -- */
@@ -41,8 +41,8 @@ doublereal dlapy2_(doublereal *x, doublereal *y)
 /*  Arguments */
 /*  ========= */
 
-/*  X       (input) DOUBLE PRECISION */
-/*  Y       (input) DOUBLE PRECISION */
+/*  X       (input) float PRECISION */
+/*  Y       (input) float PRECISION */
 /*          X and Y specify the values x and y. */
 
 /*  ===================================================================== */

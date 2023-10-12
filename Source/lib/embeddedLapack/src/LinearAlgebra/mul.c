@@ -10,7 +10,7 @@
  * Multiply A with size row_a x column_a with matrix B with size column_a x column_b and get matrix C with row_a x column_b
  */
 
-void mul(double* A, double* B, bool elementWise, double* C, int row_a, int column_a, int column_b) {
+void mul(float* A, float* B, bool elementWise, float* C, int row_a, int column_a, int column_b) {
 
 	/*
 	 * C = A*B if elementWise = false
@@ -18,9 +18,9 @@ void mul(double* A, double* B, bool elementWise, double* C, int row_a, int colum
 	 */
 
 	// Data matrix
-	double* data_a = A;
-	double* data_b = B;
-	//double* C = C; // No need
+	float* data_a = A;
+	float* data_b = B;
+	//float* C = C; // No need
 
 	if (elementWise == true) {
 

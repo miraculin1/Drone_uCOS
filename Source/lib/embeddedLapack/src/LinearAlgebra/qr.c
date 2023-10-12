@@ -10,18 +10,18 @@
 /*
  * Solve A=QR where A is a matrix of size row x column and Q is size of row x row and R is size of row x column
  */
-void qr(double* A, double* Q, double* R, int row, int column){
+void qr(float* A, float* Q, float* R, int row, int column){
 
 	integer M = row;
 	integer N = column;
-	doublereal A_[row*column];
-	memcpy(A_, A, row*column*sizeof(double));
+	floatreal A_[row*column];
+	memcpy(A_, A, row*column*sizeof(float));
 	tran(A_, row, column);
 	integer LDA = row;
-	doublereal TAU[column];
-	memset(TAU, 0, column*sizeof(double));
-	doublereal WORK[column];
-	memset(WORK, 0, column*sizeof(double));
+	floatreal TAU[column];
+	memset(TAU, 0, column*sizeof(float));
+	floatreal WORK[column];
+	memset(WORK, 0, column*sizeof(float));
 	integer INFO;
 
 	// Solve nowc code
@@ -35,16 +35,16 @@ void qr(double* A, double* Q, double* R, int row, int column){
 
 	// Now slove for Q
 	eye(Q, row, row); // Create initial identity matrix
-	double I[row*row];
+	float I[row*row];
 	eye(I, row, row);
-	double v[row]; // Create initial v vector
-	double C[row*row];
-	double E[row*row];
-	memset(C, 0, row*row*sizeof(double)); // Initial zeros
-	memset(E, 0, row*row*sizeof(double)); // Initial zeros
+	float v[row]; // Create initial v vector
+	float C[row*row];
+	float E[row*row];
+	memset(C, 0, row*row*sizeof(float)); // Initial zeros
+	memset(E, 0, row*row*sizeof(float)); // Initial zeros
 
 	for(int i = 0; i < column; i++){
-		memset(v, 0, row*sizeof(double)); // Reset with zeros
+		memset(v, 0, row*sizeof(float)); // Reset with zeros
 		v[i] = 1;
 		for(int j = i+1; j < row; j++)
 			*(v+j) = *(A_ + j*(column) + i); // MATLAB code v(i+1:m) = A(i+1:m,i);
@@ -52,7 +52,7 @@ void qr(double* A, double* Q, double* R, int row, int column){
 		scale(C, TAU[i], row, row); // MATLAB code C = tau(i)*C
 		sub(I, C, C, row, row, row); // MATLAB code C = I-C
 		mul(Q, C, false, E, row, row, row); // MATLAB code E = Q*C
-		memcpy(Q, E, row*row*sizeof(double)); // Q = E
+		memcpy(Q, E, row*row*sizeof(float)); // Q = E
 	}
 
 

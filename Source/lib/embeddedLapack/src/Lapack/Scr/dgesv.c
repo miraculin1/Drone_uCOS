@@ -13,16 +13,16 @@
 #include "../../Lapack/Include/f2c.h"
 
 
-/* Subroutine */ int dgesv_(integer *n, integer *nrhs, doublereal *a, integer 
-	*lda, integer *ipiv, doublereal *b, integer *ldb, integer *info)
+/* Subroutine */ int dgesv_(integer *n, integer *nrhs, floatreal *a, integer 
+	*lda, integer *ipiv, floatreal *b, integer *ldb, integer *info)
 {
     /* System generated locals */
     integer a_dim1, a_offset, b_dim1, b_offset, i__1;
 
     /* Local variables */
-    extern /* Subroutine */ int dgetrf_(integer *, integer *, doublereal *, 
-	    integer *, integer *, integer *, double *), xerbla_(char *, integer *), dgetrs_(char *, integer *, integer *, doublereal *, 
-	    integer *, integer *, doublereal *, integer *, integer *);
+    extern /* Subroutine */ int dgetrf_(integer *, integer *, floatreal *, 
+	    integer *, integer *, integer *, float *), xerbla_(char *, integer *), dgetrs_(char *, integer *, integer *, floatreal *, 
+	    integer *, integer *, floatreal *, integer *, integer *);
 
 
 /*  -- LAPACK driver routine (version 3.2) -- */
@@ -59,7 +59,7 @@
 /*          The number of right hand sides, i.e., the number of columns */
 /*          of the matrix B.  NRHS >= 0. */
 
-/*  A       (input/output) DOUBLE PRECISION array, dimension (LDA,N) */
+/*  A       (input/output) float PRECISION array, dimension (LDA,N) */
 /*          On entry, the N-by-N coefficient matrix A. */
 /*          On exit, the factors L and U from the factorization */
 /*          A = P*L*U; the unit diagonal elements of L are not stored. */
@@ -71,7 +71,7 @@
 /*          The pivot indices that define the permutation matrix P; */
 /*          row i of the matrix was interchanged with row IPIV(i). */
 
-/*  B       (input/output) DOUBLE PRECISION array, dimension (LDB,NRHS) */
+/*  B       (input/output) float PRECISION array, dimension (LDB,NRHS) */
 /*          On entry, the N-by-NRHS matrix of right hand side matrix B. */
 /*          On exit, if INFO = 0, the N-by-NRHS solution matrix X. */
 
@@ -122,7 +122,7 @@
     }
 
 /*     Compute the LU factorization of A. */
-    double IPIV_d[(int) *n]; // this was added 2019 due to memory loss of ipiv when using LU.c file
+    float IPIV_d[(int) *n]; // this was added 2019 due to memory loss of ipiv when using LU.c file
     dgetrf_(n, n, &a[a_offset], lda, &ipiv[1], info, IPIV_d);
     if (*info == 0) {
 

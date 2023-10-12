@@ -16,11 +16,11 @@
 /* Table of constant values */
 
 static integer c__1 = 1;
-static doublereal c_b12 = 1.;
+static floatreal c_b12 = 1.;
 static integer c_n1 = -1;
 
 /* Subroutine */ int dgetrs_(char *trans, integer *n, integer *nrhs, 
-	doublereal *a, integer *lda, integer *ipiv, doublereal *b, integer *
+	floatreal *a, integer *lda, integer *ipiv, floatreal *b, integer *
 	ldb, integer *info)
 {
     /* System generated locals */
@@ -29,9 +29,9 @@ static integer c_n1 = -1;
     /* Local variables */
     extern logical lsame_(char *, char *);
     extern /* Subroutine */ int dtrsm_(char *, char *, char *, char *, 
-	    integer *, integer *, doublereal *, doublereal *, integer *, 
-	    doublereal *, integer *), xerbla_(
-	    char *, integer *), dlaswp_(integer *, doublereal *, 
+	    integer *, integer *, floatreal *, floatreal *, integer *, 
+	    floatreal *, integer *), xerbla_(
+	    char *, integer *), dlaswp_(integer *, floatreal *, 
 	    integer *, integer *, integer *, integer *, integer *);
     logical notran;
 
@@ -69,7 +69,7 @@ static integer c_n1 = -1;
 /*          The number of right hand sides, i.e., the number of columns */
 /*          of the matrix B.  NRHS >= 0. */
 
-/*  A       (input) DOUBLE PRECISION array, dimension (LDA,N) */
+/*  A       (input) float PRECISION array, dimension (LDA,N) */
 /*          The factors L and U from the factorization A = P*L*U */
 /*          as computed by DGETRF. */
 
@@ -80,7 +80,7 @@ static integer c_n1 = -1;
 /*          The pivot indices from DGETRF; for 1<=i<=N, row i of the */
 /*          matrix was interchanged with row IPIV(i). */
 
-/*  B       (input/output) DOUBLE PRECISION array, dimension (LDB,NRHS) */
+/*  B       (input/output) float PRECISION array, dimension (LDB,NRHS) */
 /*          On entry, the right hand side matrix B. */
 /*          On exit, the solution matrix X. */
 

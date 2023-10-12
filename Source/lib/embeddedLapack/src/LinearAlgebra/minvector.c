@@ -11,9 +11,9 @@
  * Same as maxvector.c
  */
 
-void minvector(double* A, int row, double* val, int* index) {
+void minvector(float* A, int row, float* val, int* index) {
 
-	double past_val = 0; // initial
+	float past_val = 0; // initial
 	*index = 0;
 	*val = *(A);
 

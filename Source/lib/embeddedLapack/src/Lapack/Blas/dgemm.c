@@ -14,8 +14,8 @@
 
 
 /* Subroutine */ int dgemm__(char *transa, char *transb, integer *m, integer *
-	n, integer *k, doublereal *alpha, doublereal *a, integer *lda, 
-	doublereal *b, integer *ldb, doublereal *beta, doublereal *c__, 
+	n, integer *k, floatreal *alpha, floatreal *a, integer *lda, 
+	floatreal *b, integer *ldb, floatreal *beta, floatreal *c__, 
 	integer *ldc)
 {
     /* System generated locals */
@@ -25,7 +25,7 @@
     /* Local variables */
     integer i__, j, l, info;
     logical nota, notb;
-    doublereal temp;
+    floatreal temp;
     integer ncola;
     extern logical lsame_(char *, char *);
     integer nrowa, nrowb;
@@ -94,11 +94,11 @@
 /*           be at least  zero. */
 /*           Unchanged on exit. */
 
-/*  ALPHA  - DOUBLE PRECISION. */
+/*  ALPHA  - float PRECISION. */
 /*           On entry, ALPHA specifies the scalar alpha. */
 /*           Unchanged on exit. */
 
-/*  A      - DOUBLE PRECISION array of DIMENSION ( LDA, ka ), where ka is */
+/*  A      - float PRECISION array of DIMENSION ( LDA, ka ), where ka is */
 /*           k  when  TRANSA = 'N' or 'n',  and is  m  otherwise. */
 /*           Before entry with  TRANSA = 'N' or 'n',  the leading  m by k */
 /*           part of the array  A  must contain the matrix  A,  otherwise */
@@ -113,7 +113,7 @@
 /*           least  max( 1, k ). */
 /*           Unchanged on exit. */
 
-/*  B      - DOUBLE PRECISION array of DIMENSION ( LDB, kb ), where kb is */
+/*  B      - float PRECISION array of DIMENSION ( LDB, kb ), where kb is */
 /*           n  when  TRANSB = 'N' or 'n',  and is  k  otherwise. */
 /*           Before entry with  TRANSB = 'N' or 'n',  the leading  k by n */
 /*           part of the array  B  must contain the matrix  B,  otherwise */
@@ -128,12 +128,12 @@
 /*           least  max( 1, n ). */
 /*           Unchanged on exit. */
 
-/*  BETA   - DOUBLE PRECISION. */
+/*  BETA   - float PRECISION. */
 /*           On entry,  BETA  specifies the scalar  beta.  When  BETA  is */
 /*           supplied as zero then C need not be set on input. */
 /*           Unchanged on exit. */
 
-/*  C      - DOUBLE PRECISION array of DIMENSION ( LDC, n ). */
+/*  C      - float PRECISION array of DIMENSION ( LDC, n ). */
 /*           Before entry, the leading  m by n  part of the array  C must */
 /*           contain the matrix  C,  except when  beta  is zero, in which */
 /*           case C need not be set on entry. */

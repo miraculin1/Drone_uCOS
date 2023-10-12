@@ -14,19 +14,19 @@
 
 
 /* Subroutine */ int dorml2_(char *side, char *trans, integer *m, integer *n, 
-	integer *k, doublereal *a, integer *lda, doublereal *tau, doublereal *
-	c__, integer *ldc, doublereal *work, integer *info)
+	integer *k, floatreal *a, integer *lda, floatreal *tau, floatreal *
+	c__, integer *ldc, floatreal *work, integer *info)
 {
     /* System generated locals */
     integer a_dim1, a_offset, c_dim1, c_offset, i__1, i__2;
 
     /* Local variables */
     integer i__, i1, i2, i3, ic, jc, mi, ni, nq;
-    doublereal aii;
+    floatreal aii;
     logical left;
     extern /* Subroutine */ int dlarf_(char *, integer *, integer *, 
-	    doublereal *, integer *, doublereal *, doublereal *, integer *, 
-	    doublereal *);
+	    floatreal *, integer *, floatreal *, floatreal *, integer *, 
+	    floatreal *);
     extern logical lsame_(char *, char *);
     extern /* Subroutine */ int xerbla_(char *, integer *);
     logical notran;
@@ -85,7 +85,7 @@
 /*          If SIDE = 'L', M >= K >= 0; */
 /*          if SIDE = 'R', N >= K >= 0. */
 
-/*  A       (input) DOUBLE PRECISION array, dimension */
+/*  A       (input) float PRECISION array, dimension */
 /*                               (LDA,M) if SIDE = 'L', */
 /*                               (LDA,N) if SIDE = 'R' */
 /*          The i-th row must contain the vector which defines the */
@@ -96,18 +96,18 @@
 /*  LDA     (input) INTEGER */
 /*          The leading dimension of the array A. LDA >= max(1,K). */
 
-/*  TAU     (input) DOUBLE PRECISION array, dimension (K) */
+/*  TAU     (input) float PRECISION array, dimension (K) */
 /*          TAU(i) must contain the scalar factor of the elementary */
 /*          reflector H(i), as returned by DGELQF. */
 
-/*  C       (input/output) DOUBLE PRECISION array, dimension (LDC,N) */
+/*  C       (input/output) float PRECISION array, dimension (LDC,N) */
 /*          On entry, the m by n matrix C. */
 /*          On exit, C is overwritten by Q*C or Q'*C or C*Q' or C*Q. */
 
 /*  LDC     (input) INTEGER */
 /*          The leading dimension of the array C. LDC >= max(1,M). */
 
-/*  WORK    (workspace) DOUBLE PRECISION array, dimension */
+/*  WORK    (workspace) float PRECISION array, dimension */
 /*                                   (N) if SIDE = 'L', */
 /*                                   (M) if SIDE = 'R' */
 

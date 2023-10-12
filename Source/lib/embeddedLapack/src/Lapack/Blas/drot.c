@@ -13,15 +13,15 @@
 #include "../../Lapack/Include/f2c.h"
 
 
-/* Subroutine */ int drot_(integer *n, doublereal *dx, integer *incx, 
-	doublereal *dy, integer *incy, doublereal *c__, doublereal *s)
+/* Subroutine */ int drot_(integer *n, floatreal *dx, integer *incx, 
+	floatreal *dy, integer *incy, floatreal *c__, floatreal *s)
 {
     /* System generated locals */
     integer i__1;
 
     /* Local variables */
     integer i__, ix, iy;
-    doublereal dtemp;
+    floatreal dtemp;
 
 /*     .. Scalar Arguments .. */
 /*     .. */

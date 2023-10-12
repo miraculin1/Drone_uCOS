@@ -22,48 +22,48 @@ static integer c__3 = 3;
 static integer c__4 = 4;
 static integer c__11 = 11;
 
-/* Subroutine */ int dlasq2_(integer *n, doublereal *z__, integer *info)
+/* Subroutine */ int dlasq2_(integer *n, floatreal *z__, integer *info)
 {
     /* System generated locals */
     integer i__1, i__2, i__3;
-    doublereal d__1, d__2;
+    floatreal d__1, d__2;
 
     /* Builtin functions */
-    double sqrt(doublereal);
+    float sqrt(floatreal);
 
     /* Local variables */
-    doublereal d__, e, g;
+    floatreal d__, e, g;
     integer k;
-    doublereal s, t;
+    floatreal s, t;
     integer i0, i4, n0;
-    doublereal dn;
+    floatreal dn;
     integer pp;
-    doublereal dn1, dn2, dee, eps, tau, tol;
+    floatreal dn1, dn2, dee, eps, tau, tol;
     integer ipn4;
-    doublereal tol2;
+    floatreal tol2;
     logical ieee;
     integer nbig;
-    doublereal dmin__, emin, emax;
+    floatreal dmin__, emin, emax;
     integer kmin, ndiv, iter;
-    doublereal qmin, temp, qmax, zmax;
+    floatreal qmin, temp, qmax, zmax;
     integer splt;
-    doublereal dmin1, dmin2;
+    floatreal dmin1, dmin2;
     integer nfail;
-    doublereal desig, trace, sigma;
+    floatreal desig, trace, sigma;
     integer iinfo, ttype;
-    extern /* Subroutine */ int dlasq3_(integer *, integer *, doublereal *, 
-	    integer *, doublereal *, doublereal *, doublereal *, doublereal *, 
+    extern /* Subroutine */ int dlasq3_(integer *, integer *, floatreal *, 
+	    integer *, floatreal *, floatreal *, floatreal *, floatreal *, 
 	     integer *, integer *, integer *, logical *, integer *, 
-	    doublereal *, doublereal *, doublereal *, doublereal *, 
-	    doublereal *, doublereal *, doublereal *);
-    extern doublereal dlamch_(char *);
-    doublereal deemin;
+	    floatreal *, floatreal *, floatreal *, floatreal *, 
+	    floatreal *, floatreal *, floatreal *);
+    extern floatreal dlamch_(char *);
+    floatreal deemin;
     integer iwhila, iwhilb;
-    doublereal oldemn, safmin;
+    floatreal oldemn, safmin;
     extern /* Subroutine */ int xerbla_(char *, integer *);
     extern integer ilaenv_(integer *, char *, char *, integer *, integer *, 
 	    integer *, integer *);
-    extern /* Subroutine */ int dlasrt_(char *, integer *, doublereal *, 
+    extern /* Subroutine */ int dlasrt_(char *, integer *, floatreal *, 
 	    integer *);
 
 
@@ -107,7 +107,7 @@ static integer c__11 = 11;
 /*  N     (input) INTEGER */
 /*        The number of rows and columns in the matrix. N >= 0. */
 
-/*  Z     (input/output) DOUBLE PRECISION array, dimension ( 4*N ) */
+/*  Z     (input/output) float PRECISION array, dimension ( 4*N ) */
 /*        On entry Z holds the qd array. On exit, entries 1 to N hold */
 /*        the eigenvalues in decreasing order, Z( 2*N+1 ) holds the */
 /*        trace, and Z( 2*N+2 ) holds the sum of the eigenvalues. If */
@@ -590,11 +590,11 @@ L170:
 
     z__[(*n << 1) + 1] = trace;
     z__[(*n << 1) + 2] = e;
-    z__[(*n << 1) + 3] = (doublereal) iter;
+    z__[(*n << 1) + 3] = (floatreal) iter;
 /* Computing 2nd power */
     i__1 = *n;
-    z__[(*n << 1) + 4] = (doublereal) ndiv / (doublereal) (i__1 * i__1);
-    z__[(*n << 1) + 5] = nfail * 100. / (doublereal) iter;
+    z__[(*n << 1) + 4] = (floatreal) ndiv / (floatreal) (i__1 * i__1);
+    z__[(*n << 1) + 5] = nfail * 100. / (floatreal) iter;
     return 0;
 
 /*     End of DLASQ2 */

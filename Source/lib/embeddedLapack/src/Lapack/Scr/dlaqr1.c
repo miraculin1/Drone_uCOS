@@ -13,16 +13,16 @@
 #include "../../Lapack/Include/f2c.h"
 
 
-/* Subroutine */ int dlaqr1_(integer *n, doublereal *h__, integer *ldh, 
-	doublereal *sr1, doublereal *si1, doublereal *sr2, doublereal *si2, 
-	doublereal *v)
+/* Subroutine */ int dlaqr1_(integer *n, floatreal *h__, integer *ldh, 
+	floatreal *sr1, floatreal *si1, floatreal *sr2, floatreal *si2, 
+	floatreal *v)
 {
     /* System generated locals */
     integer h_dim1, h_offset;
-    doublereal d__1, d__2, d__3;
+    floatreal d__1, d__2, d__3;
 
     /* Local variables */
-    doublereal s, h21s, h31s;
+    floatreal s, h21s, h31s;
 
 
 /*  -- LAPACK auxiliary routine (version 3.2) -- */
@@ -46,26 +46,26 @@
 /*           or */
 /*               2) si1 = si2 = 0. */
 
-/*       This is useful for starting double implicit shift bulges */
+/*       This is useful for starting float implicit shift bulges */
 /*       in the QR algorithm. */
 
 
 /*       N      (input) integer */
 /*              Order of the matrix H. N must be either 2 or 3. */
 
-/*       H      (input) DOUBLE PRECISION array of dimension (LDH,N) */
+/*       H      (input) float PRECISION array of dimension (LDH,N) */
 /*              The 2-by-2 or 3-by-3 matrix H in (*). */
 
 /*       LDH    (input) integer */
 /*              The leading dimension of H as declared in */
 /*              the calling procedure.  LDH.GE.N */
 
-/*       SR1    (input) DOUBLE PRECISION */
+/*       SR1    (input) float PRECISION */
 /*       SI1    The shifts in (*). */
 /*       SR2 */
 /*       SI2 */
 
-/*       V      (output) DOUBLE PRECISION array of dimension N */
+/*       V      (output) float PRECISION array of dimension N */
 /*              A scalar multiple of the first column of the */
 /*              matrix K in (*). */
 

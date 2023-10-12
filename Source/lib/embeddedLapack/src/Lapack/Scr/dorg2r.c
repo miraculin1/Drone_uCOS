@@ -17,18 +17,18 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int dorg2r_(integer *m, integer *n, integer *k, doublereal *
-	a, integer *lda, doublereal *tau, doublereal *work, integer *info)
+/* Subroutine */ int dorg2r_(integer *m, integer *n, integer *k, floatreal *
+	a, integer *lda, floatreal *tau, floatreal *work, integer *info)
 {
     /* System generated locals */
     integer a_dim1, a_offset, i__1, i__2;
-    doublereal d__1;
+    floatreal d__1;
 
     /* Local variables */
     integer i__, j, l;
-    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *, 
-	    integer *), dlarf_(char *, integer *, integer *, doublereal *, 
-	    integer *, doublereal *, doublereal *, integer *, doublereal *), xerbla_(char *, integer *);
+    extern /* Subroutine */ int dscal_(integer *, floatreal *, floatreal *, 
+	    integer *), dlarf_(char *, integer *, integer *, floatreal *, 
+	    integer *, floatreal *, floatreal *, integer *, floatreal *), xerbla_(char *, integer *);
 
 
 /*  -- LAPACK routine (version 3.2) -- */
@@ -64,7 +64,7 @@ static integer c__1 = 1;
 /*          The number of elementary reflectors whose product defines the */
 /*          matrix Q. N >= K >= 0. */
 
-/*  A       (input/output) DOUBLE PRECISION array, dimension (LDA,N) */
+/*  A       (input/output) float PRECISION array, dimension (LDA,N) */
 /*          On entry, the i-th column must contain the vector which */
 /*          defines the elementary reflector H(i), for i = 1,2,...,k, as */
 /*          returned by DGEQRF in the first k columns of its array */
@@ -74,11 +74,11 @@ static integer c__1 = 1;
 /*  LDA     (input) INTEGER */
 /*          The first dimension of the array A. LDA >= max(1,M). */
 
-/*  TAU     (input) DOUBLE PRECISION array, dimension (K) */
+/*  TAU     (input) float PRECISION array, dimension (K) */
 /*          TAU(i) must contain the scalar factor of the elementary */
 /*          reflector H(i), as returned by DGEQRF. */
 
-/*  WORK    (workspace) DOUBLE PRECISION array, dimension (N) */
+/*  WORK    (workspace) float PRECISION array, dimension (N) */
 
 /*  INFO    (output) INTEGER */
 /*          = 0: successful exit */

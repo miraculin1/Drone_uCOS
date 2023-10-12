@@ -258,7 +258,7 @@ L50:
 
 /*     In these examples, separate code is provided for setting NB for */
 /*     real and complex.  We assume that NB will take the same value in */
-/*     single or double precision. */
+/*     single or float precision. */
 
     nb = 1;
 

@@ -59,7 +59,7 @@ static integer c__2 = 2;
 ), slaqr1_(integer *, real *, 
 	    integer *, real *, real *, real *, real *, real *), slabad_(real *
 , real *);
-    extern doublereal slamch_(char *);
+    extern floatreal slamch_(char *);
     real safmin;
     extern /* Subroutine */ int slarfg_(integer *, real *, real *, integer *, 
 	    real *);
@@ -341,7 +341,7 @@ static integer c__2 = 2;
 	i__3 = min(i__4,i__5);
 	for (krcol = incol; krcol <= i__3; ++krcol) {
 
-/*           ==== Bulges number MTOP to MBOT are active double implicit */
+/*           ==== Bulges number MTOP to MBOT are active float implicit */
 /*           .    shift bulges.  There may or may not also be small */
 /*           .    2-by-2 bulge, if there is room.  The inactive bulges */
 /*           .    (if any) must wait until the active bulges have moved */

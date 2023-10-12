@@ -29,7 +29,7 @@ static integer c_n1 = -1;
     real r__1, r__2;
 
     /* Builtin functions */
-    double sqrt(doublereal);
+    float sqrt(floatreal);
 
     /* Local variables */
     integer i__, k;
@@ -44,17 +44,17 @@ static integer c_n1 = -1;
     integer ierr, itau, iwrk, nout;
     extern /* Subroutine */ int srot_(integer *, real *, integer *, real *, 
 	    integer *, real *, real *);
-    extern doublereal snrm2_(integer *, real *, integer *);
+    extern floatreal snrm2_(integer *, real *, integer *);
     extern logical lsame_(char *, char *);
     extern /* Subroutine */ int sscal_(integer *, real *, real *, integer *);
-    extern doublereal slapy2_(real *, real *);
+    extern floatreal slapy2_(real *, real *);
     extern /* Subroutine */ int slabad_(real *, real *);
     logical scalea;
     real cscale;
     extern /* Subroutine */ int sgebak_(char *, char *, integer *, integer *, 
 	    integer *, real *, integer *, real *, integer *, integer *), sgebal_(char *, integer *, real *, integer *, 
 	    integer *, integer *, real *, integer *);
-    extern doublereal slamch_(char *), slange_(char *, integer *, 
+    extern floatreal slamch_(char *), slange_(char *, integer *, 
 	    integer *, real *, integer *, real *);
     extern /* Subroutine */ int sgehrd_(integer *, integer *, integer *, real 
 	    *, integer *, real *, real *, integer *, integer *), xerbla_(char 

@@ -14,7 +14,7 @@
 
 
 /* Subroutine */ int dgebak_(char *job, char *side, integer *n, integer *ilo, 
-	integer *ihi, doublereal *scale, integer *m, doublereal *v, integer *
+	integer *ihi, floatreal *scale, integer *m, floatreal *v, integer *
 	ldv, integer *info)
 {
     /* System generated locals */
@@ -22,13 +22,13 @@
 
     /* Local variables */
     integer i__, k;
-    doublereal s;
+    floatreal s;
     integer ii;
-    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *, 
+    extern /* Subroutine */ int dscal_(integer *, floatreal *, floatreal *, 
 	    integer *);
     extern logical lsame_(char *, char *);
-    extern /* Subroutine */ int dswap_(integer *, doublereal *, integer *, 
-	    doublereal *, integer *);
+    extern /* Subroutine */ int dswap_(integer *, floatreal *, integer *, 
+	    floatreal *, integer *);
     logical leftv;
     extern /* Subroutine */ int xerbla_(char *, integer *);
     logical rightv;
@@ -74,14 +74,14 @@
 /*          The integers ILO and IHI determined by DGEBAL. */
 /*          1 <= ILO <= IHI <= N, if N > 0; ILO=1 and IHI=0, if N=0. */
 
-/*  SCALE   (input) DOUBLE PRECISION array, dimension (N) */
+/*  SCALE   (input) float PRECISION array, dimension (N) */
 /*          Details of the permutation and scaling factors, as returned */
 /*          by DGEBAL. */
 
 /*  M       (input) INTEGER */
 /*          The number of columns of the matrix V.  M >= 0. */
 
-/*  V       (input/output) DOUBLE PRECISION array, dimension (LDV,M) */
+/*  V       (input/output) float PRECISION array, dimension (LDV,M) */
 /*          On entry, the matrix of right or left eigenvectors to be */
 /*          transformed, as returned by DHSEIN or DTREVC. */
 /*          On exit, V is overwritten by the transformed eigenvectors. */

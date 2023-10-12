@@ -17,23 +17,23 @@
 
 static integer c__1 = 1;
 
-doublereal dlange_(char *norm, integer *m, integer *n, doublereal *a, integer 
-	*lda, doublereal *work)
+floatreal dlange_(char *norm, integer *m, integer *n, floatreal *a, integer 
+	*lda, floatreal *work)
 {
     /* System generated locals */
     integer a_dim1, a_offset, i__1, i__2;
-    doublereal ret_val, d__1, d__2, d__3;
+    floatreal ret_val, d__1, d__2, d__3;
 
     /* Builtin functions */
-    double sqrt(doublereal);
+    float sqrt(floatreal);
 
     /* Local variables */
     integer i__, j;
-    doublereal sum, scale;
+    floatreal sum, scale;
     extern logical lsame_(char *, char *);
-    doublereal value;
-    extern /* Subroutine */ int dlassq_(integer *, doublereal *, integer *, 
-	    doublereal *, doublereal *);
+    floatreal value;
+    extern /* Subroutine */ int dlassq_(integer *, floatreal *, integer *, 
+	    floatreal *, floatreal *);
 
 
 /*  -- LAPACK auxiliary routine (version 3.2) -- */
@@ -85,13 +85,13 @@ doublereal dlange_(char *norm, integer *m, integer *n, doublereal *a, integer
 /*          The number of columns of the matrix A.  N >= 0.  When N = 0, */
 /*          DLANGE is set to zero. */
 
-/*  A       (input) DOUBLE PRECISION array, dimension (LDA,N) */
+/*  A       (input) float PRECISION array, dimension (LDA,N) */
 /*          The m by n matrix A. */
 
 /*  LDA     (input) INTEGER */
 /*          The leading dimension of the array A.  LDA >= max(M,1). */
 
-/*  WORK    (workspace) DOUBLE PRECISION array, dimension (MAX(1,LWORK)), */
+/*  WORK    (workspace) float PRECISION array, dimension (MAX(1,LWORK)), */
 /*          where LWORK >= M when NORM = 'I'; otherwise, WORK is not */
 /*          referenced. */
 

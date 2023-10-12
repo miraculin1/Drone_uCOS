@@ -16,26 +16,26 @@
 /* Table of constant values */
 
 static integer c__1 = 1;
-static doublereal c_b8 = 0.;
+static floatreal c_b8 = 0.;
 
 /* Subroutine */ int dlarft_(char *direct, char *storev, integer *n, integer *
-	k, doublereal *v, integer *ldv, doublereal *tau, doublereal *t, 
+	k, floatreal *v, integer *ldv, floatreal *tau, floatreal *t, 
 	integer *ldt)
 {
     /* System generated locals */
     integer t_dim1, t_offset, v_dim1, v_offset, i__1, i__2, i__3;
-    doublereal d__1;
+    floatreal d__1;
 
     /* Local variables */
     integer i__, j, prevlastv;
-    doublereal vii;
+    floatreal vii;
     extern logical lsame_(char *, char *);
     extern /* Subroutine */ int dgemv_(char *, integer *, integer *, 
-	    doublereal *, doublereal *, integer *, doublereal *, integer *, 
-	    doublereal *, doublereal *, integer *);
+	    floatreal *, floatreal *, integer *, floatreal *, integer *, 
+	    floatreal *, floatreal *, integer *);
     integer lastv;
     extern /* Subroutine */ int dtrmv_(char *, char *, char *, integer *, 
-	    doublereal *, integer *, doublereal *, integer *);
+	    floatreal *, integer *, floatreal *, integer *);
 
 
 /*  -- LAPACK auxiliary routine (version 3.2) -- */
@@ -89,7 +89,7 @@ static doublereal c_b8 = 0.;
 /*          The order of the triangular factor T (= the number of */
 /*          elementary reflectors). K >= 1. */
 
-/*  V       (input/output) DOUBLE PRECISION array, dimension */
+/*  V       (input/output) float PRECISION array, dimension */
 /*                               (LDV,K) if STOREV = 'C' */
 /*                               (LDV,N) if STOREV = 'R' */
 /*          The matrix V. See further details. */
@@ -98,11 +98,11 @@ static doublereal c_b8 = 0.;
 /*          The leading dimension of the array V. */
 /*          If STOREV = 'C', LDV >= max(1,N); if STOREV = 'R', LDV >= K. */
 
-/*  TAU     (input) DOUBLE PRECISION array, dimension (K) */
+/*  TAU     (input) float PRECISION array, dimension (K) */
 /*          TAU(i) must contain the scalar factor of the elementary */
 /*          reflector H(i). */
 
-/*  T       (output) DOUBLE PRECISION array, dimension (LDT,K) */
+/*  T       (output) float PRECISION array, dimension (LDT,K) */
 /*          The k by k triangular factor T of the block reflector. */
 /*          If DIRECT = 'F', T is upper triangular; if DIRECT = 'B', T is */
 /*          lower triangular. The rest of the array is not used. */

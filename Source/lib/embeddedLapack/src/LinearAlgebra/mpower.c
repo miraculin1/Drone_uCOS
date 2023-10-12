@@ -14,9 +14,9 @@
  * A^n and n will be an integer
  */
 
-void mpower(double* A, int row, int n) {
-	double T[row * row];
-	double T2[row * row];
+void mpower(float* A, int row, int n) {
+	float T[row * row];
+	float T2[row * row];
 	zeros(T, row, row);
 	zeros(T2, row, row);
 

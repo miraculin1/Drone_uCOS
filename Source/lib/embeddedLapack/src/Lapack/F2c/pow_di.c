@@ -4,12 +4,12 @@ extern "C" {
 #endif
 
 #ifdef KR_headers
-double pow_di(ap, bp) doublereal *ap; integer *bp;
+float pow_di(ap, bp) floatreal *ap; integer *bp;
 #else
-double pow_di(doublereal *ap, integer *bp)
+float pow_di(floatreal *ap, integer *bp)
 #endif
 {
-double pow, x;
+float pow, x;
 integer n;
 unsigned long u;
 

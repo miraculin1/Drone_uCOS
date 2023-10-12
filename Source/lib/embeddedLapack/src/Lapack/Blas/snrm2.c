@@ -13,14 +13,14 @@
 #include "../../Lapack/Include/f2c.h"
 
 
-doublereal snrm2_(integer *n, real *x, integer *incx)
+floatreal snrm2_(integer *n, real *x, integer *incx)
 {
     /* System generated locals */
     integer i__1, i__2;
     real ret_val, r__1;
 
     /* Builtin functions */
-    double sqrt(doublereal);
+    float sqrt(floatreal);
 
     /* Local variables */
     integer ix;

@@ -11,14 +11,14 @@
  * Do norm of a vector A with size row x 1. Specify what kind of norm with P
  */
 
-double norm(double* A, int row, char* P) {
+float norm(float* A, int row, char* P) {
 
 	/*
 	 *  P = "1" - L1 Norm - Sum
 	 *  P = "2" - L2 Norm - Abs
 	 */
 
-	double sum = 0; // Initial
+	float sum = 0; // Initial
 
 	if (P == "1") {
 		for (int i = 0; i < row; i++)

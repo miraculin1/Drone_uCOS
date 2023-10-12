@@ -13,7 +13,7 @@
 #include "../../Lapack/Include/f2c.h"
 
 
-logical dlaisnan_(doublereal *din1, doublereal *din2)
+logical dlaisnan_(floatreal *din1, floatreal *din2)
 {
     /* System generated locals */
     logical ret_val;
@@ -46,8 +46,8 @@ logical dlaisnan_(doublereal *din1, doublereal *din2)
 /*  Arguments */
 /*  ========= */
 
-/*  DIN1     (input) DOUBLE PRECISION */
-/*  DIN2     (input) DOUBLE PRECISION */
+/*  DIN1     (input) float PRECISION */
+/*  DIN2     (input) float PRECISION */
 /*          Two numbers to compare for inequality. */
 
 /*  ===================================================================== */

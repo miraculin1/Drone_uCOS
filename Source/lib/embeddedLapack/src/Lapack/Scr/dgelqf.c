@@ -20,20 +20,20 @@ static integer c_n1 = -1;
 static integer c__3 = 3;
 static integer c__2 = 2;
 
-/* Subroutine */ int dgelqf_(integer *m, integer *n, doublereal *a, integer *
-	lda, doublereal *tau, doublereal *work, integer *lwork, integer *info)
+/* Subroutine */ int dgelqf_(integer *m, integer *n, floatreal *a, integer *
+	lda, floatreal *tau, floatreal *work, integer *lwork, integer *info)
 {
     /* System generated locals */
     integer a_dim1, a_offset, i__1, i__2, i__3, i__4;
 
     /* Local variables */
     integer i__, k, ib, nb, nx, iws, nbmin, iinfo;
-    extern /* Subroutine */ int dgelq2_(integer *, integer *, doublereal *, 
-	    integer *, doublereal *, doublereal *, integer *), dlarfb_(char *, 
+    extern /* Subroutine */ int dgelq2_(integer *, integer *, floatreal *, 
+	    integer *, floatreal *, floatreal *, integer *), dlarfb_(char *, 
 	     char *, char *, char *, integer *, integer *, integer *, 
-	    doublereal *, integer *, doublereal *, integer *, doublereal *, 
-	    integer *, doublereal *, integer *), dlarft_(char *, char *, integer *, integer *, doublereal 
-	    *, integer *, doublereal *, doublereal *, integer *), xerbla_(char *, integer *);
+	    floatreal *, integer *, floatreal *, integer *, floatreal *, 
+	    integer *, floatreal *, integer *), dlarft_(char *, char *, integer *, integer *, floatreal 
+	    *, integer *, floatreal *, floatreal *, integer *), xerbla_(char *, integer *);
     extern integer ilaenv_(integer *, char *, char *, integer *, integer *, 
 	    integer *, integer *);
     integer ldwork, lwkopt;
@@ -64,7 +64,7 @@ static integer c__2 = 2;
 /*  N       (input) INTEGER */
 /*          The number of columns of the matrix A.  N >= 0. */
 
-/*  A       (input/output) DOUBLE PRECISION array, dimension (LDA,N) */
+/*  A       (input/output) float PRECISION array, dimension (LDA,N) */
 /*          On entry, the M-by-N matrix A. */
 /*          On exit, the elements on and below the diagonal of the array */
 /*          contain the m-by-min(m,n) lower trapezoidal matrix L (L is */
@@ -75,11 +75,11 @@ static integer c__2 = 2;
 /*  LDA     (input) INTEGER */
 /*          The leading dimension of the array A.  LDA >= max(1,M). */
 
-/*  TAU     (output) DOUBLE PRECISION array, dimension (min(M,N)) */
+/*  TAU     (output) float PRECISION array, dimension (min(M,N)) */
 /*          The scalar factors of the elementary reflectors (see Further */
 /*          Details). */
 
-/*  WORK    (workspace/output) DOUBLE PRECISION array, dimension (MAX(1,LWORK)) */
+/*  WORK    (workspace/output) float PRECISION array, dimension (MAX(1,LWORK)) */
 /*          On exit, if INFO = 0, WORK(1) returns the optimal LWORK. */
 
 /*  LWORK   (input) INTEGER */
@@ -136,7 +136,7 @@ static integer c__2 = 2;
     *info = 0;
     nb = ilaenv_(&c__1, "DGELQF", " ", m, n, &c_n1, &c_n1);
     lwkopt = *m * nb;
-    work[1] = (doublereal) lwkopt;
+    work[1] = (floatreal) lwkopt;
     lquery = *lwork == -1;
     if (*m < 0) {
 	*info = -1;
@@ -243,7 +243,7 @@ static integer c__2 = 2;
 , &iinfo);
     }
 
-    work[1] = (doublereal) iws;
+    work[1] = (floatreal) iws;
     return 0;
 
 /*     End of DGELQF */

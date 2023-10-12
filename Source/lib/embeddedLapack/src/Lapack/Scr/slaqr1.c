@@ -45,7 +45,7 @@
 /*           or */
 /*               2) si1 = si2 = 0. */
 
-/*       This is useful for starting double implicit shift bulges */
+/*       This is useful for starting float implicit shift bulges */
 /*       in the QR algorithm. */
 
 

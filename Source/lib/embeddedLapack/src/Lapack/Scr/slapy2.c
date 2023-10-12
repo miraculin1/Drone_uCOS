@@ -13,13 +13,13 @@
 #include "../../Lapack/Include/f2c.h"
 
 
-doublereal slapy2_(real *x, real *y)
+floatreal slapy2_(real *x, real *y)
 {
     /* System generated locals */
     real ret_val, r__1;
 
     /* Builtin functions */
-    double sqrt(doublereal);
+    float sqrt(floatreal);
 
     /* Local variables */
     real w, z__, xabs, yabs;

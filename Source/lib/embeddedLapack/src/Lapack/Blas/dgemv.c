@@ -13,16 +13,16 @@
 #include "../../Lapack/Include/f2c.h"
 
 
-/* Subroutine */ int dgemv_(char *trans, integer *m, integer *n, doublereal *
-	alpha, doublereal *a, integer *lda, doublereal *x, integer *incx, 
-	doublereal *beta, doublereal *y, integer *incy)
+/* Subroutine */ int dgemv_(char *trans, integer *m, integer *n, floatreal *
+	alpha, floatreal *a, integer *lda, floatreal *x, integer *incx, 
+	floatreal *beta, floatreal *y, integer *incy)
 {
     /* System generated locals */
     integer a_dim1, a_offset, i__1, i__2;
 
     /* Local variables */
     integer i__, j, ix, iy, jx, jy, kx, ky, info;
-    doublereal temp;
+    floatreal temp;
     integer lenx, leny;
     extern logical lsame_(char *, char *);
     extern /* Subroutine */ int xerbla_(char *, integer *);
@@ -67,11 +67,11 @@
 /*           N must be at least zero. */
 /*           Unchanged on exit. */
 
-/*  ALPHA  - DOUBLE PRECISION. */
+/*  ALPHA  - float PRECISION. */
 /*           On entry, ALPHA specifies the scalar alpha. */
 /*           Unchanged on exit. */
 
-/*  A      - DOUBLE PRECISION array of DIMENSION ( LDA, n ). */
+/*  A      - float PRECISION array of DIMENSION ( LDA, n ). */
 /*           Before entry, the leading m by n part of the array A must */
 /*           contain the matrix of coefficients. */
 /*           Unchanged on exit. */
@@ -82,7 +82,7 @@
 /*           max( 1, m ). */
 /*           Unchanged on exit. */
 
-/*  X      - DOUBLE PRECISION array of DIMENSION at least */
+/*  X      - float PRECISION array of DIMENSION at least */
 /*           ( 1 + ( n - 1 )*abs( INCX ) ) when TRANS = 'N' or 'n' */
 /*           and at least */
 /*           ( 1 + ( m - 1 )*abs( INCX ) ) otherwise. */
@@ -95,12 +95,12 @@
 /*           X. INCX must not be zero. */
 /*           Unchanged on exit. */
 
-/*  BETA   - DOUBLE PRECISION. */
+/*  BETA   - float PRECISION. */
 /*           On entry, BETA specifies the scalar beta. When BETA is */
 /*           supplied as zero then Y need not be set on input. */
 /*           Unchanged on exit. */
 
-/*  Y      - DOUBLE PRECISION array of DIMENSION at least */
+/*  Y      - float PRECISION array of DIMENSION at least */
 /*           ( 1 + ( m - 1 )*abs( INCY ) ) when TRANS = 'N' or 'n' */
 /*           and at least */
 /*           ( 1 + ( n - 1 )*abs( INCY ) ) otherwise. */

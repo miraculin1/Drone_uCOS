@@ -11,7 +11,7 @@
  * Find the determiant of a square matrix A with size row x row
  */
 
-double det(double *A, int row) {
+float det(float *A, int row) {
 
 	if (row == 1) {
 		// 1x1 "matrix" - Just return the value
@@ -32,9 +32,9 @@ double det(double *A, int row) {
 
 	} else {
 
-		double mat[row][row];
-		double ratio;
-		double determinant = 1; // Initial det value
+		float mat[row][row];
+		float ratio;
+		float determinant = 1; // Initial det value
 
 		// We need to create the matrix into an array matrix, like a normal matrix again
 		for (int i = 0; i < row; i++) {

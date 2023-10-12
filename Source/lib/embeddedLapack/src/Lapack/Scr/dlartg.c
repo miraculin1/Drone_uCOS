@@ -13,23 +13,23 @@
 #include "../../Lapack/Include/f2c.h"
 
 
-/* Subroutine */ int dlartg_(doublereal *f, doublereal *g, doublereal *cs, 
-	doublereal *sn, doublereal *r__)
+/* Subroutine */ int dlartg_(floatreal *f, floatreal *g, floatreal *cs, 
+	floatreal *sn, floatreal *r__)
 {
     /* System generated locals */
     integer i__1;
-    doublereal d__1, d__2;
+    floatreal d__1, d__2;
 
     /* Builtin functions */
-    double log(doublereal), pow_di(doublereal *, integer *), sqrt(doublereal);
+    float log(floatreal), pow_di(floatreal *, integer *), sqrt(floatreal);
 
     /* Local variables */
     integer i__;
-    doublereal f1, g1, eps, scale;
+    floatreal f1, g1, eps, scale;
     integer count;
-    doublereal safmn2, safmx2;
-    extern doublereal dlamch_(char *);
-    doublereal safmin;
+    floatreal safmn2, safmx2;
+    extern floatreal dlamch_(char *);
+    floatreal safmin;
 
 
 /*  -- LAPACK auxiliary routine (version 3.2) -- */
@@ -60,19 +60,19 @@
 /*  Arguments */
 /*  ========= */
 
-/*  F       (input) DOUBLE PRECISION */
+/*  F       (input) float PRECISION */
 /*          The first component of vector to be rotated. */
 
-/*  G       (input) DOUBLE PRECISION */
+/*  G       (input) float PRECISION */
 /*          The second component of vector to be rotated. */
 
-/*  CS      (output) DOUBLE PRECISION */
+/*  CS      (output) float PRECISION */
 /*          The cosine of the rotation. */
 
-/*  SN      (output) DOUBLE PRECISION */
+/*  SN      (output) float PRECISION */
 /*          The sine of the rotation. */
 
-/*  R       (output) DOUBLE PRECISION */
+/*  R       (output) float PRECISION */
 /*          The nonzero component of the rotated vector. */
 
 /*  This version has a few statements commented out for thread safety */

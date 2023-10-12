@@ -14,14 +14,14 @@
 
 
 /* Subroutine */ int dtrmv_(char *uplo, char *trans, char *diag, integer *n, 
-	doublereal *a, integer *lda, doublereal *x, integer *incx)
+	floatreal *a, integer *lda, floatreal *x, integer *incx)
 {
     /* System generated locals */
     integer a_dim1, a_offset, i__1, i__2;
 
     /* Local variables */
     integer i__, j, ix, jx, kx, info;
-    doublereal temp;
+    floatreal temp;
     extern logical lsame_(char *, char *);
     extern /* Subroutine */ int xerbla_(char *, integer *);
     logical nounit;
@@ -82,7 +82,7 @@
 /*           N must be at least zero. */
 /*           Unchanged on exit. */
 
-/*  A      - DOUBLE PRECISION array of DIMENSION ( LDA, n ). */
+/*  A      - float PRECISION array of DIMENSION ( LDA, n ). */
 /*           Before entry with  UPLO = 'U' or 'u', the leading n by n */
 /*           upper triangular part of the array A must contain the upper */
 /*           triangular matrix and the strictly lower triangular part of */
@@ -101,7 +101,7 @@
 /*           max( 1, n ). */
 /*           Unchanged on exit. */
 
-/*  X      - DOUBLE PRECISION array of dimension at least */
+/*  X      - float PRECISION array of dimension at least */
 /*           ( 1 + ( n - 1 )*abs( INCX ) ). */
 /*           Before entry, the incremented array X must contain the n */
 /*           element vector x. On exit, X is overwritten with the */

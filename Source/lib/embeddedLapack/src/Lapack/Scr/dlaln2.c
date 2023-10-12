@@ -14,10 +14,10 @@
 
 
 /* Subroutine */ int dlaln2_(logical *ltrans, integer *na, integer *nw, 
-	doublereal *smin, doublereal *ca, doublereal *a, integer *lda, 
-	doublereal *d1, doublereal *d2, doublereal *b, integer *ldb, 
-	doublereal *wr, doublereal *wi, doublereal *x, integer *ldx, 
-	doublereal *scale, doublereal *xnorm, integer *info)
+	floatreal *smin, floatreal *ca, floatreal *a, integer *lda, 
+	floatreal *d1, floatreal *d2, floatreal *b, integer *ldb, 
+	floatreal *wr, floatreal *wi, floatreal *x, integer *ldx, 
+	floatreal *scale, floatreal *xnorm, integer *info)
 {
     /* Initialized data */
 
@@ -28,25 +28,25 @@
 
     /* System generated locals */
     integer a_dim1, a_offset, b_dim1, b_offset, x_dim1, x_offset;
-    doublereal d__1, d__2, d__3, d__4, d__5, d__6;
-    static doublereal equiv_0[4], equiv_1[4];
+    floatreal d__1, d__2, d__3, d__4, d__5, d__6;
+    static floatreal equiv_0[4], equiv_1[4];
 
     /* Local variables */
     integer j;
 #define ci (equiv_0)
 #define cr (equiv_1)
-    doublereal bi1, bi2, br1, br2, xi1, xi2, xr1, xr2, ci21, ci22, cr21, cr22,
+    floatreal bi1, bi2, br1, br2, xi1, xi2, xr1, xr2, ci21, ci22, cr21, cr22,
 	     li21, csi, ui11, lr21, ui12, ui22;
 #define civ (equiv_0)
-    doublereal csr, ur11, ur12, ur22;
+    floatreal csr, ur11, ur12, ur22;
 #define crv (equiv_1)
-    doublereal bbnd, cmax, ui11r, ui12s, temp, ur11r, ur12s, u22abs;
+    floatreal bbnd, cmax, ui11r, ui12s, temp, ur11r, ur12s, u22abs;
     integer icmax;
-    doublereal bnorm, cnorm, smini;
-    extern doublereal dlamch_(char *);
-    extern /* Subroutine */ int dladiv_(doublereal *, doublereal *, 
-	    doublereal *, doublereal *, doublereal *, doublereal *);
-    doublereal bignum, smlnum;
+    floatreal bnorm, cnorm, smini;
+    extern floatreal dlamch_(char *);
+    extern /* Subroutine */ int dladiv_(floatreal *, floatreal *, 
+	    floatreal *, floatreal *, floatreal *, floatreal *);
+    floatreal bignum, smlnum;
 
 
 /*  -- LAPACK auxiliary routine (version 3.2) -- */
@@ -106,28 +106,28 @@
 /*          1 if "w" is real, 2 if "w" is complex.  It may only be 1 */
 /*          or 2. */
 
-/*  SMIN    (input) DOUBLE PRECISION */
+/*  SMIN    (input) float PRECISION */
 /*          The desired lower bound on the singular values of A.  This */
 /*          should be a safe distance away from underflow or overflow, */
 /*          say, between (underflow/machine precision) and  (machine */
 /*          precision * overflow ).  (See BIGNUM and ULP.) */
 
-/*  CA      (input) DOUBLE PRECISION */
+/*  CA      (input) float PRECISION */
 /*          The coefficient c, which A is multiplied by. */
 
-/*  A       (input) DOUBLE PRECISION array, dimension (LDA,NA) */
+/*  A       (input) float PRECISION array, dimension (LDA,NA) */
 /*          The NA x NA matrix A. */
 
 /*  LDA     (input) INTEGER */
 /*          The leading dimension of A.  It must be at least NA. */
 
-/*  D1      (input) DOUBLE PRECISION */
+/*  D1      (input) float PRECISION */
 /*          The 1,1 element in the diagonal matrix D. */
 
-/*  D2      (input) DOUBLE PRECISION */
+/*  D2      (input) float PRECISION */
 /*          The 2,2 element in the diagonal matrix D.  Not used if NW=1. */
 
-/*  B       (input) DOUBLE PRECISION array, dimension (LDB,NW) */
+/*  B       (input) float PRECISION array, dimension (LDB,NW) */
 /*          The NA x NW matrix B (right-hand side).  If NW=2 ("w" is */
 /*          complex), column 1 contains the real part of B and column 2 */
 /*          contains the imaginary part. */
@@ -135,13 +135,13 @@
 /*  LDB     (input) INTEGER */
 /*          The leading dimension of B.  It must be at least NA. */
 
-/*  WR      (input) DOUBLE PRECISION */
+/*  WR      (input) float PRECISION */
 /*          The real part of the scalar "w". */
 
-/*  WI      (input) DOUBLE PRECISION */
+/*  WI      (input) float PRECISION */
 /*          The imaginary part of the scalar "w".  Not used if NW=1. */
 
-/*  X       (output) DOUBLE PRECISION array, dimension (LDX,NW) */
+/*  X       (output) float PRECISION array, dimension (LDX,NW) */
 /*          The NA x NW matrix X (unknowns), as computed by DLALN2. */
 /*          If NW=2 ("w" is complex), on exit, column 1 will contain */
 /*          the real part of X and column 2 will contain the imaginary */
@@ -150,13 +150,13 @@
 /*  LDX     (input) INTEGER */
 /*          The leading dimension of X.  It must be at least NA. */
 
-/*  SCALE   (output) DOUBLE PRECISION */
+/*  SCALE   (output) float PRECISION */
 /*          The scale factor that B must be multiplied by to insure */
 /*          that overflow does not occur when computing X.  Thus, */
 /*          (ca A - w D) X  will be SCALE*B, not B (ignoring */
 /*          perturbations of A.)  It will be at most 1. */
 
-/*  XNORM   (output) DOUBLE PRECISION */
+/*  XNORM   (output) float PRECISION */
 /*          The infinity-norm of X, when X is regarded as an NA x NW */
 /*          real matrix. */
 

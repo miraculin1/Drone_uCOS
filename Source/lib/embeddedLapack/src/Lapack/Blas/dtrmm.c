@@ -14,15 +14,15 @@
 
 
 /* Subroutine */ int dtrmm_(char *side, char *uplo, char *transa, char *diag, 
-	integer *m, integer *n, doublereal *alpha, doublereal *a, integer *
-	lda, doublereal *b, integer *ldb)
+	integer *m, integer *n, floatreal *alpha, floatreal *a, integer *
+	lda, floatreal *b, integer *ldb)
 {
     /* System generated locals */
     integer a_dim1, a_offset, b_dim1, b_offset, i__1, i__2, i__3;
 
     /* Local variables */
     integer i__, j, k, info;
-    doublereal temp;
+    floatreal temp;
     logical lside;
     extern logical lsame_(char *, char *);
     integer nrowa;
@@ -103,13 +103,13 @@
 /*           at least zero. */
 /*           Unchanged on exit. */
 
-/*  ALPHA  - DOUBLE PRECISION. */
+/*  ALPHA  - float PRECISION. */
 /*           On entry,  ALPHA specifies the scalar  alpha. When  alpha is */
 /*           zero then  A is not referenced and  B need not be set before */
 /*           entry. */
 /*           Unchanged on exit. */
 
-/*  A      - DOUBLE PRECISION array of DIMENSION ( LDA, k ), where k is m */
+/*  A      - float PRECISION array of DIMENSION ( LDA, k ), where k is m */
 /*           when  SIDE = 'L' or 'l'  and is  n  when  SIDE = 'R' or 'r'. */
 /*           Before entry  with  UPLO = 'U' or 'u',  the  leading  k by k */
 /*           upper triangular part of the array  A must contain the upper */
@@ -130,7 +130,7 @@
 /*           then LDA must be at least max( 1, n ). */
 /*           Unchanged on exit. */
 
-/*  B      - DOUBLE PRECISION array of DIMENSION ( LDB, n ). */
+/*  B      - float PRECISION array of DIMENSION ( LDB, n ). */
 /*           Before entry,  the leading  m by n part of the array  B must */
 /*           contain the matrix  B,  and  on exit  is overwritten  by the */
 /*           transformed matrix. */

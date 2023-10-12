@@ -28,7 +28,7 @@
     extern logical lsame_(char *, char *);
     integer itype;
     real cfrom1;
-    extern doublereal slamch_(char *);
+    extern floatreal slamch_(char *);
     real cfromc;
     extern /* Subroutine */ int xerbla_(char *, integer *);
     real bignum;

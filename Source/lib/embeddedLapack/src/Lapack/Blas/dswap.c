@@ -13,15 +13,15 @@
 #include "../../Lapack/Include/f2c.h"
 
 
-/* Subroutine */ int dswap_(integer *n, doublereal *dx, integer *incx, 
-	doublereal *dy, integer *incy)
+/* Subroutine */ int dswap_(integer *n, floatreal *dx, integer *incx, 
+	floatreal *dy, integer *incy)
 {
     /* System generated locals */
     integer i__1;
 
     /* Local variables */
     integer i__, m, ix, iy, mp1;
-    doublereal dtemp;
+    floatreal dtemp;
 
 /*     .. Scalar Arguments .. */
 /*     .. */

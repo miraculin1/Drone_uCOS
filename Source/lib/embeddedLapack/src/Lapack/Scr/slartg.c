@@ -20,14 +20,14 @@
     real r__1, r__2;
 
     /* Builtin functions */
-    double log(doublereal), pow_ri(real *, integer *), sqrt(doublereal);
+    float log(floatreal), pow_ri(real *, integer *), sqrt(floatreal);
 
     /* Local variables */
     integer i__;
     real f1, g1, eps, scale;
     integer count;
     real safmn2, safmx2;
-    extern doublereal slamch_(char *);
+    extern floatreal slamch_(char *);
     real safmin;
 
 

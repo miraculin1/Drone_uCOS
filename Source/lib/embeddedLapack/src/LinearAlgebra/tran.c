@@ -10,11 +10,11 @@
 /*
  * Take the transpose of a matrix A, with the dimension row x column. The result will be A' with the dimension column x row
  */
-void tran(double* A, int row, int column) {
+void tran(float* A, int row, int column) {
 
-	double B[row*column];
-	double* transpose;
-	double* ptr_A = A;
+	float B[row*column];
+	float* transpose;
+	float* ptr_A = A;
 
 	for (int i = 0; i < row; i++) {
 		transpose = &B[i];
@@ -26,6 +26,6 @@ void tran(double* A, int row, int column) {
 	}
 
 	// Copy!
-	memcpy(A, B, row*column*sizeof(double));
+	memcpy(A, B, row*column*sizeof(float));
 
 }

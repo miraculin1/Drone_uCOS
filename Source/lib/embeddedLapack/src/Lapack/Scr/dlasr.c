@@ -14,7 +14,7 @@
 
 
 /* Subroutine */ int dlasr_(char *side, char *pivot, char *direct, integer *m, 
-	 integer *n, doublereal *c__, doublereal *s, doublereal *a, integer *
+	 integer *n, floatreal *c__, floatreal *s, floatreal *a, integer *
 	lda)
 {
     /* System generated locals */
@@ -22,9 +22,9 @@
 
     /* Local variables */
     integer i__, j, info;
-    doublereal temp;
+    floatreal temp;
     extern logical lsame_(char *, char *);
-    doublereal ctemp, stemp;
+    floatreal ctemp, stemp;
     extern /* Subroutine */ int xerbla_(char *, integer *);
 
 
@@ -142,12 +142,12 @@
 /*          The number of columns of the matrix A.  If n <= 1, an */
 /*          immediate return is effected. */
 
-/*  C       (input) DOUBLE PRECISION array, dimension */
+/*  C       (input) float PRECISION array, dimension */
 /*                  (M-1) if SIDE = 'L' */
 /*                  (N-1) if SIDE = 'R' */
 /*          The cosines c(k) of the plane rotations. */
 
-/*  S       (input) DOUBLE PRECISION array, dimension */
+/*  S       (input) float PRECISION array, dimension */
 /*                  (M-1) if SIDE = 'L' */
 /*                  (N-1) if SIDE = 'R' */
 /*          The sines s(k) of the plane rotations.  The 2-by-2 plane */
@@ -155,7 +155,7 @@
 /*          R(k) = (  c(k)  s(k) ) */
 /*                 ( -s(k)  c(k) ). */
 
-/*  A       (input/output) DOUBLE PRECISION array, dimension (LDA,N) */
+/*  A       (input/output) float PRECISION array, dimension (LDA,N) */
 /*          The M-by-N matrix A.  On exit, A is overwritten by P*A if */
 /*          SIDE = 'R' or by A*P**T if SIDE = 'L'. */
 

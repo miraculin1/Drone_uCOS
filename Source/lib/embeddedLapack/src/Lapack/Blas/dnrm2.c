@@ -13,18 +13,18 @@
 #include "../../Lapack/Include/f2c.h"
 
 
-doublereal dnrm2_(integer *n, doublereal *x, integer *incx)
+floatreal dnrm2_(integer *n, floatreal *x, integer *incx)
 {
     /* System generated locals */
     integer i__1, i__2;
-    doublereal ret_val, d__1;
+    floatreal ret_val, d__1;
 
     /* Builtin functions */
-    double sqrt(doublereal);
+    float sqrt(floatreal);
 
     /* Local variables */
     integer ix;
-    doublereal ssq, norm, scale, absxi;
+    floatreal ssq, norm, scale, absxi;
 
 /*     .. Scalar Arguments .. */
 /*     .. */

@@ -18,7 +18,7 @@
 static integer c__1 = 1;
 
 /* Subroutine */ int dgehd2_(integer *n, integer *ilo, integer *ihi, 
-	doublereal *a, integer *lda, doublereal *tau, doublereal *work, 
+	floatreal *a, integer *lda, floatreal *tau, floatreal *work, 
 	integer *info)
 {
     /* System generated locals */
@@ -26,11 +26,11 @@ static integer c__1 = 1;
 
     /* Local variables */
     integer i__;
-    doublereal aii;
+    floatreal aii;
     extern /* Subroutine */ int dlarf_(char *, integer *, integer *, 
-	    doublereal *, integer *, doublereal *, doublereal *, integer *, 
-	    doublereal *), dlarfg_(integer *, doublereal *, 
-	    doublereal *, integer *, doublereal *), xerbla_(char *, integer *);
+	    floatreal *, integer *, floatreal *, floatreal *, integer *, 
+	    floatreal *), dlarfg_(integer *, floatreal *, 
+	    floatreal *, integer *, floatreal *), xerbla_(char *, integer *);
 
 
 /*  -- LAPACK routine (version 3.2) -- */
@@ -62,7 +62,7 @@ static integer c__1 = 1;
 /*          set to 1 and N respectively. See Further Details. */
 /*          1 <= ILO <= IHI <= max(1,N). */
 
-/*  A       (input/output) DOUBLE PRECISION array, dimension (LDA,N) */
+/*  A       (input/output) float PRECISION array, dimension (LDA,N) */
 /*          On entry, the n by n general matrix to be reduced. */
 /*          On exit, the upper triangle and the first subdiagonal of A */
 /*          are overwritten with the upper Hessenberg matrix H, and the */
@@ -73,11 +73,11 @@ static integer c__1 = 1;
 /*  LDA     (input) INTEGER */
 /*          The leading dimension of the array A.  LDA >= max(1,N). */
 
-/*  TAU     (output) DOUBLE PRECISION array, dimension (N-1) */
+/*  TAU     (output) float PRECISION array, dimension (N-1) */
 /*          The scalar factors of the elementary reflectors (see Further */
 /*          Details). */
 
-/*  WORK    (workspace) DOUBLE PRECISION array, dimension (N) */
+/*  WORK    (workspace) float PRECISION array, dimension (N) */
 
 /*  INFO    (output) INTEGER */
 /*          = 0:  successful exit. */

@@ -21,9 +21,9 @@ static integer c__16 = 16;
 static integer c__0 = 0;
 
 /* Subroutine */ int dlasy2_(logical *ltranl, logical *ltranr, integer *isgn, 
-	integer *n1, integer *n2, doublereal *tl, integer *ldtl, doublereal *
-	tr, integer *ldtr, doublereal *b, integer *ldb, doublereal *scale, 
-	doublereal *x, integer *ldx, doublereal *xnorm, integer *info)
+	integer *n1, integer *n2, floatreal *tl, integer *ldtl, floatreal *
+	tr, integer *ldtr, floatreal *b, integer *ldb, floatreal *scale, 
+	floatreal *x, integer *ldx, floatreal *xnorm, integer *info)
 {
     /* Initialized data */
 
@@ -36,27 +36,27 @@ static integer c__0 = 0;
     /* System generated locals */
     integer b_dim1, b_offset, tl_dim1, tl_offset, tr_dim1, tr_offset, x_dim1, 
 	    x_offset;
-    doublereal d__1, d__2, d__3, d__4, d__5, d__6, d__7, d__8;
+    floatreal d__1, d__2, d__3, d__4, d__5, d__6, d__7, d__8;
 
     /* Local variables */
     integer i__, j, k;
-    doublereal x2[2], l21, u11, u12;
+    floatreal x2[2], l21, u11, u12;
     integer ip, jp;
-    doublereal u22, t16[16]	/* was [4][4] */, gam, bet, eps, sgn, tmp[4], 
+    floatreal u22, t16[16]	/* was [4][4] */, gam, bet, eps, sgn, tmp[4], 
 	    tau1, btmp[4], smin;
     integer ipiv;
-    doublereal temp;
+    floatreal temp;
     integer jpiv[4];
-    doublereal xmax;
+    floatreal xmax;
     integer ipsv, jpsv;
     logical bswap;
-    extern /* Subroutine */ int dcopy_(integer *, doublereal *, integer *, 
-	    doublereal *, integer *), dswap_(integer *, doublereal *, integer 
-	    *, doublereal *, integer *);
+    extern /* Subroutine */ int dcopy_(integer *, floatreal *, integer *, 
+	    floatreal *, integer *), dswap_(integer *, floatreal *, integer 
+	    *, floatreal *, integer *);
     logical xswap;
-    extern doublereal dlamch_(char *);
-    extern integer idamax_(integer *, doublereal *, integer *);
-    doublereal smlnum;
+    extern floatreal dlamch_(char *);
+    extern integer idamax_(integer *, floatreal *, integer *);
+    floatreal smlnum;
 
 
 /*  -- LAPACK auxiliary routine (version 3.2) -- */
@@ -103,36 +103,36 @@ static integer c__0 = 0;
 /*          On entry, N2 specifies the order of matrix TR. */
 /*          N2 may only be 0, 1 or 2. */
 
-/*  TL      (input) DOUBLE PRECISION array, dimension (LDTL,2) */
+/*  TL      (input) float PRECISION array, dimension (LDTL,2) */
 /*          On entry, TL contains an N1 by N1 matrix. */
 
 /*  LDTL    (input) INTEGER */
 /*          The leading dimension of the matrix TL. LDTL >= max(1,N1). */
 
-/*  TR      (input) DOUBLE PRECISION array, dimension (LDTR,2) */
+/*  TR      (input) float PRECISION array, dimension (LDTR,2) */
 /*          On entry, TR contains an N2 by N2 matrix. */
 
 /*  LDTR    (input) INTEGER */
 /*          The leading dimension of the matrix TR. LDTR >= max(1,N2). */
 
-/*  B       (input) DOUBLE PRECISION array, dimension (LDB,2) */
+/*  B       (input) float PRECISION array, dimension (LDB,2) */
 /*          On entry, the N1 by N2 matrix B contains the right-hand */
 /*          side of the equation. */
 
 /*  LDB     (input) INTEGER */
 /*          The leading dimension of the matrix B. LDB >= max(1,N1). */
 
-/*  SCALE   (output) DOUBLE PRECISION */
+/*  SCALE   (output) float PRECISION */
 /*          On exit, SCALE contains the scale factor. SCALE is chosen */
 /*          less than or equal to 1 to prevent the solution overflowing. */
 
-/*  X       (output) DOUBLE PRECISION array, dimension (LDX,2) */
+/*  X       (output) float PRECISION array, dimension (LDX,2) */
 /*          On exit, X contains the N1 by N2 solution. */
 
 /*  LDX     (input) INTEGER */
 /*          The leading dimension of the matrix X. LDX >= max(1,N1). */
 
-/*  XNORM   (output) DOUBLE PRECISION */
+/*  XNORM   (output) float PRECISION */
 /*          On exit, XNORM is the infinity-norm of the solution. */
 
 /*  INFO    (output) INTEGER */
@@ -190,7 +190,7 @@ static integer c__0 = 0;
 
     eps = dlamch_("P");
     smlnum = dlamch_("S") / eps;
-    sgn = (doublereal) (*isgn);
+    sgn = (floatreal) (*isgn);
 
     k = *n1 + *n1 + *n2 - 2;
     switch (k) {

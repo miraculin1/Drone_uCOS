@@ -21,8 +21,8 @@ static integer c__2 = 2;
 static integer c__65 = 65;
 
 /* Subroutine */ int dormqr_(char *side, char *trans, integer *m, integer *n, 
-	integer *k, doublereal *a, integer *lda, doublereal *tau, doublereal *
-	c__, integer *ldc, doublereal *work, integer *lwork, integer *info)
+	integer *k, floatreal *a, integer *lda, floatreal *tau, floatreal *
+	c__, integer *ldc, floatreal *work, integer *lwork, integer *info)
 {
     /* System generated locals */
     address a__1[2];
@@ -35,18 +35,18 @@ static integer c__65 = 65;
 
     /* Local variables */
     integer i__;
-    doublereal t[4160]	/* was [65][64] */;
+    floatreal t[4160]	/* was [65][64] */;
     integer i1, i2, i3, ib, ic, jc, nb, mi, ni, nq, nw, iws;
     logical left;
     extern logical lsame_(char *, char *);
     integer nbmin, iinfo;
     extern /* Subroutine */ int dorm2r_(char *, char *, integer *, integer *, 
-	    integer *, doublereal *, integer *, doublereal *, doublereal *, 
-	    integer *, doublereal *, integer *), dlarfb_(char 
+	    integer *, floatreal *, integer *, floatreal *, floatreal *, 
+	    integer *, floatreal *, integer *), dlarfb_(char 
 	    *, char *, char *, char *, integer *, integer *, integer *, 
-	    doublereal *, integer *, doublereal *, integer *, doublereal *, 
-	    integer *, doublereal *, integer *), dlarft_(char *, char *, integer *, integer *, doublereal 
-	    *, integer *, doublereal *, doublereal *, integer *), xerbla_(char *, integer *);
+	    floatreal *, integer *, floatreal *, integer *, floatreal *, 
+	    integer *, floatreal *, integer *), dlarft_(char *, char *, integer *, integer *, floatreal 
+	    *, integer *, floatreal *, floatreal *, integer *), xerbla_(char *, integer *);
     extern integer ilaenv_(integer *, char *, char *, integer *, integer *, 
 	    integer *, integer *);
     logical notran;
@@ -103,7 +103,7 @@ static integer c__65 = 65;
 /*          If SIDE = 'L', M >= K >= 0; */
 /*          if SIDE = 'R', N >= K >= 0. */
 
-/*  A       (input) DOUBLE PRECISION array, dimension (LDA,K) */
+/*  A       (input) float PRECISION array, dimension (LDA,K) */
 /*          The i-th column must contain the vector which defines the */
 /*          elementary reflector H(i), for i = 1,2,...,k, as returned by */
 /*          DGEQRF in the first k columns of its array argument A. */
@@ -114,18 +114,18 @@ static integer c__65 = 65;
 /*          If SIDE = 'L', LDA >= max(1,M); */
 /*          if SIDE = 'R', LDA >= max(1,N). */
 
-/*  TAU     (input) DOUBLE PRECISION array, dimension (K) */
+/*  TAU     (input) float PRECISION array, dimension (K) */
 /*          TAU(i) must contain the scalar factor of the elementary */
 /*          reflector H(i), as returned by DGEQRF. */
 
-/*  C       (input/output) DOUBLE PRECISION array, dimension (LDC,N) */
+/*  C       (input/output) float PRECISION array, dimension (LDC,N) */
 /*          On entry, the M-by-N matrix C. */
 /*          On exit, C is overwritten by Q*C or Q**T*C or C*Q**T or C*Q. */
 
 /*  LDC     (input) INTEGER */
 /*          The leading dimension of the array C. LDC >= max(1,M). */
 
-/*  WORK    (workspace/output) DOUBLE PRECISION array, dimension (MAX(1,LWORK)) */
+/*  WORK    (workspace/output) float PRECISION array, dimension (MAX(1,LWORK)) */
 /*          On exit, if INFO = 0, WORK(1) returns the optimal LWORK. */
 
 /*  LWORK   (input) INTEGER */
@@ -219,7 +219,7 @@ static integer c__65 = 65;
 	i__1 = 64, i__2 = ilaenv_(&c__1, "DORMQR", ch__1, m, n, k, &c_n1);
 	nb = min(i__1,i__2);
 	lwkopt = max(1,nw) * nb;
-	work[1] = (doublereal) lwkopt;
+	work[1] = (floatreal) lwkopt;
     }
 
     if (*info != 0) {
@@ -319,7 +319,7 @@ static integer c__65 = 65;
 /* L10: */
 	}
     }
-    work[1] = (doublereal) lwkopt;
+    work[1] = (floatreal) lwkopt;
     return 0;
 
 /*     End of DORMQR */

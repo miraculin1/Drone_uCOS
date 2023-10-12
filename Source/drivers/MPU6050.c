@@ -1,7 +1,7 @@
 #include "Includes.h"
 #define MPU_ADDR 0xd0
 
-double GyroLSBPerDegree = 0, AccLSBPerG = 0;
+float GyroLSBPerDegree = 0, AccLSBPerG = 0;
 
 static uint8_t selfTest();
 
@@ -79,18 +79,18 @@ void AccRawData(int16_t data[3]) {
   }
 }
 
-void AccGData(double out[3], double *bias) {
+void AccGData(float out[3], float *bias) {
   if (bias == NULL) {
     int16_t data[3];
     AccRawData(data);
     for (int i = 0; i < 3; i++) {
-      out[i] = -(double)data[i] / AccLSBPerG;
+      out[i] = -(float)data[i] / AccLSBPerG;
     }
   } else {
     int16_t data[3];
     AccRawData(data);
     for (int i = 0; i < 3; i++) {
-      out[i] = (-(double)data[i] / AccLSBPerG - bias[i]) / bias[3 + i];
+      out[i] = (-(float)data[i] / AccLSBPerG - bias[i]) / bias[3 + i];
     }
   }
 }
@@ -109,24 +109,24 @@ void GyroRawData(int16_t data[3]) {
   }
 }
 
-void GyroDpSData(double out[3], double *bias) {
+void GyroDpSData(float out[3], float *bias) {
   if (bias == NULL || (CALIBDONE & 0b001) == 0) {
   int16_t data[3];
   GyroRawData(data);
   for (int i = 0; i < 3; i++) {
-    out[i] = (double)data[i] / GyroLSBPerDegree;
+    out[i] = (float)data[i] / GyroLSBPerDegree;
   }
   }
 
   int16_t data[3];
   GyroRawData(data);
   for (int i = 0; i < 3; i++) {
-    out[i] = (double)data[i] / GyroLSBPerDegree - bias[i];
+    out[i] = (float)data[i] / GyroLSBPerDegree - bias[i];
   }
 }
-void GyroRadpSData(double out[3], double *bias) {
+void GyroRadpSData(float out[3], float *bias) {
   GyroDpSData(out, bias);
-  const double dPreRad = 180 / M_PI;
+  const float dPreRad = 180 / M_PI;
   for (int dim = 0; dim < 3; ++dim) {
     out[dim] /= dPreRad;
   }

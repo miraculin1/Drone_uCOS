@@ -15,31 +15,31 @@
 
 /* Table of constant values */
 
-static doublereal c_b4 = 1.;
-static doublereal c_b5 = 0.;
+static floatreal c_b4 = 1.;
+static floatreal c_b5 = 0.;
 static integer c__1 = 1;
 
-/* Subroutine */ int dlarf_(char *side, integer *m, integer *n, doublereal *v, 
-	 integer *incv, doublereal *tau, doublereal *c__, integer *ldc, 
-	doublereal *work)
+/* Subroutine */ int dlarf_(char *side, integer *m, integer *n, floatreal *v, 
+	 integer *incv, floatreal *tau, floatreal *c__, integer *ldc, 
+	floatreal *work)
 {
     /* System generated locals */
     integer c_dim1, c_offset;
-    doublereal d__1;
+    floatreal d__1;
 
     /* Local variables */
     integer i__;
     logical applyleft;
-    extern /* Subroutine */ int dger_(integer *, integer *, doublereal *, 
-	    doublereal *, integer *, doublereal *, integer *, doublereal *, 
+    extern /* Subroutine */ int dger_(integer *, integer *, floatreal *, 
+	    floatreal *, integer *, floatreal *, integer *, floatreal *, 
 	    integer *);
     extern logical lsame_(char *, char *);
     extern /* Subroutine */ int dgemv_(char *, integer *, integer *, 
-	    doublereal *, doublereal *, integer *, doublereal *, integer *, 
-	    doublereal *, doublereal *, integer *);
+	    floatreal *, floatreal *, integer *, floatreal *, integer *, 
+	    floatreal *, floatreal *, integer *);
     integer lastc, lastv;
-    extern integer iladlc_(integer *, integer *, doublereal *, integer *), 
-	    iladlr_(integer *, integer *, doublereal *, integer *);
+    extern integer iladlc_(integer *, integer *, floatreal *, integer *), 
+	    iladlr_(integer *, integer *, floatreal *, integer *);
 
 
 /*  -- LAPACK auxiliary routine (version 3.2) -- */
@@ -76,7 +76,7 @@ static integer c__1 = 1;
 /*  N       (input) INTEGER */
 /*          The number of columns of the matrix C. */
 
-/*  V       (input) DOUBLE PRECISION array, dimension */
+/*  V       (input) float PRECISION array, dimension */
 /*                     (1 + (M-1)*abs(INCV)) if SIDE = 'L' */
 /*                  or (1 + (N-1)*abs(INCV)) if SIDE = 'R' */
 /*          The vector v in the representation of H. V is not used if */
@@ -85,10 +85,10 @@ static integer c__1 = 1;
 /*  INCV    (input) INTEGER */
 /*          The increment between elements of v. INCV <> 0. */
 
-/*  TAU     (input) DOUBLE PRECISION */
+/*  TAU     (input) float PRECISION */
 /*          The value tau in the representation of H. */
 
-/*  C       (input/output) DOUBLE PRECISION array, dimension (LDC,N) */
+/*  C       (input/output) float PRECISION array, dimension (LDC,N) */
 /*          On entry, the m by n matrix C. */
 /*          On exit, C is overwritten by the matrix H * C if SIDE = 'L', */
 /*          or C * H if SIDE = 'R'. */
@@ -96,7 +96,7 @@ static integer c__1 = 1;
 /*  LDC     (input) INTEGER */
 /*          The leading dimension of the array C. LDC >= max(1,M). */
 
-/*  WORK    (workspace) DOUBLE PRECISION array, dimension */
+/*  WORK    (workspace) float PRECISION array, dimension */
 /*                         (N) if SIDE = 'L' */
 /*                      or (M) if SIDE = 'R' */
 

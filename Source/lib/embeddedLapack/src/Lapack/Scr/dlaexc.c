@@ -22,43 +22,43 @@ static integer c_n1 = -1;
 static integer c__2 = 2;
 static integer c__3 = 3;
 
-/* Subroutine */ int dlaexc_(logical *wantq, integer *n, doublereal *t, 
-	integer *ldt, doublereal *q, integer *ldq, integer *j1, integer *n1, 
-	integer *n2, doublereal *work, integer *info)
+/* Subroutine */ int dlaexc_(logical *wantq, integer *n, floatreal *t, 
+	integer *ldt, floatreal *q, integer *ldq, integer *j1, integer *n1, 
+	integer *n2, floatreal *work, integer *info)
 {
     /* System generated locals */
     integer q_dim1, q_offset, t_dim1, t_offset, i__1;
-    doublereal d__1, d__2, d__3;
+    floatreal d__1, d__2, d__3;
 
     /* Local variables */
-    doublereal d__[16]	/* was [4][4] */;
+    floatreal d__[16]	/* was [4][4] */;
     integer k;
-    doublereal u[3], x[4]	/* was [2][2] */;
+    floatreal u[3], x[4]	/* was [2][2] */;
     integer j2, j3, j4;
-    doublereal u1[3], u2[3];
+    floatreal u1[3], u2[3];
     integer nd;
-    doublereal cs, t11, t22, t33, sn, wi1, wi2, wr1, wr2, eps, tau, tau1, 
+    floatreal cs, t11, t22, t33, sn, wi1, wi2, wr1, wr2, eps, tau, tau1, 
 	    tau2;
     integer ierr;
-    doublereal temp;
-    extern /* Subroutine */ int drot_(integer *, doublereal *, integer *, 
-	    doublereal *, integer *, doublereal *, doublereal *);
-    doublereal scale, dnorm, xnorm;
-    extern /* Subroutine */ int dlanv2_(doublereal *, doublereal *, 
-	    doublereal *, doublereal *, doublereal *, doublereal *, 
-	    doublereal *, doublereal *, doublereal *, doublereal *), dlasy2_(
-	    logical *, logical *, integer *, integer *, integer *, doublereal 
-	    *, integer *, doublereal *, integer *, doublereal *, integer *, 
-	    doublereal *, doublereal *, integer *, doublereal *, integer *);
-    extern doublereal dlamch_(char *), dlange_(char *, integer *, 
-	    integer *, doublereal *, integer *, doublereal *);
-    extern /* Subroutine */ int dlarfg_(integer *, doublereal *, doublereal *, 
-	     integer *, doublereal *), dlacpy_(char *, integer *, integer *, 
-	    doublereal *, integer *, doublereal *, integer *), 
-	    dlartg_(doublereal *, doublereal *, doublereal *, doublereal *, 
-	    doublereal *), dlarfx_(char *, integer *, integer *, doublereal *, 
-	     doublereal *, doublereal *, integer *, doublereal *);
-    doublereal thresh, smlnum;
+    floatreal temp;
+    extern /* Subroutine */ int drot_(integer *, floatreal *, integer *, 
+	    floatreal *, integer *, floatreal *, floatreal *);
+    floatreal scale, dnorm, xnorm;
+    extern /* Subroutine */ int dlanv2_(floatreal *, floatreal *, 
+	    floatreal *, floatreal *, floatreal *, floatreal *, 
+	    floatreal *, floatreal *, floatreal *, floatreal *), dlasy2_(
+	    logical *, logical *, integer *, integer *, integer *, floatreal 
+	    *, integer *, floatreal *, integer *, floatreal *, integer *, 
+	    floatreal *, floatreal *, integer *, floatreal *, integer *);
+    extern floatreal dlamch_(char *), dlange_(char *, integer *, 
+	    integer *, floatreal *, integer *, floatreal *);
+    extern /* Subroutine */ int dlarfg_(integer *, floatreal *, floatreal *, 
+	     integer *, floatreal *), dlacpy_(char *, integer *, integer *, 
+	    floatreal *, integer *, floatreal *, integer *), 
+	    dlartg_(floatreal *, floatreal *, floatreal *, floatreal *, 
+	    floatreal *), dlarfx_(char *, integer *, integer *, floatreal *, 
+	     floatreal *, floatreal *, integer *, floatreal *);
+    floatreal thresh, smlnum;
 
 
 /*  -- LAPACK auxiliary routine (version 3.2) -- */
@@ -92,7 +92,7 @@ static integer c__3 = 3;
 /*  N       (input) INTEGER */
 /*          The order of the matrix T. N >= 0. */
 
-/*  T       (input/output) DOUBLE PRECISION array, dimension (LDT,N) */
+/*  T       (input/output) float PRECISION array, dimension (LDT,N) */
 /*          On entry, the upper quasi-triangular matrix T, in Schur */
 /*          canonical form. */
 /*          On exit, the updated matrix T, again in Schur canonical form. */
@@ -100,7 +100,7 @@ static integer c__3 = 3;
 /*  LDT     (input)  INTEGER */
 /*          The leading dimension of the array T. LDT >= max(1,N). */
 
-/*  Q       (input/output) DOUBLE PRECISION array, dimension (LDQ,N) */
+/*  Q       (input/output) float PRECISION array, dimension (LDQ,N) */
 /*          On entry, if WANTQ is .TRUE., the orthogonal matrix Q. */
 /*          On exit, if WANTQ is .TRUE., the updated matrix Q. */
 /*          If WANTQ is .FALSE., Q is not referenced. */
@@ -118,7 +118,7 @@ static integer c__3 = 3;
 /*  N2      (input) INTEGER */
 /*          The order of the second block T22. N2 = 0, 1 or 2. */
 
-/*  WORK    (workspace) DOUBLE PRECISION array, dimension (N) */
+/*  WORK    (workspace) float PRECISION array, dimension (N) */
 
 /*  INFO    (output) INTEGER */
 /*          = 0: successful exit */

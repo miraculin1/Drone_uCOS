@@ -18,40 +18,40 @@
 static integer c__1 = 1;
 
 /* Subroutine */ int dlahqr_(logical *wantt, logical *wantz, integer *n, 
-	integer *ilo, integer *ihi, doublereal *h__, integer *ldh, doublereal 
-	*wr, doublereal *wi, integer *iloz, integer *ihiz, doublereal *z__, 
+	integer *ilo, integer *ihi, floatreal *h__, integer *ldh, floatreal 
+	*wr, floatreal *wi, integer *iloz, integer *ihiz, floatreal *z__, 
 	integer *ldz, integer *info)
 {
     /* System generated locals */
     integer h_dim1, h_offset, z_dim1, z_offset, i__1, i__2, i__3;
-    doublereal d__1, d__2, d__3, d__4;
+    floatreal d__1, d__2, d__3, d__4;
 
     /* Builtin functions */
-    double sqrt(doublereal);
+    float sqrt(floatreal);
 
     /* Local variables */
     integer i__, j, k, l, m;
-    doublereal s, v[3];
+    floatreal s, v[3];
     integer i1, i2;
-    doublereal t1, t2, t3, v2, v3, aa, ab, ba, bb, h11, h12, h21, h22, cs;
+    floatreal t1, t2, t3, v2, v3, aa, ab, ba, bb, h11, h12, h21, h22, cs;
     integer nh;
-    doublereal sn;
+    floatreal sn;
     integer nr;
-    doublereal tr;
+    floatreal tr;
     integer nz;
-    doublereal det, h21s;
+    floatreal det, h21s;
     integer its;
-    doublereal ulp, sum, tst, rt1i, rt2i, rt1r, rt2r;
-    extern /* Subroutine */ int drot_(integer *, doublereal *, integer *, 
-	    doublereal *, integer *, doublereal *, doublereal *), dcopy_(
-	    integer *, doublereal *, integer *, doublereal *, integer *), 
-	    dlanv2_(doublereal *, doublereal *, doublereal *, doublereal *, 
-	    doublereal *, doublereal *, doublereal *, doublereal *, 
-	    doublereal *, doublereal *), dlabad_(doublereal *, doublereal *);
-    extern doublereal dlamch_(char *);
-    extern /* Subroutine */ int dlarfg_(integer *, doublereal *, doublereal *, 
-	     integer *, doublereal *);
-    doublereal safmin, safmax, rtdisc, smlnum;
+    floatreal ulp, sum, tst, rt1i, rt2i, rt1r, rt2r;
+    extern /* Subroutine */ int drot_(integer *, floatreal *, integer *, 
+	    floatreal *, integer *, floatreal *, floatreal *), dcopy_(
+	    integer *, floatreal *, integer *, floatreal *, integer *), 
+	    dlanv2_(floatreal *, floatreal *, floatreal *, floatreal *, 
+	    floatreal *, floatreal *, floatreal *, floatreal *, 
+	    floatreal *, floatreal *), dlabad_(floatreal *, floatreal *);
+    extern floatreal dlamch_(char *);
+    extern /* Subroutine */ int dlarfg_(integer *, floatreal *, floatreal *, 
+	     integer *, floatreal *);
+    floatreal safmin, safmax, rtdisc, smlnum;
 
 
 /*  -- LAPACK auxiliary routine (version 3.2) -- */
@@ -94,7 +94,7 @@ static integer c__1 = 1;
 /*          transformations to all of H if WANTT is .TRUE.. */
 /*          1 <= ILO <= max(1,IHI); IHI <= N. */
 
-/*     H       (input/output) DOUBLE PRECISION array, dimension (LDH,N) */
+/*     H       (input/output) float PRECISION array, dimension (LDH,N) */
 /*          On entry, the upper Hessenberg matrix H. */
 /*          On exit, if INFO is zero and if WANTT is .TRUE., H is upper */
 /*          quasi-triangular in rows and columns ILO:IHI, with any */
@@ -106,8 +106,8 @@ static integer c__1 = 1;
 /*     LDH     (input) INTEGER */
 /*          The leading dimension of the array H. LDH >= max(1,N). */
 
-/*     WR      (output) DOUBLE PRECISION array, dimension (N) */
-/*     WI      (output) DOUBLE PRECISION array, dimension (N) */
+/*     WR      (output) float PRECISION array, dimension (N) */
+/*     WI      (output) float PRECISION array, dimension (N) */
 /*          The real and imaginary parts, respectively, of the computed */
 /*          eigenvalues ILO to IHI are stored in the corresponding */
 /*          elements of WR and WI. If two eigenvalues are computed as a */
@@ -125,7 +125,7 @@ static integer c__1 = 1;
 /*          applied if WANTZ is .TRUE.. */
 /*          1 <= ILOZ <= ILO; IHI <= IHIZ <= N. */
 
-/*     Z       (input/output) DOUBLE PRECISION array, dimension (LDZ,N) */
+/*     Z       (input/output) float PRECISION array, dimension (LDZ,N) */
 /*          If WANTZ is .TRUE., on entry Z must contain the current */
 /*          matrix Z of transformations accumulated by DHSEQR, and on */
 /*          exit Z has been updated; transformations are applied only to */
@@ -233,7 +233,7 @@ static integer c__1 = 1;
     safmax = 1. / safmin;
     dlabad_(&safmin, &safmax);
     ulp = dlamch_("PRECISION");
-    smlnum = safmin * ((doublereal) nh / ulp);
+    smlnum = safmin * ((floatreal) nh / ulp);
 
 /*     I1 and I2 are the indices of the first row and last column of H */
 /*     to which transformations must be applied. If eigenvalues only are */
@@ -358,7 +358,7 @@ L40:
 	    h22 = h11;
 	} else {
 
-/*           Prepare to use Francis' double shift */
+/*           Prepare to use Francis' float shift */
 /*           (i.e. 2nd degree generalized Rayleigh quotient) */
 
 	    h11 = h__[i__ - 1 + (i__ - 1) * h_dim1];
@@ -411,7 +411,7 @@ L40:
 
 	i__1 = l;
 	for (m = i__ - 2; m >= i__1; --m) {
-/*           Determine the effect of starting the double-shift QR */
+/*           Determine the effect of starting the float-shift QR */
 /*           iteration at row M, and see if this would make H(M,M-1) */
 /*           negligible.  (The following uses scaling to avoid */
 /*           overflows and most underflows.) */
@@ -444,7 +444,7 @@ L40:
 	}
 L60:
 
-/*        Double-shift QR step */
+/*        float-shift QR step */
 
 	i__1 = i__ - 1;
 	for (k = m; k <= i__1; ++k) {

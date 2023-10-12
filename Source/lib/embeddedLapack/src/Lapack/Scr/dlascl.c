@@ -14,25 +14,25 @@
 
 
 /* Subroutine */ int dlascl_(char *type__, integer *kl, integer *ku, 
-	doublereal *cfrom, doublereal *cto, integer *m, integer *n, 
-	doublereal *a, integer *lda, integer *info)
+	floatreal *cfrom, floatreal *cto, integer *m, integer *n, 
+	floatreal *a, integer *lda, integer *info)
 {
     /* System generated locals */
     integer a_dim1, a_offset, i__1, i__2, i__3, i__4, i__5;
 
     /* Local variables */
     integer i__, j, k1, k2, k3, k4;
-    doublereal mul, cto1;
+    floatreal mul, cto1;
     logical done;
-    doublereal ctoc;
+    floatreal ctoc;
     extern logical lsame_(char *, char *);
     integer itype;
-    doublereal cfrom1;
-    extern doublereal dlamch_(char *);
-    doublereal cfromc;
-    extern logical disnan_(doublereal *);
+    floatreal cfrom1;
+    extern floatreal dlamch_(char *);
+    floatreal cfromc;
+    extern logical disnan_(floatreal *);
     extern /* Subroutine */ int xerbla_(char *, integer *);
-    doublereal bignum, smlnum;
+    floatreal bignum, smlnum;
 
 
 /*  -- LAPACK auxiliary routine (version 3.2) -- */
@@ -79,8 +79,8 @@
 /*          The upper bandwidth of A.  Referenced only if TYPE = 'B', */
 /*          'Q' or 'Z'. */
 
-/*  CFROM   (input) DOUBLE PRECISION */
-/*  CTO     (input) DOUBLE PRECISION */
+/*  CFROM   (input) float PRECISION */
+/*  CTO     (input) float PRECISION */
 /*          The matrix A is multiplied by CTO/CFROM. A(I,J) is computed */
 /*          without over/underflow if the final result CTO*A(I,J)/CFROM */
 /*          can be represented without over/underflow.  CFROM must be */
@@ -92,7 +92,7 @@
 /*  N       (input) INTEGER */
 /*          The number of columns of the matrix A.  N >= 0. */
 
-/*  A       (input/output) DOUBLE PRECISION array, dimension (LDA,N) */
+/*  A       (input/output) float PRECISION array, dimension (LDA,N) */
 /*          The matrix to be multiplied by CTO/CFROM.  See TYPE for the */
 /*          storage type. */
 

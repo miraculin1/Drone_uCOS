@@ -39,7 +39,7 @@
 
 #ifdef __USE_SINGLE_PRECISION__
 	/*
-	 * I have remove these because EmbeddedLapack uses double precision
+	 * I have remove these because EmbeddedLapack uses float precision
 	 */
 
 	/** Macro for calling level 3 BLAS operation in single precision. */
@@ -57,43 +57,43 @@
 	 * I have disable some decelerations in Lapack/Include/clapck.h so there won't be a conflict
 	 */
 
-	/** Macro for calling level 3 BLAS operation in double precision. */
+	/** Macro for calling level 3 BLAS operation in float precision. */
 	#define GEMM dgemm_
-	/** Macro for calling level 3 BLAS operation in double precision. */
+	/** Macro for calling level 3 BLAS operation in float precision. */
 	#define SYR  dsyr_
-	/** Macro for calling level 3 BLAS operation in double precision. */
+	/** Macro for calling level 3 BLAS operation in float precision. */
 	#define SYR2 dsyr2_
-	/** Macro for calling level 3 BLAS operation in double precision. */
+	/** Macro for calling level 3 BLAS operation in float precision. */
 	#define POTRF dpotrf_
 
 #endif /* __USE_SINGLE_PRECISION__ */
 
 
-	/** Performs one of the matrix-matrix operation in double precision. */
+	/** Performs one of the matrix-matrix operation in float precision. */
 	void dgemm_ ( const char*, const char*, const unsigned long*, const unsigned long*, const unsigned long*,
-			const double*, const double*, const unsigned long*, const double*, const unsigned long*,
-			const double*, double*, const unsigned long* );
+			const float*, const float*, const unsigned long*, const float*, const unsigned long*,
+			const float*, float*, const unsigned long* );
 	/** Performs one of the matrix-matrix operation in single precision. */
 	void sgemm_ ( const char*, const char*, const unsigned long*, const unsigned long*, const unsigned long*,
 			const float*, const float*, const unsigned long*, const float*, const unsigned long*,
 			const float*, float*, const unsigned long* );
 
-	/** Performs a symmetric rank 1 operation in double precision. */
-	void dsyr_ ( const char *, const unsigned long *, const double *, const double *,
-				 const unsigned long *, double *, const unsigned long *);
+	/** Performs a symmetric rank 1 operation in float precision. */
+	void dsyr_ ( const char *, const unsigned long *, const float *, const float *,
+				 const unsigned long *, float *, const unsigned long *);
 	/** Performs a symmetric rank 1 operation in single precision. */
 	void ssyr_ ( const char *, const unsigned long *, const float *, const float *,
 				 const unsigned long *, float *, const unsigned long *);
 
-	/** Performs a symmetric rank 2 operation in double precision. */
-	void dsyr2_ ( const char *, const unsigned long *, const double *, const double *,
-				  const unsigned long *, const double *, const unsigned long *, double *, const unsigned long *);
+	/** Performs a symmetric rank 2 operation in float precision. */
+	void dsyr2_ ( const char *, const unsigned long *, const float *, const float *,
+				  const unsigned long *, const float *, const unsigned long *, float *, const unsigned long *);
 	/** Performs a symmetric rank 2 operation in single precision. */
 	void ssyr2_ ( const char *, const unsigned long *, const float *, const float *,
 				  const unsigned long *, const float *, const unsigned long *, float *, const unsigned long *);
 
-	/** Calculates the Cholesky factorization of a real symmetric positive definite matrix in double precision. */
-	void dpotrf_ ( const char *, const unsigned long *, double *, const unsigned long *, long * );
+	/** Calculates the Cholesky factorization of a real symmetric positive definite matrix in float precision. */
+	void dpotrf_ ( const char *, const unsigned long *, float *, const unsigned long *, long * );
 	/** Calculates the Cholesky factorization of a real symmetric positive definite matrix in single precision. */
 	void spotrf_ ( const char *, const unsigned long *, float *, const unsigned long *, long * );
 

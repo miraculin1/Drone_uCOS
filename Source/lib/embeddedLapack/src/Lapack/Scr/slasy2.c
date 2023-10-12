@@ -54,7 +54,7 @@ static integer c__0 = 0;
 	    integer *), sswap_(integer *, real *, integer *, real *, integer *
 );
     logical xswap;
-    extern doublereal slamch_(char *);
+    extern floatreal slamch_(char *);
     extern integer isamax_(integer *, real *, integer *);
     real smlnum;
 

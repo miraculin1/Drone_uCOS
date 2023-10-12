@@ -26,48 +26,48 @@ static integer c__1 = 1;
 static integer c__3 = 3;
 
 /* Subroutine */ int dlaqr4_(logical *wantt, logical *wantz, integer *n, 
-	integer *ilo, integer *ihi, doublereal *h__, integer *ldh, doublereal 
-	*wr, doublereal *wi, integer *iloz, integer *ihiz, doublereal *z__, 
-	integer *ldz, doublereal *work, integer *lwork, integer *info)
+	integer *ilo, integer *ihi, floatreal *h__, integer *ldh, floatreal 
+	*wr, floatreal *wi, integer *iloz, integer *ihiz, floatreal *z__, 
+	integer *ldz, floatreal *work, integer *lwork, integer *info)
 {
     /* System generated locals */
     integer h_dim1, h_offset, z_dim1, z_offset, i__1, i__2, i__3, i__4, i__5;
-    doublereal d__1, d__2, d__3, d__4;
+    floatreal d__1, d__2, d__3, d__4;
 
     /* Local variables */
     integer i__, k;
-    doublereal aa, bb, cc, dd;
+    floatreal aa, bb, cc, dd;
     integer ld;
-    doublereal cs;
+    floatreal cs;
     integer nh, it, ks, kt;
-    doublereal sn;
+    floatreal sn;
     integer ku, kv, ls, ns;
-    doublereal ss;
+    floatreal ss;
     integer nw, inf, kdu, nho, nve, kwh, nsr, nwr, kwv, ndec, ndfl, kbot, 
 	    nmin;
-    doublereal swap;
+    floatreal swap;
     integer ktop;
-    doublereal zdum[1]	/* was [1][1] */;
+    floatreal zdum[1]	/* was [1][1] */;
     integer kacc22, itmax, nsmax, nwmax, kwtop;
     extern /* Subroutine */ int dlaqr2_(logical *, logical *, integer *, 
-	    integer *, integer *, integer *, doublereal *, integer *, integer 
-	    *, integer *, doublereal *, integer *, integer *, integer *, 
-	    doublereal *, doublereal *, doublereal *, integer *, integer *, 
-	    doublereal *, integer *, integer *, doublereal *, integer *, 
-	    doublereal *, integer *), dlanv2_(doublereal *, doublereal *, 
-	    doublereal *, doublereal *, doublereal *, doublereal *, 
-	    doublereal *, doublereal *, doublereal *, doublereal *), dlaqr5_(
+	    integer *, integer *, integer *, floatreal *, integer *, integer 
+	    *, integer *, floatreal *, integer *, integer *, integer *, 
+	    floatreal *, floatreal *, floatreal *, integer *, integer *, 
+	    floatreal *, integer *, integer *, floatreal *, integer *, 
+	    floatreal *, integer *), dlanv2_(floatreal *, floatreal *, 
+	    floatreal *, floatreal *, floatreal *, floatreal *, 
+	    floatreal *, floatreal *, floatreal *, floatreal *), dlaqr5_(
 	    logical *, logical *, integer *, integer *, integer *, integer *, 
-	    integer *, doublereal *, doublereal *, doublereal *, integer *, 
-	    integer *, integer *, doublereal *, integer *, doublereal *, 
-	    integer *, doublereal *, integer *, integer *, doublereal *, 
-	    integer *, integer *, doublereal *, integer *);
+	    integer *, floatreal *, floatreal *, floatreal *, integer *, 
+	    integer *, integer *, floatreal *, integer *, floatreal *, 
+	    integer *, floatreal *, integer *, integer *, floatreal *, 
+	    integer *, integer *, floatreal *, integer *);
     integer nibble;
     extern /* Subroutine */ int dlahqr_(logical *, logical *, integer *, 
-	    integer *, integer *, doublereal *, integer *, doublereal *, 
-	    doublereal *, integer *, integer *, doublereal *, integer *, 
-	    integer *), dlacpy_(char *, integer *, integer *, doublereal *, 
-	    integer *, doublereal *, integer *);
+	    integer *, integer *, floatreal *, integer *, floatreal *, 
+	    floatreal *, integer *, integer *, floatreal *, integer *, 
+	    integer *), dlacpy_(char *, integer *, integer *, floatreal *, 
+	    integer *, floatreal *, integer *);
     extern integer ilaenv_(integer *, char *, char *, integer *, integer *, 
 	    integer *, integer *);
     char jbcmpz[1];
@@ -130,7 +130,7 @@ static integer c__3 = 3;
 /*           respectively.  If N.GT.0, then 1.LE.ILO.LE.IHI.LE.N. */
 /*           If N = 0, then ILO = 1 and IHI = 0. */
 
-/*     H     (input/output) DOUBLE PRECISION array, dimension (LDH,N) */
+/*     H     (input/output) float PRECISION array, dimension (LDH,N) */
 /*           On entry, the upper Hessenberg matrix H. */
 /*           On exit, if INFO = 0 and WANTT is .TRUE., then H contains */
 /*           the upper quasi-triangular matrix T from the Schur */
@@ -148,8 +148,8 @@ static integer c__3 = 3;
 /*     LDH   (input) INTEGER */
 /*           The leading dimension of the array H. LDH .GE. max(1,N). */
 
-/*     WR    (output) DOUBLE PRECISION array, dimension (IHI) */
-/*     WI    (output) DOUBLE PRECISION array, dimension (IHI) */
+/*     WR    (output) float PRECISION array, dimension (IHI) */
+/*     WI    (output) float PRECISION array, dimension (IHI) */
 /*           The real and imaginary parts, respectively, of the computed */
 /*           eigenvalues of H(ILO:IHI,ILO:IHI) are stored in WR(ILO:IHI) */
 /*           and WI(ILO:IHI). If two eigenvalues are computed as a */
@@ -168,7 +168,7 @@ static integer c__3 = 3;
 /*           applied if WANTZ is .TRUE.. */
 /*           1 .LE. ILOZ .LE. ILO; IHI .LE. IHIZ .LE. N. */
 
-/*     Z     (input/output) DOUBLE PRECISION array, dimension (LDZ,IHI) */
+/*     Z     (input/output) float PRECISION array, dimension (LDZ,IHI) */
 /*           If WANTZ is .FALSE., then Z is not referenced. */
 /*           If WANTZ is .TRUE., then Z(ILO:IHI,ILOZ:IHIZ) is */
 /*           replaced by Z(ILO:IHI,ILOZ:IHIZ)*U where U is the */
@@ -180,7 +180,7 @@ static integer c__3 = 3;
 /*           The leading dimension of the array Z.  if WANTZ is .TRUE. */
 /*           then LDZ.GE.MAX(1,IHIZ).  Otherwize, LDZ.GE.1. */
 
-/*     WORK  (workspace/output) DOUBLE PRECISION array, dimension LWORK */
+/*     WORK  (workspace/output) float PRECISION array, dimension LWORK */
 /*           On exit, if LWORK = -1, WORK(1) returns an estimate of */
 /*           the optimal value for LWORK. */
 
@@ -372,7 +372,7 @@ static integer c__3 = 3;
 /*        ==== Quick return in case of workspace query. ==== */
 
 	if (*lwork == -1) {
-	    work[1] = (doublereal) lwkopt;
+	    work[1] = (floatreal) lwkopt;
 	    return 0;
 	}
 
@@ -746,7 +746,7 @@ L90:
 
 /*     ==== Return the optimal value of LWORK. ==== */
 
-    work[1] = (doublereal) lwkopt;
+    work[1] = (floatreal) lwkopt;
 
 /*     ==== End of DLAQR4 ==== */
 

@@ -13,10 +13,10 @@
 #include "../../Lapack/Include/f2c.h"
 
 
-/* Subroutine */ int dlabad_(doublereal *small, doublereal *large)
+/* Subroutine */ int dlabad_(floatreal *small, floatreal *large)
 {
     /* Builtin functions */
-    double d_lg10(doublereal *), sqrt(doublereal);
+    float d_lg10(floatreal *), sqrt(floatreal);
 
 
 /*  -- LAPACK auxiliary routine (version 3.2) -- */
@@ -41,12 +41,12 @@
 /*  Arguments */
 /*  ========= */
 
-/*  SMALL   (input/output) DOUBLE PRECISION */
+/*  SMALL   (input/output) float PRECISION */
 /*          On entry, the underflow threshold as computed by DLAMCH. */
 /*          On exit, if LOG10(LARGE) is sufficiently large, the square */
 /*          root of SMALL, otherwise unchanged. */
 
-/*  LARGE   (input/output) DOUBLE PRECISION */
+/*  LARGE   (input/output) float PRECISION */
 /*          On entry, the overflow threshold as computed by DLAMCH. */
 /*          On exit, if LOG10(LARGE) is sufficiently large, the square */
 /*          root of LARGE, otherwise unchanged. */

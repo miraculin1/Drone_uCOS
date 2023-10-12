@@ -19,27 +19,28 @@
 #define U_DIM 3
 
 typedef struct {
-  double x[ST_DIM];
-  double z[Z_DIM];
-  double u[U_DIM];
-  double P[ST_DIM * ST_DIM];
+  float x[ST_DIM];
+  float z[Z_DIM];
+  float u[U_DIM];
+  float P[ST_DIM * ST_DIM];
   // best:{-0.042155252543202654, 0.699747026300236, -0.71314587138046004}
-  double magBase[3];
-  double K[ST_DIM * Z_DIM];
-  double H[Z_DIM * ST_DIM];
+  float magBase[3];
+  float K[ST_DIM * Z_DIM];
+  float H[Z_DIM * ST_DIM];
 } EKF_T;
 
 #define INITSAMPLES 10
+#define PI 3.14159265359f
 
-extern double ATT_RATE;
+extern float ATT_RATE;
 
 void msr2State(EKF_T *ekf);
 void magBase(EKF_T *ekf);
 void attitudeEST();
 void outputDCM();
 void outputForPython();
-void outputYPR(double *yaw, double *pitch, double *roll);
+void outputYPR(float *yaw, float *pitch, float *roll);
 
-extern const double *const quatOut;
+extern const float *const quatOut;
 extern uint32_t deltatick;
 #endif

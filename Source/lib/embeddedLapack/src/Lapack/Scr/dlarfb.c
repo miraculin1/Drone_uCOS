@@ -16,13 +16,13 @@
 /* Table of constant values */
 
 static integer c__1 = 1;
-static doublereal c_b14 = 1.;
-static doublereal c_b25 = -1.;
+static floatreal c_b14 = 1.;
+static floatreal c_b25 = -1.;
 
 /* Subroutine */ int dlarfb_(char *side, char *trans, char *direct, char *
-	storev, integer *m, integer *n, integer *k, doublereal *v, integer *
-	ldv, doublereal *t, integer *ldt, doublereal *c__, integer *ldc, 
-	doublereal *work, integer *ldwork)
+	storev, integer *m, integer *n, integer *k, floatreal *v, integer *
+	ldv, floatreal *t, integer *ldt, floatreal *c__, integer *ldc, 
+	floatreal *work, integer *ldwork)
 {
     /* System generated locals */
     integer c_dim1, c_offset, t_dim1, t_offset, v_dim1, v_offset, work_dim1, 
@@ -31,17 +31,17 @@ static doublereal c_b25 = -1.;
     /* Local variables */
     integer i__, j;
     extern /* Subroutine */ int dgemm_(char *, char *, integer *, integer *, 
-	    integer *, doublereal *, doublereal *, integer *, doublereal *, 
-	    integer *, doublereal *, doublereal *, integer *);
+	    integer *, floatreal *, floatreal *, integer *, floatreal *, 
+	    integer *, floatreal *, floatreal *, integer *);
     extern logical lsame_(char *, char *);
     integer lastc;
-    extern /* Subroutine */ int dcopy_(integer *, doublereal *, integer *, 
-	    doublereal *, integer *), dtrmm_(char *, char *, char *, char *, 
-	    integer *, integer *, doublereal *, doublereal *, integer *, 
-	    doublereal *, integer *);
+    extern /* Subroutine */ int dcopy_(integer *, floatreal *, integer *, 
+	    floatreal *, integer *), dtrmm_(char *, char *, char *, char *, 
+	    integer *, integer *, floatreal *, floatreal *, integer *, 
+	    floatreal *, integer *);
     integer lastv;
-    extern integer iladlc_(integer *, integer *, doublereal *, integer *), 
-	    iladlr_(integer *, integer *, doublereal *, integer *);
+    extern integer iladlc_(integer *, integer *, floatreal *, integer *), 
+	    iladlr_(integer *, integer *, floatreal *, integer *);
     char transt[1];
 
 
@@ -93,7 +93,7 @@ static doublereal c_b25 = -1.;
 /*          The order of the matrix T (= the number of elementary */
 /*          reflectors whose product defines the block reflector). */
 
-/*  V       (input) DOUBLE PRECISION array, dimension */
+/*  V       (input) float PRECISION array, dimension */
 /*                                (LDV,K) if STOREV = 'C' */
 /*                                (LDV,M) if STOREV = 'R' and SIDE = 'L' */
 /*                                (LDV,N) if STOREV = 'R' and SIDE = 'R' */
@@ -105,21 +105,21 @@ static doublereal c_b25 = -1.;
 /*          if STOREV = 'C' and SIDE = 'R', LDV >= max(1,N); */
 /*          if STOREV = 'R', LDV >= K. */
 
-/*  T       (input) DOUBLE PRECISION array, dimension (LDT,K) */
+/*  T       (input) float PRECISION array, dimension (LDT,K) */
 /*          The triangular k by k matrix T in the representation of the */
 /*          block reflector. */
 
 /*  LDT     (input) INTEGER */
 /*          The leading dimension of the array T. LDT >= K. */
 
-/*  C       (input/output) DOUBLE PRECISION array, dimension (LDC,N) */
+/*  C       (input/output) float PRECISION array, dimension (LDC,N) */
 /*          On entry, the m by n matrix C. */
 /*          On exit, C is overwritten by H*C or H'*C or C*H or C*H'. */
 
 /*  LDC     (input) INTEGER */
 /*          The leading dimension of the array C. LDA >= max(1,M). */
 
-/*  WORK    (workspace) DOUBLE PRECISION array, dimension (LDWORK,K) */
+/*  WORK    (workspace) float PRECISION array, dimension (LDWORK,K) */
 
 /*  LDWORK  (input) INTEGER */
 /*          The leading dimension of the array WORK. */

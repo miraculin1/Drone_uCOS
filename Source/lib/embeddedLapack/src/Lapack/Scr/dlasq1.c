@@ -19,35 +19,35 @@ static integer c__1 = 1;
 static integer c__2 = 2;
 static integer c__0 = 0;
 
-/* Subroutine */ int dlasq1_(integer *n, doublereal *d__, doublereal *e, 
-	doublereal *work, integer *info)
+/* Subroutine */ int dlasq1_(integer *n, floatreal *d__, floatreal *e, 
+	floatreal *work, integer *info)
 {
     /* System generated locals */
     integer i__1, i__2;
-    doublereal d__1, d__2, d__3;
+    floatreal d__1, d__2, d__3;
 
     /* Builtin functions */
-    double sqrt(doublereal);
+    float sqrt(floatreal);
 
     /* Local variables */
     integer i__;
-    doublereal eps;
-    extern /* Subroutine */ int dlas2_(doublereal *, doublereal *, doublereal 
-	    *, doublereal *, doublereal *);
-    doublereal scale;
+    floatreal eps;
+    extern /* Subroutine */ int dlas2_(floatreal *, floatreal *, floatreal 
+	    *, floatreal *, floatreal *);
+    floatreal scale;
     integer iinfo;
-    doublereal sigmn;
-    extern /* Subroutine */ int dcopy_(integer *, doublereal *, integer *, 
-	    doublereal *, integer *);
-    doublereal sigmx;
-    extern /* Subroutine */ int dlasq2_(integer *, doublereal *, integer *);
-    extern doublereal dlamch_(char *);
+    floatreal sigmn;
+    extern /* Subroutine */ int dcopy_(integer *, floatreal *, integer *, 
+	    floatreal *, integer *);
+    floatreal sigmx;
+    extern /* Subroutine */ int dlasq2_(integer *, floatreal *, integer *);
+    extern floatreal dlamch_(char *);
     extern /* Subroutine */ int dlascl_(char *, integer *, integer *, 
-	    doublereal *, doublereal *, integer *, integer *, doublereal *, 
+	    floatreal *, floatreal *, integer *, integer *, floatreal *, 
 	    integer *, integer *);
-    doublereal safmin;
+    floatreal safmin;
     extern /* Subroutine */ int xerbla_(char *, integer *), dlasrt_(
-	    char *, integer *, doublereal *, integer *);
+	    char *, integer *, floatreal *, integer *);
 
 
 /*  -- LAPACK routine (version 3.2)                                    -- */
@@ -87,17 +87,17 @@ static integer c__0 = 0;
 /*  N     (input) INTEGER */
 /*        The number of rows and columns in the matrix. N >= 0. */
 
-/*  D     (input/output) DOUBLE PRECISION array, dimension (N) */
+/*  D     (input/output) float PRECISION array, dimension (N) */
 /*        On entry, D contains the diagonal elements of the */
 /*        bidiagonal matrix whose SVD is desired. On normal exit, */
 /*        D contains the singular values in decreasing order. */
 
-/*  E     (input/output) DOUBLE PRECISION array, dimension (N) */
+/*  E     (input/output) float PRECISION array, dimension (N) */
 /*        On entry, elements E(1:N-1) contain the off-diagonal elements */
 /*        of the bidiagonal matrix whose SVD is desired. */
 /*        On exit, E is overwritten. */
 
-/*  WORK  (workspace) DOUBLE PRECISION array, dimension (4*N) */
+/*  WORK  (workspace) float PRECISION array, dimension (4*N) */
 
 /*  INFO  (output) INTEGER */
 /*        = 0: successful exit */

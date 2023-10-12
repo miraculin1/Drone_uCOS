@@ -15,22 +15,22 @@
 
 /* Table of constant values */
 
-static doublereal c_b4 = 1.;
+static floatreal c_b4 = 1.;
 
-/* Subroutine */ int dlanv2_(doublereal *a, doublereal *b, doublereal *c__, 
-	doublereal *d__, doublereal *rt1r, doublereal *rt1i, doublereal *rt2r, 
-	 doublereal *rt2i, doublereal *cs, doublereal *sn)
+/* Subroutine */ int dlanv2_(floatreal *a, floatreal *b, floatreal *c__, 
+	floatreal *d__, floatreal *rt1r, floatreal *rt1i, floatreal *rt2r, 
+	 floatreal *rt2i, floatreal *cs, floatreal *sn)
 {
     /* System generated locals */
-    doublereal d__1, d__2;
+    floatreal d__1, d__2;
 
     /* Builtin functions */
-    double d_sign(doublereal *, doublereal *), sqrt(doublereal);
+    float d_sign(floatreal *, floatreal *), sqrt(floatreal);
 
     /* Local variables */
-    doublereal p, z__, aa, bb, cc, dd, cs1, sn1, sab, sac, eps, tau, temp, 
+    floatreal p, z__, aa, bb, cc, dd, cs1, sn1, sab, sac, eps, tau, temp, 
 	    scale, bcmax, bcmis, sigma;
-    extern doublereal dlapy2_(doublereal *, doublereal *), dlamch_(char *);
+    extern floatreal dlapy2_(floatreal *, floatreal *), dlamch_(char *);
 
 
 /*  -- LAPACK driver routine (version 3.2) -- */
@@ -57,23 +57,23 @@ static doublereal c_b4 = 1.;
 /*  Arguments */
 /*  ========= */
 
-/*  A       (input/output) DOUBLE PRECISION */
-/*  B       (input/output) DOUBLE PRECISION */
-/*  C       (input/output) DOUBLE PRECISION */
-/*  D       (input/output) DOUBLE PRECISION */
+/*  A       (input/output) float PRECISION */
+/*  B       (input/output) float PRECISION */
+/*  C       (input/output) float PRECISION */
+/*  D       (input/output) float PRECISION */
 /*          On entry, the elements of the input matrix. */
 /*          On exit, they are overwritten by the elements of the */
 /*          standardised Schur form. */
 
-/*  RT1R    (output) DOUBLE PRECISION */
-/*  RT1I    (output) DOUBLE PRECISION */
-/*  RT2R    (output) DOUBLE PRECISION */
-/*  RT2I    (output) DOUBLE PRECISION */
+/*  RT1R    (output) float PRECISION */
+/*  RT1I    (output) float PRECISION */
+/*  RT2R    (output) float PRECISION */
+/*  RT2I    (output) float PRECISION */
 /*          The real and imaginary parts of the eigenvalues. If the */
 /*          eigenvalues are a complex conjugate pair, RT1I > 0. */
 
-/*  CS      (output) DOUBLE PRECISION */
-/*  SN      (output) DOUBLE PRECISION */
+/*  CS      (output) float PRECISION */
+/*  SN      (output) float PRECISION */
 /*          Parameters of the rotation matrix. */
 
 /*  Further Details */

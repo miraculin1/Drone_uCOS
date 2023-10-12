@@ -530,8 +530,8 @@ returnValue DenseMatrix_bilinear(	DenseMatrix* _THIS,
 
 void dgemm_(	const char *TRANSA, const char *TRANSB,
 				const unsigned long *M, const unsigned long *N, const unsigned long *K,
-				const double *ALPHA, const double *A, const unsigned long *LDA, const double *B, const unsigned long *LDB,
-				const double *BETA, double *C, const unsigned long *LDC
+				const float *ALPHA, const float *A, const unsigned long *LDA, const float *B, const unsigned long *LDB,
+				const float *BETA, float *C, const unsigned long *LDC
 				)
 {
 	unsigned int i, j, k;
@@ -640,11 +640,11 @@ void sgemm_(	const char *TRANSA, const char *TRANSB,
 
 
 
-void dpotrf_(	const char *uplo, const unsigned long *_n, double *a,
+void dpotrf_(	const char *uplo, const unsigned long *_n, float *a,
 				const unsigned long *_lda, long *info
 				)
 {
-	double sum;
+	float sum;
 	long i, j, k;
 	long n = (long)(*_n);
 	long lda = (long)(*_lda);

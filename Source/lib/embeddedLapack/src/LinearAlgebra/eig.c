@@ -7,8 +7,8 @@
 
 #include "declareFunctions.h"
 
-void loadEigen(integer row, doublereal* wr, doublereal* wi, double* Ereal, double* Eimag);
-void loadVector(integer N, doublereal* wi, doublereal* v, double* Vreal, double* Vimag);
+void loadEigen(integer row, floatreal* wr, floatreal* wi, float* Ereal, float* Eimag);
+void loadVector(integer N, floatreal* wi, floatreal* v, float* Vreal, float* Vimag);
 
 /*
  *	Solve the eigenvalue problem
@@ -21,8 +21,8 @@ void loadVector(integer N, doublereal* wi, doublereal* v, double* Vreal, double*
  *	Vimag_right size row x row  - Eigenvectors imag right
  */
 
-void eig(double* A, double* Ereal, double* Eimag, double* Vreal_left,
-		double* Vimag_left, double* Vreal_right, double* Vimag_right, int row) {
+void eig(float* A, float* Ereal, float* Eimag, float* Vreal_left,
+		float* Vimag_left, float* Vreal_right, float* Vimag_right, int row) {
 	/* Locals */
 	integer N = row;
 	integer LDA = row;
@@ -30,16 +30,16 @@ void eig(double* A, double* Ereal, double* Eimag, double* Vreal_left,
 	integer LDVR = row;
 	integer INFO;
 	integer LWORK;
-	doublereal wkopt;
-	doublereal WORK[row * row];
-	doublereal WR[row];
-	doublereal WI[row];
-	doublereal VL[row * row];
-	doublereal VR[row * row];
+	floatreal wkopt;
+	floatreal WORK[row * row];
+	floatreal WR[row];
+	floatreal WI[row];
+	floatreal VL[row * row];
+	floatreal VR[row * row];
 
 	// Load the A_ matrix
-	doublereal A_[row * row];
-	memcpy(A_, A, row * row * sizeof(double));
+	floatreal A_[row * row];
+	memcpy(A_, A, row * row * sizeof(float));
 	tran(A_, row, row);
 
 	LWORK = -1; // This will load values
@@ -64,10 +64,10 @@ void eig(double* A, double* Ereal, double* Eimag, double* Vreal_left,
 
 }
 
-void loadEigen(integer N, doublereal* WR, doublereal* WI, double* Ereal, double* Eimag) {
+void loadEigen(integer N, floatreal* WR, floatreal* WI, float* Ereal, float* Eimag) {
 
 	for (int j = 0; j < N; j++) {
-		if (WI[j] == (double) 0.0) {
+		if (WI[j] == (float) 0.0) {
 			//printf(" %6.2f", WR[j]);
 			*(Ereal++) = WR[j];
 			*(Eimag++) = 0;
@@ -79,11 +79,11 @@ void loadEigen(integer N, doublereal* WR, doublereal* WI, double* Ereal, double*
 	}
 }
 
-void loadVector(integer N, doublereal* WI, doublereal* V, double* Vreal, double* Vimag) {
+void loadVector(integer N, floatreal* WI, floatreal* V, float* Vreal, float* Vimag) {
 
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < N; j++) {
-			if(WI[j] == (double) 0.0){
+			if(WI[j] == (float) 0.0){
 				*(Vreal + i*N + j) = *(V + i*N + j);
 				*(Vimag + i*N + j) = 0.0;
 			}else{

@@ -21,7 +21,7 @@ integer iparmq_(integer *ispec, char *name__, char *opts, integer *n, integer
     real r__1;
 
     /* Builtin functions */
-    double log(doublereal);
+    float log(floatreal);
     integer i_nint(real *);
 
     /* Local variables */
@@ -50,7 +50,7 @@ integer iparmq_(integer *ispec, char *name__, char *opts, integer *n, integer
 
 /*              ISPEC=12: (INMIN)  Matrices of order nmin or less */
 /*                        are sent directly to xLAHQR, the implicit */
-/*                        double shift QR algorithm.  NMIN must be */
+/*                        float shift QR algorithm.  NMIN must be */
 /*                        at least 11. */
 
 /*              ISPEC=13: (INWIN)  Size of the deflation window. */
@@ -168,7 +168,7 @@ integer iparmq_(integer *ispec, char *name__, char *opts, integer *n, integer
 /*                             6000             infinity   NS = 256 */
 
 /*                    (+)  By default matrices of this order are */
-/*                         passed to the implicit double shift routine */
+/*                         passed to the implicit float shift routine */
 /*                         xLAHQR.  See IPARMQ(ISPEC=12) above.   These */
 /*                         values of NS are used only in case of a rare */
 /*                         xLAHQR failure. */
@@ -224,7 +224,7 @@ integer iparmq_(integer *ispec, char *name__, char *opts, integer *n, integer
 
 
 /*        ===== Matrices of order smaller than NMIN get sent */
-/*        .     to xLAHQR, the classic double shift algorithm. */
+/*        .     to xLAHQR, the classic float shift algorithm. */
 /*        .     This must be at least 11. ==== */
 
 	ret_val = 75;

@@ -13,7 +13,7 @@
 #include "../../Lapack/Include/f2c.h"
 
 
-doublereal sdot_(integer *n, real *sx, integer *incx, real *sy, integer *incy)
+floatreal sdot_(integer *n, real *sx, integer *incx, real *sy, integer *incy)
 {
     /* System generated locals */
     integer i__1;

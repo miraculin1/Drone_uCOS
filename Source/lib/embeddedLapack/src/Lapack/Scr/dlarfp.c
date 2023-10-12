@@ -13,25 +13,25 @@
 #include "../../Lapack/Include/f2c.h"
 
 
-/* Subroutine */ int dlarfp_(integer *n, doublereal *alpha, doublereal *x, 
-	integer *incx, doublereal *tau)
+/* Subroutine */ int dlarfp_(integer *n, floatreal *alpha, floatreal *x, 
+	integer *incx, floatreal *tau)
 {
     /* System generated locals */
     integer i__1;
-    doublereal d__1;
+    floatreal d__1;
 
     /* Builtin functions */
-    double d_sign(doublereal *, doublereal *);
+    float d_sign(floatreal *, floatreal *);
 
     /* Local variables */
     integer j, knt;
-    doublereal beta;
-    extern doublereal dnrm2_(integer *, doublereal *, integer *);
-    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *, 
+    floatreal beta;
+    extern floatreal dnrm2_(integer *, floatreal *, integer *);
+    extern /* Subroutine */ int dscal_(integer *, floatreal *, floatreal *, 
 	    integer *);
-    doublereal xnorm;
-    extern doublereal dlapy2_(doublereal *, doublereal *), dlamch_(char *);
-    doublereal safmin, rsafmn;
+    floatreal xnorm;
+    extern floatreal dlapy2_(floatreal *, floatreal *), dlamch_(char *);
+    floatreal safmin, rsafmn;
 
 
 /*  -- LAPACK auxiliary routine (version 3.2) -- */
@@ -72,11 +72,11 @@
 /*  N       (input) INTEGER */
 /*          The order of the elementary reflector. */
 
-/*  ALPHA   (input/output) DOUBLE PRECISION */
+/*  ALPHA   (input/output) float PRECISION */
 /*          On entry, the value alpha. */
 /*          On exit, it is overwritten with the value beta. */
 
-/*  X       (input/output) DOUBLE PRECISION array, dimension */
+/*  X       (input/output) float PRECISION array, dimension */
 /*                         (1+(N-2)*abs(INCX)) */
 /*          On entry, the vector x. */
 /*          On exit, it is overwritten with the vector v. */
@@ -84,7 +84,7 @@
 /*  INCX    (input) INTEGER */
 /*          The increment between elements of X. INCX > 0. */
 
-/*  TAU     (output) DOUBLE PRECISION */
+/*  TAU     (output) float PRECISION */
 /*          The value tau. */
 
 /*  ===================================================================== */

@@ -644,7 +644,7 @@ typedef  struct  os_tmr {
     INT8U            OSTmrType;             /* Should be set to OS_TMR_TYPE                            */
     OS_TMR_CALLBACK  OSTmrCallback;         /* Function to call when timer expires                     */
     void            *OSTmrCallbackArg;      /* Argument to pass to function when timer expires         */
-    void            *OSTmrNext;             /* Double link list pointers                               */
+    void            *OSTmrNext;             /* float link list pointers                               */
     void            *OSTmrPrev;
     INT32U           OSTmrMatch;            /* Timer expires when OSTmrTime == OSTmrMatch              */
     INT32U           OSTmrDly;              /* Delay time before periodic update starts                */

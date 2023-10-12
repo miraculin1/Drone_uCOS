@@ -18,72 +18,72 @@ static integer c__1 = 1;
 static integer c__0 = 0;
 static integer c_n1 = -1;
 
-/* Subroutine */ int dgeev_(char *jobvl, char *jobvr, integer *n, doublereal *
-	a, integer *lda, doublereal *wr, doublereal *wi, doublereal *vl, 
-	integer *ldvl, doublereal *vr, integer *ldvr, doublereal *work, 
+/* Subroutine */ int dgeev_(char *jobvl, char *jobvr, integer *n, floatreal *
+	a, integer *lda, floatreal *wr, floatreal *wi, floatreal *vl, 
+	integer *ldvl, floatreal *vr, integer *ldvr, floatreal *work, 
 	integer *lwork, integer *info)
 {
     /* System generated locals */
     integer a_dim1, a_offset, vl_dim1, vl_offset, vr_dim1, vr_offset, i__1, 
 	    i__2, i__3;
-    doublereal d__1, d__2;
+    floatreal d__1, d__2;
 
     /* Builtin functions */
-    double sqrt(doublereal);
+    float sqrt(floatreal);
 
     /* Local variables */
     integer i__, k;
-    doublereal r__, cs, sn;
+    floatreal r__, cs, sn;
     integer ihi;
-    doublereal scl;
+    floatreal scl;
     integer ilo;
-    doublereal dum[1], eps;
+    floatreal dum[1], eps;
     integer ibal;
     char side[1];
-    doublereal anrm;
+    floatreal anrm;
     integer ierr, itau;
-    extern /* Subroutine */ int drot_(integer *, doublereal *, integer *, 
-	    doublereal *, integer *, doublereal *, doublereal *);
+    extern /* Subroutine */ int drot_(integer *, floatreal *, integer *, 
+	    floatreal *, integer *, floatreal *, floatreal *);
     integer iwrk, nout;
-    extern doublereal dnrm2_(integer *, doublereal *, integer *);
-    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *, 
+    extern floatreal dnrm2_(integer *, floatreal *, integer *);
+    extern /* Subroutine */ int dscal_(integer *, floatreal *, floatreal *, 
 	    integer *);
     extern logical lsame_(char *, char *);
-    extern doublereal dlapy2_(doublereal *, doublereal *);
-    extern /* Subroutine */ int dlabad_(doublereal *, doublereal *), dgebak_(
-	    char *, char *, integer *, integer *, integer *, doublereal *, 
-	    integer *, doublereal *, integer *, integer *), 
-	    dgebal_(char *, integer *, doublereal *, integer *, integer *, 
-	    integer *, doublereal *, integer *);
+    extern floatreal dlapy2_(floatreal *, floatreal *);
+    extern /* Subroutine */ int dlabad_(floatreal *, floatreal *), dgebak_(
+	    char *, char *, integer *, integer *, integer *, floatreal *, 
+	    integer *, floatreal *, integer *, integer *), 
+	    dgebal_(char *, integer *, floatreal *, integer *, integer *, 
+	    integer *, floatreal *, integer *);
     logical scalea;
-    extern doublereal dlamch_(char *);
-    doublereal cscale;
-    extern doublereal dlange_(char *, integer *, integer *, doublereal *, 
-	    integer *, doublereal *);
+    extern floatreal dlamch_(char *);
+    floatreal cscale;
+    extern floatreal dlange_(char *, integer *, integer *, floatreal *, 
+	    integer *, floatreal *);
     extern /* Subroutine */ int dgehrd_(integer *, integer *, integer *, 
-	    doublereal *, integer *, doublereal *, doublereal *, integer *, 
-	    integer *), dlascl_(char *, integer *, integer *, doublereal *, 
-	    doublereal *, integer *, integer *, doublereal *, integer *, 
+	    floatreal *, integer *, floatreal *, floatreal *, integer *, 
+	    integer *), dlascl_(char *, integer *, integer *, floatreal *, 
+	    floatreal *, integer *, integer *, floatreal *, integer *, 
 	    integer *);
-    extern integer idamax_(integer *, doublereal *, integer *);
+    extern integer idamax_(integer *, floatreal *, integer *);
     extern /* Subroutine */ int dlacpy_(char *, integer *, integer *, 
-	    doublereal *, integer *, doublereal *, integer *), 
-	    dlartg_(doublereal *, doublereal *, doublereal *, doublereal *, 
-	    doublereal *), xerbla_(char *, integer *);
+	    floatreal *, integer *, floatreal *, integer *), 
+	    dlartg_(floatreal *, floatreal *, floatreal *, floatreal *, 
+	    floatreal *), xerbla_(char *, integer *);
     logical select[1];
     extern integer ilaenv_(integer *, char *, char *, integer *, integer *, 
 	    integer *, integer *);
-    doublereal bignum;
+    floatreal bignum;
     extern /* Subroutine */ int dorghr_(integer *, integer *, integer *, 
-	    doublereal *, integer *, doublereal *, doublereal *, integer *, 
+	    floatreal *, integer *, floatreal *, floatreal *, integer *, 
 	    integer *), dhseqr_(char *, char *, integer *, integer *, integer 
-	    *, doublereal *, integer *, doublereal *, doublereal *, 
-	    doublereal *, integer *, doublereal *, integer *, integer *), dtrevc_(char *, char *, logical *, integer *, 
-	    doublereal *, integer *, doublereal *, integer *, doublereal *, 
-	    integer *, integer *, integer *, doublereal *, integer *);
+	    *, floatreal *, integer *, floatreal *, floatreal *, 
+	    floatreal *, integer *, floatreal *, integer *, integer *), dtrevc_(char *, char *, logical *, integer *, 
+	    floatreal *, integer *, floatreal *, integer *, floatreal *, 
+	    integer *, integer *, integer *, floatreal *, integer *);
     integer minwrk, maxwrk;
     logical wantvl;
-    doublereal smlnum;
+    floatreal smlnum;
     integer hswork;
     logical lquery, wantvr;
 
@@ -127,22 +127,22 @@ static integer c_n1 = -1;
 /*  N       (input) INTEGER */
 /*          The order of the matrix A. N >= 0. */
 
-/*  A       (input/output) DOUBLE PRECISION array, dimension (LDA,N) */
+/*  A       (input/output) float PRECISION array, dimension (LDA,N) */
 /*          On entry, the N-by-N matrix A. */
 /*          On exit, A has been overwritten. */
 
 /*  LDA     (input) INTEGER */
 /*          The leading dimension of the array A.  LDA >= max(1,N). */
 
-/*  WR      (output) DOUBLE PRECISION array, dimension (N) */
-/*  WI      (output) DOUBLE PRECISION array, dimension (N) */
+/*  WR      (output) float PRECISION array, dimension (N) */
+/*  WI      (output) float PRECISION array, dimension (N) */
 /*          WR and WI contain the real and imaginary parts, */
 /*          respectively, of the computed eigenvalues.  Complex */
 /*          conjugate pairs of eigenvalues appear consecutively */
 /*          with the eigenvalue having the positive imaginary part */
 /*          first. */
 
-/*  VL      (output) DOUBLE PRECISION array, dimension (LDVL,N) */
+/*  VL      (output) float PRECISION array, dimension (LDVL,N) */
 /*          If JOBVL = 'V', the left eigenvectors u(j) are stored one */
 /*          after another in the columns of VL, in the same order */
 /*          as their eigenvalues. */
@@ -157,7 +157,7 @@ static integer c_n1 = -1;
 /*          The leading dimension of the array VL.  LDVL >= 1; if */
 /*          JOBVL = 'V', LDVL >= N. */
 
-/*  VR      (output) DOUBLE PRECISION array, dimension (LDVR,N) */
+/*  VR      (output) float PRECISION array, dimension (LDVR,N) */
 /*          If JOBVR = 'V', the right eigenvectors v(j) are stored one */
 /*          after another in the columns of VR, in the same order */
 /*          as their eigenvalues. */
@@ -172,7 +172,7 @@ static integer c_n1 = -1;
 /*          The leading dimension of the array VR.  LDVR >= 1; if */
 /*          JOBVR = 'V', LDVR >= N. */
 
-/*  WORK    (workspace/output) DOUBLE PRECISION array, dimension (MAX(1,LWORK)) */
+/*  WORK    (workspace/output) float PRECISION array, dimension (MAX(1,LWORK)) */
 /*          On exit, if INFO = 0, WORK(1) returns the optimal LWORK. */
 
 /*  LWORK   (input) INTEGER */
@@ -305,7 +305,7 @@ static integer c_n1 = -1;
 	    }
 	    maxwrk = max(maxwrk,minwrk);
 	}
-	work[1] = (doublereal) maxwrk;
+	work[1] = (floatreal) maxwrk;
 
 	if (*lwork < minwrk && ! lquery) {
 	    *info = -13;
@@ -557,7 +557,7 @@ L50:
 	}
     }
 
-    work[1] = (doublereal) maxwrk;
+    work[1] = (floatreal) maxwrk;
     return 0;
 
 /*     End of DGEEV */

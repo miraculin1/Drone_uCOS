@@ -13,14 +13,14 @@
  * Then you need a matrix B with size row*2 x column*3
  */
 
-void repmat(double* A, int row, int column, int horz, int vert, double* B) {
+void repmat(float* A, int row, int column, int horz, int vert, float* B) {
 
 	int jump = 0;
 
 	// Copy whole matrix a to b
 	for (int i = 0; i < row*vert; i++) {
 		for (int j = 0; j < horz; j++) {
-			memcpy(B, A + jump, sizeof(double) * column);
+			memcpy(B, A + jump, sizeof(float) * column);
 			B += column;
 		}
 		jump += column; // Jump m columns

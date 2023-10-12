@@ -13,13 +13,13 @@
 #include "../../Lapack/Include/f2c.h"
 
 
-logical disnan_(doublereal *din)
+logical disnan_(floatreal *din)
 {
     /* System generated locals */
     logical ret_val;
 
     /* Local variables */
-    extern logical dlaisnan_(doublereal *, doublereal *);
+    extern logical dlaisnan_(floatreal *, floatreal *);
 
 
 /*  -- LAPACK auxiliary routine (version 3.2) -- */
@@ -39,7 +39,7 @@ logical disnan_(doublereal *din)
 /*  Arguments */
 /*  ========= */
 
-/*  DIN      (input) DOUBLE PRECISION */
+/*  DIN      (input) float PRECISION */
 /*          Input to test for NaN. */
 
 /*  ===================================================================== */

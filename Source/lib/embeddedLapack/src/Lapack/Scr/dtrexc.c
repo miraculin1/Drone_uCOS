@@ -18,9 +18,9 @@
 static integer c__1 = 1;
 static integer c__2 = 2;
 
-/* Subroutine */ int dtrexc_(char *compq, integer *n, doublereal *t, integer *
-	ldt, doublereal *q, integer *ldq, integer *ifst, integer *ilst, 
-	doublereal *work, integer *info)
+/* Subroutine */ int dtrexc_(char *compq, integer *n, floatreal *t, integer *
+	ldt, floatreal *q, integer *ldq, integer *ifst, integer *ilst, 
+	floatreal *work, integer *info)
 {
     /* System generated locals */
     integer q_dim1, q_offset, t_dim1, t_offset, i__1;
@@ -29,9 +29,9 @@ static integer c__2 = 2;
     integer nbf, nbl, here;
     extern logical lsame_(char *, char *);
     logical wantq;
-    extern /* Subroutine */ int dlaexc_(logical *, integer *, doublereal *, 
-	    integer *, doublereal *, integer *, integer *, integer *, integer 
-	    *, doublereal *, integer *), xerbla_(char *, integer *);
+    extern /* Subroutine */ int dlaexc_(logical *, integer *, floatreal *, 
+	    integer *, floatreal *, integer *, integer *, integer *, integer 
+	    *, floatreal *, integer *), xerbla_(char *, integer *);
     integer nbnext;
 
 
@@ -70,7 +70,7 @@ static integer c__2 = 2;
 /*  N       (input) INTEGER */
 /*          The order of the matrix T. N >= 0. */
 
-/*  T       (input/output) DOUBLE PRECISION array, dimension (LDT,N) */
+/*  T       (input/output) float PRECISION array, dimension (LDT,N) */
 /*          On entry, the upper quasi-triangular matrix T, in Schur */
 /*          Schur canonical form. */
 /*          On exit, the reordered upper quasi-triangular matrix, again */
@@ -79,7 +79,7 @@ static integer c__2 = 2;
 /*  LDT     (input) INTEGER */
 /*          The leading dimension of the array T. LDT >= max(1,N). */
 
-/*  Q       (input/output) DOUBLE PRECISION array, dimension (LDQ,N) */
+/*  Q       (input/output) float PRECISION array, dimension (LDQ,N) */
 /*          On entry, if COMPQ = 'V', the matrix Q of Schur vectors. */
 /*          On exit, if COMPQ = 'V', Q has been postmultiplied by the */
 /*          orthogonal transformation matrix Z which reorders T. */
@@ -99,7 +99,7 @@ static integer c__2 = 2;
 /*          position (which may differ from its input value by +1 or -1). */
 /*          1 <= IFST <= N; 1 <= ILST <= N. */
 
-/*  WORK    (workspace) DOUBLE PRECISION array, dimension (N) */
+/*  WORK    (workspace) float PRECISION array, dimension (N) */
 
 /*  INFO    (output) INTEGER */
 /*          = 0:  successful exit */

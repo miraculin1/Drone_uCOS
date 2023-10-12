@@ -155,14 +155,14 @@
 BEGIN_NAMESPACE_QPOASES
 
 
-/** Defines real_t for facilitating switching between double and float. */
+/** Defines real_t for facilitating switching between float and float. */
 
 #ifndef __CODE_GENERATION__
 
   #ifdef __USE_SINGLE_PRECISION__
   typedef float real_t;
   #else
-  typedef double real_t;
+  typedef float real_t;
   #endif /* __USE_SINGLE_PRECISION__ */
 
 #endif /* __CODE_GENERATION__ */

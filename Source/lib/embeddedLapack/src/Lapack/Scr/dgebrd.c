@@ -19,28 +19,28 @@ static integer c__1 = 1;
 static integer c_n1 = -1;
 static integer c__3 = 3;
 static integer c__2 = 2;
-static doublereal c_b21 = -1.;
-static doublereal c_b22 = 1.;
+static floatreal c_b21 = -1.;
+static floatreal c_b22 = 1.;
 
-/* Subroutine */ int dgebrd_(integer *m, integer *n, doublereal *a, integer *
-	lda, doublereal *d__, doublereal *e, doublereal *tauq, doublereal *
-	taup, doublereal *work, integer *lwork, integer *info)
+/* Subroutine */ int dgebrd_(integer *m, integer *n, floatreal *a, integer *
+	lda, floatreal *d__, floatreal *e, floatreal *tauq, floatreal *
+	taup, floatreal *work, integer *lwork, integer *info)
 {
     /* System generated locals */
     integer a_dim1, a_offset, i__1, i__2, i__3, i__4;
 
     /* Local variables */
     integer i__, j, nb, nx;
-    doublereal ws;
+    floatreal ws;
     extern /* Subroutine */ int dgemm_(char *, char *, integer *, integer *, 
-	    integer *, doublereal *, doublereal *, integer *, doublereal *, 
-	    integer *, doublereal *, doublereal *, integer *);
+	    integer *, floatreal *, floatreal *, integer *, floatreal *, 
+	    integer *, floatreal *, floatreal *, integer *);
     integer nbmin, iinfo, minmn;
-    extern /* Subroutine */ int dgebd2_(integer *, integer *, doublereal *, 
-	    integer *, doublereal *, doublereal *, doublereal *, doublereal *, 
-	     doublereal *, integer *), dlabrd_(integer *, integer *, integer *
-, doublereal *, integer *, doublereal *, doublereal *, doublereal 
-	    *, doublereal *, doublereal *, integer *, doublereal *, integer *)
+    extern /* Subroutine */ int dgebd2_(integer *, integer *, floatreal *, 
+	    integer *, floatreal *, floatreal *, floatreal *, floatreal *, 
+	     floatreal *, integer *), dlabrd_(integer *, integer *, integer *
+, floatreal *, integer *, floatreal *, floatreal *, floatreal 
+	    *, floatreal *, floatreal *, integer *, floatreal *, integer *)
 	    , xerbla_(char *, integer *);
     extern integer ilaenv_(integer *, char *, char *, integer *, integer *, 
 	    integer *, integer *);
@@ -74,7 +74,7 @@ static doublereal c_b22 = 1.;
 /*  N       (input) INTEGER */
 /*          The number of columns in the matrix A.  N >= 0. */
 
-/*  A       (input/output) DOUBLE PRECISION array, dimension (LDA,N) */
+/*  A       (input/output) float PRECISION array, dimension (LDA,N) */
 /*          On entry, the M-by-N general matrix to be reduced. */
 /*          On exit, */
 /*          if m >= n, the diagonal and the first superdiagonal are */
@@ -96,24 +96,24 @@ static doublereal c_b22 = 1.;
 /*  LDA     (input) INTEGER */
 /*          The leading dimension of the array A.  LDA >= max(1,M). */
 
-/*  D       (output) DOUBLE PRECISION array, dimension (min(M,N)) */
+/*  D       (output) float PRECISION array, dimension (min(M,N)) */
 /*          The diagonal elements of the bidiagonal matrix B: */
 /*          D(i) = A(i,i). */
 
-/*  E       (output) DOUBLE PRECISION array, dimension (min(M,N)-1) */
+/*  E       (output) float PRECISION array, dimension (min(M,N)-1) */
 /*          The off-diagonal elements of the bidiagonal matrix B: */
 /*          if m >= n, E(i) = A(i,i+1) for i = 1,2,...,n-1; */
 /*          if m < n, E(i) = A(i+1,i) for i = 1,2,...,m-1. */
 
-/*  TAUQ    (output) DOUBLE PRECISION array dimension (min(M,N)) */
+/*  TAUQ    (output) float PRECISION array dimension (min(M,N)) */
 /*          The scalar factors of the elementary reflectors which */
 /*          represent the orthogonal matrix Q. See Further Details. */
 
-/*  TAUP    (output) DOUBLE PRECISION array, dimension (min(M,N)) */
+/*  TAUP    (output) float PRECISION array, dimension (min(M,N)) */
 /*          The scalar factors of the elementary reflectors which */
 /*          represent the orthogonal matrix P. See Further Details. */
 
-/*  WORK    (workspace/output) DOUBLE PRECISION array, dimension (MAX(1,LWORK)) */
+/*  WORK    (workspace/output) float PRECISION array, dimension (MAX(1,LWORK)) */
 /*          On exit, if INFO = 0, WORK(1) returns the optimal LWORK. */
 
 /*  LWORK   (input) INTEGER */
@@ -209,7 +209,7 @@ static doublereal c_b22 = 1.;
     i__1 = 1, i__2 = ilaenv_(&c__1, "DGEBRD", " ", m, n, &c_n1, &c_n1);
     nb = max(i__1,i__2);
     lwkopt = (*m + *n) * nb;
-    work[1] = (doublereal) lwkopt;
+    work[1] = (floatreal) lwkopt;
     lquery = *lwork == -1;
     if (*m < 0) {
 	*info = -1;
@@ -240,7 +240,7 @@ static doublereal c_b22 = 1.;
 	return 0;
     }
 
-    ws = (doublereal) max(*m,*n);
+    ws = (floatreal) max(*m,*n);
     ldwrkx = *m;
     ldwrky = *n;
 
@@ -255,8 +255,8 @@ static doublereal c_b22 = 1.;
 /*        Determine when to switch from blocked to unblocked code. */
 
 	if (nx < minmn) {
-	    ws = (doublereal) ((*m + *n) * nb);
-	    if ((doublereal) (*lwork) < ws) {
+	    ws = (floatreal) ((*m + *n) * nb);
+	    if ((floatreal) (*lwork) < ws) {
 
 /*              Not enough work space for the optimal NB, consider using */
 /*              a smaller block size. */

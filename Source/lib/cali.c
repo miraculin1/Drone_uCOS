@@ -2,28 +2,28 @@
 #include "Includes.h"
 #include "declareFunctions.h"
 
-static void ellipse(void (*fp)(double *, double *), double *bais);
+static void ellipse(void (*fp)(float *, float *), float *bais);
 
 // repsent the state of the cali
 // bit2-acc bit1-mag bit0-gyro
 uint8_t CALIBDONE = 0b110;
 
 // ellipse vec(O) vec(S)
-double accBias[6] = {-0.033726262708522053, 0.0088630975845296577,
+float accBias[6] = {-0.033726262708522053, 0.0088630975845296577,
                      0.0069665471089496861, 1.0067846186785343,
                      1.0036822097709142,    1.0066589186384178};
-double magBias[6] = {-222.14524931519642, 74.825429233358093,
+float magBias[6] = {-222.14524931519642, 74.825429233358093,
                      269.44834375493491, 454.18431313304973,
                      467.95234004152985, 459.20061975143091};
 // vec(O)
-double gyroBias[3] = {0};
+float gyroBias[3] = {0};
 
 // r = 1 - (ax - ox)sx^2 - (ay - oy)sy^2 - (az - oz)sz^2
 // using least square
 void caliAcc() {
-  double tmp[6] = {0};
+  float tmp[6] = {0};
   ellipse(AccGData, tmp);
-  double x0, y0, z0, A, B, C;
+  float x0, y0, z0, A, B, C;
   x0 = -tmp[2] / 2;
   y0 = -tmp[3] / 2 / tmp[0];
   z0 = -tmp[4] / 2 / tmp[1];
@@ -41,9 +41,9 @@ void caliAcc() {
 }
 
 void caliMag() {
-  double tmp[6] = {0};
+  float tmp[6] = {0};
   ellipse(MagmGuassData, tmp);
-  double x0, y0, z0, A, B, C;
+  float x0, y0, z0, A, B, C;
   x0 = -tmp[2] / 2;
   y0 = -tmp[3] / 2 / tmp[0];
   z0 = -tmp[4] / 2 / tmp[1];
@@ -66,7 +66,7 @@ void caliGyro() {
   OSTimeDlyHMSM(0,0,3,0);
   printf("now\n");
 
-  double tmp[3];
+  float tmp[3];
   for (int i = 0; i < SAMPLE_NUM; ++i) {
     GyroDpSData(tmp, NULL);
     for (int dim = 0; dim < 3; ++dim) {
@@ -79,9 +79,9 @@ void caliGyro() {
   CALIBDONE |= 0x1;
 }
 
-static void DataInput(double *data, double *m, double *right) {
+static void DataInput(float *data, float *m, float *right) {
   // helper to accumlate the matrix
-  double tmp[7] = {data[1] * data[1], data[2] * data[2], data[0],
+  float tmp[7] = {data[1] * data[1], data[2] * data[2], data[0],
                    data[1],           data[2],           1,
                    -data[0] * data[0]};
 
@@ -96,17 +96,17 @@ static void DataInput(double *data, double *m, double *right) {
   }
 }
 
-static void ellipse(void (*msrFunc)(double *, double *), double *bais) {
+static void ellipse(void (*msrFunc)(float *, float *), float *bais) {
   enum TYPE_T { acc, mag };
   enum TYPE_T type;
-  double M[6 * 6] = {0};
-  double right[6] = {0};
+  float M[6 * 6] = {0};
+  float right[6] = {0};
 
   int sampleLimit;
 
-  double res[6];
+  float res[6];
 
-  double data[3];
+  float data[3];
   if (msrFunc == AccGData) {
     sampleLimit = SAMPLE_NUM;
     type = acc;

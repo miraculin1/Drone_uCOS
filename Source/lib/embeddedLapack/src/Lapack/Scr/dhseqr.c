@@ -15,21 +15,21 @@
 
 /* Table of constant values */
 
-static doublereal c_b11 = 0.;
-static doublereal c_b12 = 1.;
+static floatreal c_b11 = 0.;
+static floatreal c_b12 = 1.;
 static integer c__12 = 12;
 static integer c__2 = 2;
 static integer c__49 = 49;
 
 /* Subroutine */ int dhseqr_(char *job, char *compz, integer *n, integer *ilo, 
-	 integer *ihi, doublereal *h__, integer *ldh, doublereal *wr, 
-	doublereal *wi, doublereal *z__, integer *ldz, doublereal *work, 
+	 integer *ihi, floatreal *h__, integer *ldh, floatreal *wr, 
+	floatreal *wi, floatreal *z__, integer *ldz, floatreal *work, 
 	integer *lwork, integer *info)
 {
     /* System generated locals */
     address a__1[2];
     integer h_dim1, h_offset, z_dim1, z_offset, i__1, i__2[2], i__3;
-    doublereal d__1;
+    floatreal d__1;
     char ch__1[2];
 
     /* Builtin functions */
@@ -37,22 +37,22 @@ static integer c__49 = 49;
 
     /* Local variables */
     integer i__;
-    doublereal hl[2401]	/* was [49][49] */;
+    floatreal hl[2401]	/* was [49][49] */;
     integer kbot, nmin;
     extern logical lsame_(char *, char *);
     logical initz;
-    doublereal workl[49];
+    floatreal workl[49];
     logical wantt, wantz;
     extern /* Subroutine */ int dlaqr0_(logical *, logical *, integer *, 
-	    integer *, integer *, doublereal *, integer *, doublereal *, 
-	    doublereal *, integer *, integer *, doublereal *, integer *, 
-	    doublereal *, integer *, integer *), dlahqr_(logical *, logical *, 
-	     integer *, integer *, integer *, doublereal *, integer *, 
-	    doublereal *, doublereal *, integer *, integer *, doublereal *, 
+	    integer *, integer *, floatreal *, integer *, floatreal *, 
+	    floatreal *, integer *, integer *, floatreal *, integer *, 
+	    floatreal *, integer *, integer *), dlahqr_(logical *, logical *, 
+	     integer *, integer *, integer *, floatreal *, integer *, 
+	    floatreal *, floatreal *, integer *, integer *, floatreal *, 
 	    integer *, integer *), dlacpy_(char *, integer *, integer *, 
-	    doublereal *, integer *, doublereal *, integer *), 
-	    dlaset_(char *, integer *, integer *, doublereal *, doublereal *, 
-	    doublereal *, integer *);
+	    floatreal *, integer *, floatreal *, integer *), 
+	    dlaset_(char *, integer *, integer *, floatreal *, floatreal *, 
+	    floatreal *, integer *);
     extern integer ilaenv_(integer *, char *, char *, integer *, integer *, 
 	    integer *, integer *);
     extern /* Subroutine */ int xerbla_(char *, integer *);
@@ -107,7 +107,7 @@ static integer c__49 = 49;
 /*           respectively.  If N.GT.0, then 1.LE.ILO.LE.IHI.LE.N. */
 /*           If N = 0, then ILO = 1 and IHI = 0. */
 
-/*     H     (input/output) DOUBLE PRECISION array, dimension (LDH,N) */
+/*     H     (input/output) float PRECISION array, dimension (LDH,N) */
 /*           On entry, the upper Hessenberg matrix H. */
 /*           On exit, if INFO = 0 and JOB = 'S', then H contains the */
 /*           upper quasi-triangular matrix T from the Schur decomposition */
@@ -126,8 +126,8 @@ static integer c__49 = 49;
 /*     LDH   (input) INTEGER */
 /*           The leading dimension of the array H. LDH .GE. max(1,N). */
 
-/*     WR    (output) DOUBLE PRECISION array, dimension (N) */
-/*     WI    (output) DOUBLE PRECISION array, dimension (N) */
+/*     WR    (output) float PRECISION array, dimension (N) */
+/*     WI    (output) float PRECISION array, dimension (N) */
 /*           The real and imaginary parts, respectively, of the computed */
 /*           eigenvalues. If two eigenvalues are computed as a complex */
 /*           conjugate pair, they are stored in consecutive elements of */
@@ -138,7 +138,7 @@ static integer c__49 = 49;
 /*           diagonal block, WI(i) = sqrt(-H(i+1,i)*H(i,i+1)) and */
 /*           WI(i+1) = -WI(i). */
 
-/*     Z     (input/output) DOUBLE PRECISION array, dimension (LDZ,N) */
+/*     Z     (input/output) float PRECISION array, dimension (LDZ,N) */
 /*           If COMPZ = 'N', Z is not referenced. */
 /*           If COMPZ = 'I', on entry Z need not be set and on exit, */
 /*           if INFO = 0, Z contains the orthogonal matrix Z of the Schur */
@@ -155,7 +155,7 @@ static integer c__49 = 49;
 /*           The leading dimension of the array Z.  if COMPZ = 'I' or */
 /*           COMPZ = 'V', then LDZ.GE.MAX(1,N).  Otherwize, LDZ.GE.1. */
 
-/*     WORK  (workspace/output) DOUBLE PRECISION array, dimension (LWORK) */
+/*     WORK  (workspace/output) float PRECISION array, dimension (LWORK) */
 /*           On exit, if INFO = 0, WORK(1) returns an estimate of */
 /*           the optimal value for LWORK. */
 
@@ -251,7 +251,7 @@ static integer c__49 = 49;
 /*                        6000             infinity      NS = 256 */
 
 /*                  (+)  By default some or all matrices of this order */
-/*                       are passed to the implicit double shift routine */
+/*                       are passed to the implicit float shift routine */
 /*                       DLAHQR and this parameter is ignored.  See */
 /*                       ISPEC=12 above and comments in IPARMQ for */
 /*                       details. */
@@ -324,7 +324,7 @@ static integer c__49 = 49;
     wantt = lsame_(job, "S");
     initz = lsame_(compz, "I");
     wantz = initz || lsame_(compz, "V");
-    work[1] = (doublereal) max(1,*n);
+    work[1] = (floatreal) max(1,*n);
     lquery = *lwork == -1;
 
     *info = 0;
@@ -369,7 +369,7 @@ static integer c__49 = 49;
 /*        ==== Ensure reported workspace size is backward-compatible with */
 /*        .    previous LAPACK versions. ==== */
 /* Computing MAX */
-	d__1 = (doublereal) max(1,*n);
+	d__1 = (floatreal) max(1,*n);
 	work[1] = max(d__1,work[1]);
 	return 0;
 
@@ -477,7 +477,7 @@ static integer c__49 = 49;
 /*        .    previous LAPACK versions. ==== */
 
 /* Computing MAX */
-	d__1 = (doublereal) max(1,*n);
+	d__1 = (floatreal) max(1,*n);
 	work[1] = max(d__1,work[1]);
     }
 

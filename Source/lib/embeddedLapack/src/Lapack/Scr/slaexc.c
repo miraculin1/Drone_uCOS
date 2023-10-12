@@ -48,7 +48,7 @@ static integer c__3 = 3;
 	    logical *, integer *, integer *, integer *, real *, integer *, 
 	    real *, integer *, real *, integer *, real *, real *, integer *, 
 	    real *, integer *);
-    extern doublereal slamch_(char *), slange_(char *, integer *, 
+    extern floatreal slamch_(char *), slange_(char *, integer *, 
 	    integer *, real *, integer *, real *);
     extern /* Subroutine */ int slarfg_(integer *, real *, real *, integer *, 
 	    real *), slacpy_(char *, integer *, integer *, real *, integer *, 

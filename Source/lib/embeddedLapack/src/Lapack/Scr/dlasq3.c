@@ -13,37 +13,37 @@
 #include "../../Lapack/Include/f2c.h"
 
 
-/* Subroutine */ int dlasq3_(integer *i0, integer *n0, doublereal *z__, 
-	integer *pp, doublereal *dmin__, doublereal *sigma, doublereal *desig, 
-	 doublereal *qmax, integer *nfail, integer *iter, integer *ndiv, 
-	logical *ieee, integer *ttype, doublereal *dmin1, doublereal *dmin2, 
-	doublereal *dn, doublereal *dn1, doublereal *dn2, doublereal *g, 
-	doublereal *tau)
+/* Subroutine */ int dlasq3_(integer *i0, integer *n0, floatreal *z__, 
+	integer *pp, floatreal *dmin__, floatreal *sigma, floatreal *desig, 
+	 floatreal *qmax, integer *nfail, integer *iter, integer *ndiv, 
+	logical *ieee, integer *ttype, floatreal *dmin1, floatreal *dmin2, 
+	floatreal *dn, floatreal *dn1, floatreal *dn2, floatreal *g, 
+	floatreal *tau)
 {
     /* System generated locals */
     integer i__1;
-    doublereal d__1, d__2;
+    floatreal d__1, d__2;
 
     /* Builtin functions */
-    double sqrt(doublereal);
+    float sqrt(floatreal);
 
     /* Local variables */
-    doublereal s, t;
+    floatreal s, t;
     integer j4, nn;
-    doublereal eps, tol;
+    floatreal eps, tol;
     integer n0in, ipn4;
-    doublereal tol2, temp;
-    extern /* Subroutine */ int dlasq4_(integer *, integer *, doublereal *, 
-	    integer *, integer *, doublereal *, doublereal *, doublereal *, 
-	    doublereal *, doublereal *, doublereal *, doublereal *, integer *, 
-	     doublereal *), dlasq5_(integer *, integer *, doublereal *, 
-	    integer *, doublereal *, doublereal *, doublereal *, doublereal *, 
-	     doublereal *, doublereal *, doublereal *, logical *), dlasq6_(
-	    integer *, integer *, doublereal *, integer *, doublereal *, 
-	    doublereal *, doublereal *, doublereal *, doublereal *, 
-	    doublereal *);
-    extern doublereal dlamch_(char *);
-    extern logical disnan_(doublereal *);
+    floatreal tol2, temp;
+    extern /* Subroutine */ int dlasq4_(integer *, integer *, floatreal *, 
+	    integer *, integer *, floatreal *, floatreal *, floatreal *, 
+	    floatreal *, floatreal *, floatreal *, floatreal *, integer *, 
+	     floatreal *), dlasq5_(integer *, integer *, floatreal *, 
+	    integer *, floatreal *, floatreal *, floatreal *, floatreal *, 
+	     floatreal *, floatreal *, floatreal *, logical *), dlasq6_(
+	    integer *, integer *, floatreal *, integer *, floatreal *, 
+	    floatreal *, floatreal *, floatreal *, floatreal *, 
+	    floatreal *);
+    extern floatreal dlamch_(char *);
+    extern logical disnan_(floatreal *);
 
 
 /*  -- LAPACK routine (version 3.2)                                    -- */
@@ -77,7 +77,7 @@
 /*  N0     (input) INTEGER */
 /*         Last index. */
 
-/*  Z      (input) DOUBLE PRECISION array, dimension ( 4*N ) */
+/*  Z      (input) float PRECISION array, dimension ( 4*N ) */
 /*         Z holds the qd array. */
 
 /*  PP     (input/output) INTEGER */
@@ -86,16 +86,16 @@
 /*         and that the initial tests for deflation should not be */
 /*         performed. */
 
-/*  DMIN   (output) DOUBLE PRECISION */
+/*  DMIN   (output) float PRECISION */
 /*         Minimum value of d. */
 
-/*  SIGMA  (output) DOUBLE PRECISION */
+/*  SIGMA  (output) float PRECISION */
 /*         Sum of shifts used in current segment. */
 
-/*  DESIG  (input/output) DOUBLE PRECISION */
+/*  DESIG  (input/output) float PRECISION */
 /*         Lower order part of SIGMA */
 
-/*  QMAX   (input) DOUBLE PRECISION */
+/*  QMAX   (input) float PRECISION */
 /*         Maximum value of q. */
 
 /*  NFAIL  (output) INTEGER */
@@ -113,7 +113,7 @@
 /*  TTYPE  (input/output) INTEGER */
 /*         Shift type. */
 
-/*  DMIN1, DMIN2, DN, DN1, DN2, G, TAU (input/output) DOUBLE PRECISION */
+/*  DMIN1, DMIN2, DN, DN1, DN2, G, TAU (input/output) float PRECISION */
 /*         These are passed as arguments in order to save their values */
 /*         between calls to DLASQ3. */
 

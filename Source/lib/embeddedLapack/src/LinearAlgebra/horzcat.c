@@ -14,7 +14,7 @@
  * C size row_a x (column_a + column_b)
  */
 
-void horzcat(double* A, double* B, double* C, int row_a, int column_a, int column_b) {
+void horzcat(float* A, float* B, float* C, int row_a, int column_a, int column_b) {
 
 	/*
 	 * C = [A B]

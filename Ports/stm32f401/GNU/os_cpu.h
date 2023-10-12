@@ -14,7 +14,7 @@ typedef int16_t INT16S;  /* Signed   16 bit quantity           */
 typedef uint32_t INT32U; /* Unsigned 32 bit quantity           */
 typedef int32_t INT32S;  /* Signed   32 bit quantity           */
 typedef float FP32;      /* Single precision floating point    */
-typedef double FP64;     /* Double precision floating point    */
+typedef float FP64;     /* float precision floating point    */
 
 typedef INT32U OS_STK;    /* Each stack entry is 32-bit wide    */
 typedef INT32U OS_CPU_SR; /* Define size of CPU status register */

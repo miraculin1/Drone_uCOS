@@ -13,15 +13,15 @@
 #include "../../Lapack/Include/f2c.h"
 
 
-integer idamax_(integer *n, doublereal *dx, integer *incx)
+integer idamax_(integer *n, floatreal *dx, integer *incx)
 {
     /* System generated locals */
     integer ret_val, i__1;
-    doublereal d__1;
+    floatreal d__1;
 
     /* Local variables */
     integer i__, ix;
-    doublereal dmax__;
+    floatreal dmax__;
 
 /*     .. Scalar Arguments .. */
 /*     .. */

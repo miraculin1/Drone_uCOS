@@ -15,66 +15,66 @@
 
 /* Table of constant values */
 
-static doublereal c_b15 = -.125;
+static floatreal c_b15 = -.125;
 static integer c__1 = 1;
-static doublereal c_b49 = 1.;
-static doublereal c_b72 = -1.;
+static floatreal c_b49 = 1.;
+static floatreal c_b72 = -1.;
 
 /* Subroutine */ int dbdsqr_(char *uplo, integer *n, integer *ncvt, integer *
-	nru, integer *ncc, doublereal *d__, doublereal *e, doublereal *vt, 
-	integer *ldvt, doublereal *u, integer *ldu, doublereal *c__, integer *
-	ldc, doublereal *work, integer *info)
+	nru, integer *ncc, floatreal *d__, floatreal *e, floatreal *vt, 
+	integer *ldvt, floatreal *u, integer *ldu, floatreal *c__, integer *
+	ldc, floatreal *work, integer *info)
 {
     /* System generated locals */
     integer c_dim1, c_offset, u_dim1, u_offset, vt_dim1, vt_offset, i__1, 
 	    i__2;
-    doublereal d__1, d__2, d__3, d__4;
+    floatreal d__1, d__2, d__3, d__4;
 
     /* Builtin functions */
-    double pow_dd(doublereal *, doublereal *), sqrt(doublereal), d_sign(
-	    doublereal *, doublereal *);
+    float pow_dd(floatreal *, floatreal *), sqrt(floatreal), d_sign(
+	    floatreal *, floatreal *);
 
     /* Local variables */
-    doublereal f, g, h__;
+    floatreal f, g, h__;
     integer i__, j, m;
-    doublereal r__, cs;
+    floatreal r__, cs;
     integer ll;
-    doublereal sn, mu;
+    floatreal sn, mu;
     integer nm1, nm12, nm13, lll;
-    doublereal eps, sll, tol, abse;
+    floatreal eps, sll, tol, abse;
     integer idir;
-    doublereal abss;
+    floatreal abss;
     integer oldm;
-    doublereal cosl;
+    floatreal cosl;
     integer isub, iter;
-    doublereal unfl, sinl, cosr, smin, smax, sinr;
-    extern /* Subroutine */ int drot_(integer *, doublereal *, integer *, 
-	    doublereal *, integer *, doublereal *, doublereal *), dlas2_(
-	    doublereal *, doublereal *, doublereal *, doublereal *, 
-	    doublereal *), dscal_(integer *, doublereal *, doublereal *, 
+    floatreal unfl, sinl, cosr, smin, smax, sinr;
+    extern /* Subroutine */ int drot_(integer *, floatreal *, integer *, 
+	    floatreal *, integer *, floatreal *, floatreal *), dlas2_(
+	    floatreal *, floatreal *, floatreal *, floatreal *, 
+	    floatreal *), dscal_(integer *, floatreal *, floatreal *, 
 	    integer *);
     extern logical lsame_(char *, char *);
-    doublereal oldcs;
+    floatreal oldcs;
     extern /* Subroutine */ int dlasr_(char *, char *, char *, integer *, 
-	    integer *, doublereal *, doublereal *, doublereal *, integer *);
+	    integer *, floatreal *, floatreal *, floatreal *, integer *);
     integer oldll;
-    doublereal shift, sigmn, oldsn;
-    extern /* Subroutine */ int dswap_(integer *, doublereal *, integer *, 
-	    doublereal *, integer *);
+    floatreal shift, sigmn, oldsn;
+    extern /* Subroutine */ int dswap_(integer *, floatreal *, integer *, 
+	    floatreal *, integer *);
     integer maxit;
-    doublereal sminl, sigmx;
+    floatreal sminl, sigmx;
     logical lower;
-    extern /* Subroutine */ int dlasq1_(integer *, doublereal *, doublereal *, 
-	     doublereal *, integer *), dlasv2_(doublereal *, doublereal *, 
-	    doublereal *, doublereal *, doublereal *, doublereal *, 
-	    doublereal *, doublereal *, doublereal *);
-    extern doublereal dlamch_(char *);
-    extern /* Subroutine */ int dlartg_(doublereal *, doublereal *, 
-	    doublereal *, doublereal *, doublereal *), xerbla_(char *, 
+    extern /* Subroutine */ int dlasq1_(integer *, floatreal *, floatreal *, 
+	     floatreal *, integer *), dlasv2_(floatreal *, floatreal *, 
+	    floatreal *, floatreal *, floatreal *, floatreal *, 
+	    floatreal *, floatreal *, floatreal *);
+    extern floatreal dlamch_(char *);
+    extern /* Subroutine */ int dlartg_(floatreal *, floatreal *, 
+	    floatreal *, floatreal *, floatreal *), xerbla_(char *, 
 	    integer *);
-    doublereal sminoa, thresh;
+    floatreal sminoa, thresh;
     logical rotate;
-    doublereal tolmul;
+    floatreal tolmul;
 
 
 /*  -- LAPACK routine (version 3.2) -- */
@@ -138,12 +138,12 @@ static doublereal c_b72 = -1.;
 /*  NCC     (input) INTEGER */
 /*          The number of columns of the matrix C. NCC >= 0. */
 
-/*  D       (input/output) DOUBLE PRECISION array, dimension (N) */
+/*  D       (input/output) float PRECISION array, dimension (N) */
 /*          On entry, the n diagonal elements of the bidiagonal matrix B. */
 /*          On exit, if INFO=0, the singular values of B in decreasing */
 /*          order. */
 
-/*  E       (input/output) DOUBLE PRECISION array, dimension (N-1) */
+/*  E       (input/output) float PRECISION array, dimension (N-1) */
 /*          On entry, the N-1 offdiagonal elements of the bidiagonal */
 /*          matrix B. */
 /*          On exit, if INFO = 0, E is destroyed; if INFO > 0, D and E */
@@ -151,7 +151,7 @@ static doublereal c_b72 = -1.;
 /*          bidiagonal matrix orthogonally equivalent to the one given */
 /*          as input. */
 
-/*  VT      (input/output) DOUBLE PRECISION array, dimension (LDVT, NCVT) */
+/*  VT      (input/output) float PRECISION array, dimension (LDVT, NCVT) */
 /*          On entry, an N-by-NCVT matrix VT. */
 /*          On exit, VT is overwritten by P**T * VT. */
 /*          Not referenced if NCVT = 0. */
@@ -160,7 +160,7 @@ static doublereal c_b72 = -1.;
 /*          The leading dimension of the array VT. */
 /*          LDVT >= max(1,N) if NCVT > 0; LDVT >= 1 if NCVT = 0. */
 
-/*  U       (input/output) DOUBLE PRECISION array, dimension (LDU, N) */
+/*  U       (input/output) float PRECISION array, dimension (LDU, N) */
 /*          On entry, an NRU-by-N matrix U. */
 /*          On exit, U is overwritten by U * Q. */
 /*          Not referenced if NRU = 0. */
@@ -168,7 +168,7 @@ static doublereal c_b72 = -1.;
 /*  LDU     (input) INTEGER */
 /*          The leading dimension of the array U.  LDU >= max(1,NRU). */
 
-/*  C       (input/output) DOUBLE PRECISION array, dimension (LDC, NCC) */
+/*  C       (input/output) float PRECISION array, dimension (LDC, NCC) */
 /*          On entry, an N-by-NCC matrix C. */
 /*          On exit, C is overwritten by Q**T * C. */
 /*          Not referenced if NCC = 0. */
@@ -177,7 +177,7 @@ static doublereal c_b72 = -1.;
 /*          The leading dimension of the array C. */
 /*          LDC >= max(1,N) if NCC > 0; LDC >=1 if NCC = 0. */
 
-/*  WORK    (workspace) DOUBLE PRECISION array, dimension (4*N) */
+/*  WORK    (workspace) float PRECISION array, dimension (4*N) */
 
 /*  INFO    (output) INTEGER */
 /*          = 0:  successful exit */
@@ -198,7 +198,7 @@ static doublereal c_b72 = -1.;
 /*  Internal Parameters */
 /*  =================== */
 
-/*  TOLMUL  DOUBLE PRECISION, default = max(10,min(100,EPS**(-1/8))) */
+/*  TOLMUL  float PRECISION, default = max(10,min(100,EPS**(-1/8))) */
 /*          TOLMUL controls the convergence criterion of the QR loop. */
 /*          If it is positive, TOLMUL*EPS is the desired relative */
 /*             precision in the computed singular values. */
@@ -378,7 +378,7 @@ static doublereal c_b72 = -1.;
 /* L40: */
 	}
 L50:
-	sminoa /= sqrt((doublereal) (*n));
+	sminoa /= sqrt((floatreal) (*n));
 /* Computing MAX */
 	d__1 = tol * sminoa, d__2 = *n * 6 * *n * unfl;
 	thresh = max(d__1,d__2);

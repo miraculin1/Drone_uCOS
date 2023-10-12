@@ -13,22 +13,22 @@
 #include "../../Lapack/Include/f2c.h"
 
 
-/* Subroutine */ int dlasq4_(integer *i0, integer *n0, doublereal *z__, 
-	integer *pp, integer *n0in, doublereal *dmin__, doublereal *dmin1, 
-	doublereal *dmin2, doublereal *dn, doublereal *dn1, doublereal *dn2, 
-	doublereal *tau, integer *ttype, doublereal *g)
+/* Subroutine */ int dlasq4_(integer *i0, integer *n0, floatreal *z__, 
+	integer *pp, integer *n0in, floatreal *dmin__, floatreal *dmin1, 
+	floatreal *dmin2, floatreal *dn, floatreal *dn1, floatreal *dn2, 
+	floatreal *tau, integer *ttype, floatreal *g)
 {
     /* System generated locals */
     integer i__1;
-    doublereal d__1, d__2;
+    floatreal d__1, d__2;
 
     /* Builtin functions */
-    double sqrt(doublereal);
+    float sqrt(floatreal);
 
     /* Local variables */
-    doublereal s, a2, b1, b2;
+    floatreal s, a2, b1, b2;
     integer i4, nn, np;
-    doublereal gam, gap1, gap2;
+    floatreal gam, gap1, gap2;
 
 
 /*  -- LAPACK routine (version 3.2)                                    -- */
@@ -58,7 +58,7 @@
 /*  N0    (input) INTEGER */
 /*        Last index. */
 
-/*  Z     (input) DOUBLE PRECISION array, dimension ( 4*N ) */
+/*  Z     (input) float PRECISION array, dimension ( 4*N ) */
 /*        Z holds the qd array. */
 
 /*  PP    (input) INTEGER */
@@ -67,25 +67,25 @@
 /*  NOIN  (input) INTEGER */
 /*        The value of N0 at start of EIGTEST. */
 
-/*  DMIN  (input) DOUBLE PRECISION */
+/*  DMIN  (input) float PRECISION */
 /*        Minimum value of d. */
 
-/*  DMIN1 (input) DOUBLE PRECISION */
+/*  DMIN1 (input) float PRECISION */
 /*        Minimum value of d, excluding D( N0 ). */
 
-/*  DMIN2 (input) DOUBLE PRECISION */
+/*  DMIN2 (input) float PRECISION */
 /*        Minimum value of d, excluding D( N0 ) and D( N0-1 ). */
 
-/*  DN    (input) DOUBLE PRECISION */
+/*  DN    (input) float PRECISION */
 /*        d(N) */
 
-/*  DN1   (input) DOUBLE PRECISION */
+/*  DN1   (input) float PRECISION */
 /*        d(N-1) */
 
-/*  DN2   (input) DOUBLE PRECISION */
+/*  DN2   (input) float PRECISION */
 /*        d(N-2) */
 
-/*  TAU   (output) DOUBLE PRECISION */
+/*  TAU   (output) float PRECISION */
 /*        This is the shift. */
 
 /*  TTYPE (output) INTEGER */

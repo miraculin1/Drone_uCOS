@@ -4,9 +4,9 @@
 #include <stdint.h>
 
 extern uint8_t CALIBDONE;
-extern double accBias[6];
-extern double magBias[6];
-extern double gyroBias[3];
+extern float accBias[6];
+extern float magBias[6];
+extern float gyroBias[3];
 
 #define SAMPLE_NUM 10
 void caliAcc();

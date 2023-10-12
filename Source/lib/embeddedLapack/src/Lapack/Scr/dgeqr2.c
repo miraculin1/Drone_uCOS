@@ -16,19 +16,19 @@
 
 static integer c__1 = 1;
 
-/* Subroutine */ int dgeqr2_(integer *m, integer *n, doublereal *a, integer *
-	lda, doublereal *tau, doublereal *work, integer *info)
+/* Subroutine */ int dgeqr2_(integer *m, integer *n, floatreal *a, integer *
+	lda, floatreal *tau, floatreal *work, integer *info)
 {
     /* System generated locals */
     integer a_dim1, a_offset, i__1, i__2, i__3;
 
     /* Local variables */
     integer i__, k;
-    doublereal aii;
+    floatreal aii;
     extern /* Subroutine */ int dlarf_(char *, integer *, integer *, 
-	    doublereal *, integer *, doublereal *, doublereal *, integer *, 
-	    doublereal *), dlarfp_(integer *, doublereal *, 
-	    doublereal *, integer *, doublereal *), xerbla_(char *, integer *);
+	    floatreal *, integer *, floatreal *, floatreal *, integer *, 
+	    floatreal *), dlarfp_(integer *, floatreal *, 
+	    floatreal *, integer *, floatreal *), xerbla_(char *, integer *);
 
 
 /*  -- LAPACK routine (version 3.2) -- */
@@ -55,7 +55,7 @@ static integer c__1 = 1;
 /*  N       (input) INTEGER */
 /*          The number of columns of the matrix A.  N >= 0. */
 
-/*  A       (input/output) DOUBLE PRECISION array, dimension (LDA,N) */
+/*  A       (input/output) float PRECISION array, dimension (LDA,N) */
 /*          On entry, the m by n matrix A. */
 /*          On exit, the elements on and above the diagonal of the array */
 /*          contain the min(m,n) by n upper trapezoidal matrix R (R is */
@@ -66,11 +66,11 @@ static integer c__1 = 1;
 /*  LDA     (input) INTEGER */
 /*          The leading dimension of the array A.  LDA >= max(1,M). */
 
-/*  TAU     (output) DOUBLE PRECISION array, dimension (min(M,N)) */
+/*  TAU     (output) float PRECISION array, dimension (min(M,N)) */
 /*          The scalar factors of the elementary reflectors (see Further */
 /*          Details). */
 
-/*  WORK    (workspace) DOUBLE PRECISION array, dimension (N) */
+/*  WORK    (workspace) float PRECISION array, dimension (N) */
 
 /*  INFO    (output) INTEGER */
 /*          = 0: successful exit */

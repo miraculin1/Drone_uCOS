@@ -20,8 +20,8 @@ static integer c_n1 = -1;
 static integer c__2 = 2;
 
 /* Subroutine */ int dormhr_(char *side, char *trans, integer *m, integer *n, 
-	integer *ilo, integer *ihi, doublereal *a, integer *lda, doublereal *
-	tau, doublereal *c__, integer *ldc, doublereal *work, integer *lwork, 
+	integer *ilo, integer *ihi, floatreal *a, integer *lda, floatreal *
+	tau, floatreal *c__, integer *ldc, floatreal *work, integer *lwork, 
 	integer *info)
 {
     /* System generated locals */
@@ -41,8 +41,8 @@ static integer c__2 = 2;
     extern integer ilaenv_(integer *, char *, char *, integer *, integer *, 
 	    integer *, integer *);
     extern /* Subroutine */ int dormqr_(char *, char *, integer *, integer *, 
-	    integer *, doublereal *, integer *, doublereal *, doublereal *, 
-	    integer *, doublereal *, integer *, integer *);
+	    integer *, floatreal *, integer *, floatreal *, floatreal *, 
+	    integer *, floatreal *, integer *, integer *);
     integer lwkopt;
     logical lquery;
 
@@ -98,7 +98,7 @@ static integer c__2 = 2;
 /*          if SIDE = 'R', then 1 <= ILO <= IHI <= N, if N > 0, and */
 /*          ILO = 1 and IHI = 0, if N = 0. */
 
-/*  A       (input) DOUBLE PRECISION array, dimension */
+/*  A       (input) float PRECISION array, dimension */
 /*                               (LDA,M) if SIDE = 'L' */
 /*                               (LDA,N) if SIDE = 'R' */
 /*          The vectors which define the elementary reflectors, as */
@@ -108,20 +108,20 @@ static integer c__2 = 2;
 /*          The leading dimension of the array A. */
 /*          LDA >= max(1,M) if SIDE = 'L'; LDA >= max(1,N) if SIDE = 'R'. */
 
-/*  TAU     (input) DOUBLE PRECISION array, dimension */
+/*  TAU     (input) float PRECISION array, dimension */
 /*                               (M-1) if SIDE = 'L' */
 /*                               (N-1) if SIDE = 'R' */
 /*          TAU(i) must contain the scalar factor of the elementary */
 /*          reflector H(i), as returned by DGEHRD. */
 
-/*  C       (input/output) DOUBLE PRECISION array, dimension (LDC,N) */
+/*  C       (input/output) float PRECISION array, dimension (LDC,N) */
 /*          On entry, the M-by-N matrix C. */
 /*          On exit, C is overwritten by Q*C or Q**T*C or C*Q**T or C*Q. */
 
 /*  LDC     (input) INTEGER */
 /*          The leading dimension of the array C. LDC >= max(1,M). */
 
-/*  WORK    (workspace/output) DOUBLE PRECISION array, dimension (MAX(1,LWORK)) */
+/*  WORK    (workspace/output) float PRECISION array, dimension (MAX(1,LWORK)) */
 /*          On exit, if INFO = 0, WORK(1) returns the optimal LWORK. */
 
 /*  LWORK   (input) INTEGER */
@@ -216,7 +216,7 @@ static integer c__2 = 2;
 	    nb = ilaenv_(&c__1, "DORMQR", ch__1, m, &nh, &nh, &c_n1);
 	}
 	lwkopt = max(1,nw) * nb;
-	work[1] = (doublereal) lwkopt;
+	work[1] = (floatreal) lwkopt;
     }
 
     if (*info != 0) {
@@ -249,7 +249,7 @@ static integer c__2 = 2;
     dormqr_(side, trans, &mi, &ni, &nh, &a[*ilo + 1 + *ilo * a_dim1], lda, &
 	    tau[*ilo], &c__[i1 + i2 * c_dim1], ldc, &work[1], lwork, &iinfo);
 
-    work[1] = (doublereal) lwkopt;
+    work[1] = (floatreal) lwkopt;
     return 0;
 
 /*     End of DORMHR */

@@ -11,7 +11,7 @@
  * Sum all rows from A size row x column, into a flat matrix B size 1 x column
  */
 
-void sumrows(double* A, double* B, int row, int column) {
+void sumrows(float* A, float* B, int row, int column) {
 
 	for(int j = 0; j < column; j++){
 		for(int i = 0; i < row; i++){

@@ -32,7 +32,7 @@ static logical c_true = TRUE_;
     real r__1, r__2, r__3, r__4;
 
     /* Builtin functions */
-    double sqrt(doublereal);
+    float sqrt(floatreal);
 
     /* Local variables */
     integer i__, j, k;
@@ -42,7 +42,7 @@ static logical c_true = TRUE_;
     logical pair, allv;
     integer ierr;
     real unfl, ovfl, smin;
-    extern doublereal sdot_(integer *, real *, integer *, real *, integer *);
+    extern floatreal sdot_(integer *, real *, integer *, real *, integer *);
     logical over;
     real vmax;
     integer jnxt;
@@ -64,7 +64,7 @@ static logical c_true = TRUE_;
 	    *, real *, real *, integer *, real *, real *, real *, integer *, 
 	    real *, real *, real *, integer *, real *, real *, integer *), 
 	    slabad_(real *, real *);
-    extern doublereal slamch_(char *);
+    extern floatreal slamch_(char *);
     extern /* Subroutine */ int xerbla_(char *, integer *);
     real bignum;
     extern integer isamax_(integer *, real *, integer *);
