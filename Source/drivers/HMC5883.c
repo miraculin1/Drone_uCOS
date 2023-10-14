@@ -56,12 +56,29 @@ void HMCJustListen(uint8_t *data) {
 }
 
 void MagRawData(int16_t out[3]) {
-  uint8_t raw[6];
-  IICBurstRead(HMCAdd, 0x03, 6, raw);
-
+  uint8_t errno;
+  uint8_t *raw;
+  if (dbuf.curVal == 0) {
+    OSSemPend(dbuf.sem0, 0, &errno);
+    raw = dbuf.rawbuf0 + 14;
+  } else if (dbuf.curVal == 1) {
+    OSSemPend(dbuf.sem1, 0, &errno);
+    raw = dbuf.rawbuf1 + 14;
+  } else {
+    OSSemPend(dbuf.sem0, 0, &errno);
+    raw = dbuf.rawbuf0 + 14;
+  }
   for (int i = 0; i < 3; i++) {
     out[i] = (raw[2 * i] << 8) | raw[2 * i + 1];
   }
+  if (dbuf.curVal == 0) {
+    OSSemPost(dbuf.sem0);
+  } else if (dbuf.curVal == 1) {
+    OSSemPost(dbuf.sem1);
+  } else {
+    OSSemPost(dbuf.sem0);
+  }
+
   uint16_t tmp = out[1];
   out[1] = out[2];
   out[2] = tmp;

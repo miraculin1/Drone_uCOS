@@ -67,15 +67,30 @@ void realconfig() {
 }
 
 void AccRawData(int16_t data[3]) {
-  uint8_t temp[6];
-  OSSchedLock();
-  IICBurstRead(MPU_ADDR, 0x3b, 6, temp);
-  OSSchedUnlock();
+  uint8_t errno;
+  uint8_t *temp;
+  if (dbuf.curVal == 0) {
+    OSSemPend(dbuf.sem0, 0, &errno);
+    temp = dbuf.rawbuf0;
+  } else if (dbuf.curVal == 1) {
+    OSSemPend(dbuf.sem1, 0, &errno);
+    temp = dbuf.rawbuf1;
+  } else {
+    OSSemPend(dbuf.sem0, 0, &errno);
+    temp = dbuf.rawbuf0;
+  }
   for (int i = 0; i < 3; i++) {
     data[i] = 0;
     data[i] |= temp[i * 2];
     data[i] = data[i] << 8;
     data[i] |= temp[i * 2 + 1];
+  }
+  if (dbuf.curVal == 0) {
+    OSSemPost(dbuf.sem0);
+  } else if (dbuf.curVal == 1) {
+    OSSemPost(dbuf.sem1);
+  } else {
+    OSSemPost(dbuf.sem0);
   }
 }
 
@@ -102,10 +117,27 @@ uint8_t whoami() {
 }
 
 void GyroRawData(int16_t data[3]) {
-  uint8_t temp[6];
-  IICBurstRead(MPU_ADDR, 0x43, 6, temp);
+  uint8_t errno;
+  uint8_t *temp;
+  if (dbuf.curVal == 0) {
+    OSSemPend(dbuf.sem0, 0, &errno);
+    temp = dbuf.rawbuf0 + 8;
+  } else if (dbuf.curVal == 1) {
+    OSSemPend(dbuf.sem1, 0, &errno);
+    temp = dbuf.rawbuf1 + 8;
+  } else {
+    OSSemPend(dbuf.sem0, 0, &errno);
+    temp = dbuf.rawbuf0 + 8;
+  }
   for (int i = 0; i < 3; i++) {
     data[i] = (temp[i * 2] << 8) | temp[i * 2 + 1];
+  }
+  if (dbuf.curVal == 0) {
+    OSSemPost(dbuf.sem0);
+  } else if (dbuf.curVal == 1) {
+    OSSemPost(dbuf.sem1);
+  } else {
+    OSSemPost(dbuf.sem0);
   }
 }
 

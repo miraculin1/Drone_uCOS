@@ -20,13 +20,10 @@ void IICBurstRead(uint32_t addr, uint32_t startReg, uint32_t cnt,
 typedef struct {
   // point to most recent data
   int8_t curVal;
-  // tmp for apend hmc data
-  // 0 means need to apend
-  uint8_t magIn;
+  uint8_t needmag;
 
   void *rawbuf0;
   int32_t size0;
-  // TODO: USE SEM
   OS_EVENT *sem0;
 
   void *rawbuf1;
@@ -34,10 +31,11 @@ typedef struct {
   OS_EVENT *sem1;
 
   uint32_t MaxSize;
+  OS_EVENT *DMAsem;
 } doubleBuf_t;
 
 extern doubleBuf_t dbuf;
 void exitDMA();
-void IICinitDMA(void *addr0, void *addr1, uint32_t size);
-void IICDMARead(uint32_t addr, uint32_t startReg, uint32_t cnt);
+void initDMA(void *addr0, void *addr1, uint32_t size);
+void IICDMARead();
 #endif

@@ -189,9 +189,7 @@ void IICBurstRead(uint32_t addr, uint32_t startReg, uint32_t cnt,
   cnt--;
 }
 
-void IICinitDMA(void *addr0, void *addr1, uint32_t size) {
-  initIIC();
-  uint8_t errno;
+void initDMA(void *addr0, void *addr1, uint32_t size) {
   dbuf.rawbuf0 = addr0;
   dbuf.size0 = -1;
   dbuf.sem0 = OSSemCreate(1);
@@ -202,12 +200,14 @@ void IICinitDMA(void *addr0, void *addr1, uint32_t size) {
 
   dbuf.MaxSize = size;
   dbuf.curVal = -1;
-  dbuf.magIn = 0;
+  dbuf.needmag = 1;
+  dbuf.DMAsem = OSSemCreate(1);
 }
 
 static void enterDMA(uint16_t cnt) {
-  DMAPrep();
   uint8_t errno;
+  OSSemPend(dbuf.DMAsem, 0, &errno);
+  DMAPrep();
   // enable dma in i2c
   I2C1->CR2 |= (0b1 << 11);
   I2C1->CR2 |= (0b1 << 12);
@@ -242,17 +242,20 @@ void exitDMA() {
     // 0 ok, written 1
     dbuf.curVal = 1;
     OSSemPost(dbuf.sem1);
-  } else {
-    // 1 ok, written 0
+  } else { // 1 ok, written 0
     dbuf.curVal = 0;
     OSSemPost(dbuf.sem0);
   }
   I2C1->CR2 &= ~(0b1 << 11);
   I2C1->CR2 &= ~(0b1 << 12);
+  dbuf.needmag = 1;
+  OSSemPost(dbuf.DMAsem);
 }
 
-void IICDMARead(uint32_t addr, uint32_t startReg, uint32_t cnt) {
-
+void IICDMARead() {
+  uint8_t addr = 0xd0;
+  uint8_t startReg = 0x3b;
+  uint8_t cnt = 14;
   enterDMA(cnt);
   while (IIC1_CheckStatus(0x0000, 0x0002))
     ;

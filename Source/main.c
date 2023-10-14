@@ -22,11 +22,11 @@ void userTaskCreate() {
   OSTaskCreateExt(&SendInfo, NULL, &pstk[STK_SIZE - 1], 4, 4, pstk, STK_SIZE, NULL,
                OS_TASK_OPT_STK_CHK | OS_TASK_OPT_STK_CLR);
   OSTaskNameSet(4, (unsigned char *)"sendInfo", &ERROR);
-/*  */
-  /* pstk = OSMemGet(stkpool, &ERROR); */
-  /* OSTaskCreateExt(&attitudeEST, NULL, &pstk[STK_SIZE - 1], 2, 2, pstk, STK_SIZE, */
-                  /* NULL, OS_TASK_OPT_STK_CHK | OS_TASK_OPT_STK_CLR); */
-  /* OSTaskNameSet(2, (unsigned char *)"attitudeEST", &ERROR); */
+
+  pstk = OSMemGet(stkpool, &ERROR);
+  OSTaskCreateExt(&attitudeEST, NULL, &pstk[STK_SIZE - 1], 2, 2, pstk, STK_SIZE,
+                  NULL, OS_TASK_OPT_STK_CHK | OS_TASK_OPT_STK_CLR);
+  OSTaskNameSet(2, (unsigned char *)"attitudeEST", &ERROR);
 
   pstk = OSMemGet(stkpool, &ERROR);
   OSTaskCreateExt(&updateThro, NULL, &pstk[STK_SIZE - 1], 3, 3, pstk, STK_SIZE,
@@ -73,14 +73,14 @@ void initHardware() {
   initLED();
   initUSART();
   printf("\n\n");
-  /* initIIC(); */
-  IICinitDMA(m0, m1, sizeof(m0));
+  initIIC();
   initMPU6050();
   initHMC();
   initRec();
   initMotor();
 
   caliGyro();
+  initDMA(m0, m1, sizeof(m0));
 }
 
 void updateThro() {

@@ -8,30 +8,25 @@ EKF_T *const ekf = &ekftmp;
 static void LPF(float *acc, float *data, float alpha);
 
 const float *const quatOut = ekf->x;
-float ATT_RATE = 100;
+float ATT_RATE = 1000;
 
 // read data from three sensors
 static void getMsr(EKF_T *ekf) {
-  static const float a4A = 0.4, a4G = 0.01;
+  static const float a4A = 0.4;
   static bool init = false;
-  static float accA[3] = {0}, accGyro[3] = {0};
+  static float accA[3] = {0};
   float datatmp[3];
   if (!init) {
-    for (int i = 0; i < 10; ++i) {
-      AccGData(datatmp, accBias);
-      LPF(accA, datatmp, 0.1f);
-      /* GyroDpSData(datatmp, gyroBias); */
-      /* LPF(accGyro, datatmp, 0.01); */
-    }
+    AccGData(datatmp, accBias);
+    copy(datatmp, accA, 3, 1);
     init = true;
   }
   AccGData(datatmp, accBias);
   LPF(accA, datatmp, a4A);
   copy(accA, ekf->z, 3, 1);
   MagmGuassData(ekf->z + 3, magBias);
-  GyroRadpSData(datatmp, gyroBias);
-  LPF(accGyro, datatmp, a4G);
-  copy(accGyro, ekf->u, 3, 1);
+  GyroRadpSData(ekf->u, gyroBias);
+  IICDMARead();
 }
 
 // used to gen state vec according to the new msr
@@ -92,25 +87,25 @@ void preidctP(EKF_T *ekf) {
   float wx = ekf->u[0], wy = ekf->u[1], wz = ekf->u[2];
 
   float F[ST_DIM * ST_DIM] = {1,
-                               -wx / (2 * ATT_RATE),
-                               -wy / (2 * ATT_RATE),
-                               -wz / (2 * ATT_RATE),
-                               wx / (2 * ATT_RATE),
-                               1,
-                               wz / (2 * ATT_RATE),
-                               -wy / (2 * ATT_RATE),
-                               wy / (2 * ATT_RATE),
-                               -wz / (2 * ATT_RATE),
-                               1,
-                               wx / (2 * ATT_RATE),
-                               wz / (2 * ATT_RATE),
-                               wy / (2 * ATT_RATE),
-                               -wx / (2 * ATT_RATE),
-                               1};
+                              -wx / (2 * ATT_RATE),
+                              -wy / (2 * ATT_RATE),
+                              -wz / (2 * ATT_RATE),
+                              wx / (2 * ATT_RATE),
+                              1,
+                              wz / (2 * ATT_RATE),
+                              -wy / (2 * ATT_RATE),
+                              wy / (2 * ATT_RATE),
+                              -wz / (2 * ATT_RATE),
+                              1,
+                              wx / (2 * ATT_RATE),
+                              wz / (2 * ATT_RATE),
+                              wy / (2 * ATT_RATE),
+                              -wx / (2 * ATT_RATE),
+                              1};
 
   // TODO: get a Q
-  float Q[ST_DIM * ST_DIM] = {0.001, 0, 0,    0, 0, 0.001, 0, 0,
-                               0,    0, 0.001, 0, 0, 0,    0, 0.001};
+  float Q[ST_DIM * ST_DIM] = {0.001, 0, 0,     0, 0, 0.001, 0, 0,
+                              0,     0, 0.001, 0, 0, 0,     0, 0.001};
   float tmp[ST_DIM * ST_DIM];
   float tmp1[ST_DIM * ST_DIM];
   mul(F, ekf->P, false, tmp, ST_DIM, ST_DIM, ST_DIM);
@@ -235,7 +230,7 @@ void attitudeEST() {
   msr2State(ekf);
   // TODO: convariance matrix need to initalize
   float Ptmp[ST_DIM * ST_DIM] = {0.1, 0, 0,   0, 0, 0.1, 0, 0,
-                                  0,   0, 0.1, 0, 0, 0,   0, 0.1};
+                                 0,   0, 0.1, 0, 0, 0,   0, 0.1};
   copy(Ptmp, ekf->P, ST_DIM, ST_DIM);
   while (1) {
     predictX(ekf);
@@ -277,9 +272,13 @@ void outputForPython() {
 
 void outputYPR(float *yaw, float *pitch, float *roll) {
   float q0 = ekf->x[0], q1 = ekf->x[1], q2 = ekf->x[2], q3 = ekf->x[3];
-  *yaw = atan2f(-2 * (q1 * q2 + q0 * q3), q0 * q0 - q1 * q1 + q2 * q2 - q3 * q3) / PI * 180;
+  *yaw =
+      atan2f(-2 * (q1 * q2 + q0 * q3), q0 * q0 - q1 * q1 + q2 * q2 - q3 * q3) /
+      PI * 180;
   *pitch = asinf(2 * (q2 * q3 - q0 * q1)) / PI * 180;
-  *roll = atan2f(-2 * (q1 * q3 + q0 * q2), q0 * q0 - q1 * q1 - q2 * q2 + q3 * q3) / PI * 180;
+  *roll =
+      atan2f(-2 * (q1 * q3 + q0 * q2), q0 * q0 - q1 * q1 - q2 * q2 + q3 * q3) /
+      PI * 180;
 }
 
 static void LPF(float *acc, float *data, float alpha) {
