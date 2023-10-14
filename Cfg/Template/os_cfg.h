@@ -104,10 +104,10 @@
 
 
                                        /* ---------------- MUTUAL EXCLUSION SEMAPHORES --------------- */
-#define OS_MUTEX_EN               1u   /* Enable (1) or Disable (0) code generation for MUTEX          */
-#define OS_MUTEX_ACCEPT_EN        1u   /*     Include code for OSMutexAccept()                         */
-#define OS_MUTEX_DEL_EN           1u   /*     Include code for OSMutexDel()                            */
-#define OS_MUTEX_QUERY_EN         1u   /*     Include code for OSMutexQuery()                          */
+#define OS_MUTEX_EN               0u   /* Enable (1) or Disable (0) code generation for MUTEX          */
+#define OS_MUTEX_ACCEPT_EN        0u   /*     Include code for OSMutexAccept()                         */
+#define OS_MUTEX_DEL_EN           0u   /*     Include code for OSMutexDel()                            */
+#define OS_MUTEX_QUERY_EN         0u   /*     Include code for OSMutexQuery()                          */
 
 
                                        /* ---------------------- MESSAGE QUEUES ---------------------- */

@@ -25,3 +25,13 @@ void TIM1_CC_IRQHandler() {
 
   OSIntExit();
 }
+
+void DMA1_Stream0_IRQHandler() {
+  I2C1->CR1 |= I2C_CR1_STOP;
+  exitDMA();
+  if (dbuf.magIn == 0) {
+
+  }
+  DMA1->LIFCR |= (0b1 << 5);
+}
+

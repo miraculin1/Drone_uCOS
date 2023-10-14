@@ -59,9 +59,10 @@ static void printMagForPlot() {
 
 void SendInfo() {
   while (1) {
-    float yaw, pitch, roll;
-    outputYPR(&yaw, &pitch, &roll);
-    printf("%.2f %.2f %.2f %d, %d\n", yaw, pitch, roll, deltatick, OSCPUUsage);
+    /* float yaw, pitch, roll; */
+    /* outputYPR(&yaw, &pitch, &roll); */
+    /* printf("%.2f %.2f %.2f %d, %d\n", yaw, pitch, roll, deltatick, OSCPUUsage); */
+    IICDMARead(0xd0, 0x3b, 14);
 
     /* for (int i = 0; i < 4; ++i) { */
       /* printf("%.2f ", quatOut[i]); */
@@ -70,6 +71,6 @@ void SendInfo() {
     /* print(ekftmp.P, 4, 4); */
     /* printf("========\n"); */
 
-    OSTimeDlyHMSM(0, 0, 2, 0);
+    OSTimeDlyHMSM(0, 0, 0, 100);
   }
 }
