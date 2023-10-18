@@ -10,7 +10,6 @@
 #include <string.h>
 #include <stdbool.h>
 #include <stdio.h>
-#include "newlib.h"
 #include "stm32f4xx.h"
 #include "trace.h"
 
@@ -29,7 +28,6 @@
 
 #include "mymath.h"
 #include "ekf.h"
-#include "syscalls.h"
 
 #define STK_SIZE 3000
 #define STK_CNT 4

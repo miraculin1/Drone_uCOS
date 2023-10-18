@@ -107,6 +107,10 @@ LIBDIR =
 # --gc-sections delete the unused code
 LDFLAG = $(MCU) -specs=nano.specs -u _printf_float -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
 
+
+test:
+	echo $(LDFLAG)
+
 all: $(BUILD_DIR)/$(TARGET).elf $(BUILD_DIR)/$(TARGET).hex $(BUILD_DIR)/$(TARGET).bin
 
 # 我认为 vpath 是提示相关文件去“哪”找

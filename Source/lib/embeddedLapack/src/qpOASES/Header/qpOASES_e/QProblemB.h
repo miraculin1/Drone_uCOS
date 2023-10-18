@@ -1506,7 +1506,7 @@ static inline void QProblemB_computeGivens(	real_t xold, real_t yold,
 {
 	real_t t, mu;
 
-	if ( fabsff( yold ) <= QPOASES_ZERO )
+	if ( fabsf( yold ) <= QPOASES_ZERO )
 	{
 		*c = 1.0;
 		*s = 0.0;
