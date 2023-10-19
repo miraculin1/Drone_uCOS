@@ -14,7 +14,7 @@
 void sqrte(float* A, int row, int column){
 	for(int i = 0; i < row; i++)
 		for(int j = 0; j < column; j++){
-			*A = sqrt(*(A));
+			*A = sqrtf(*(A));
 			A++;
 		}
 }

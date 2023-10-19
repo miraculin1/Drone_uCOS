@@ -132,7 +132,7 @@ static integer c__49 = 49;
 /*           WI(i+1) .LT. 0. If JOB = 'S', the eigenvalues are stored in */
 /*           the same order as on the diagonal of the Schur form returned */
 /*           in H, with WR(i) = H(i,i) and, if H(i:i+1,i:i+1) is a 2-by-2 */
-/*           diagonal block, WI(i) = sqrt(-H(i+1,i)*H(i,i+1)) and */
+/*           diagonal block, WI(i) = sqrtf(-H(i+1,i)*H(i,i+1)) and */
 /*           WI(i+1) = -WI(i). */
 
 /*     Z     (input/output) REAL array, dimension (LDZ,N) */

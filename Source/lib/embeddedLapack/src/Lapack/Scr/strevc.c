@@ -32,7 +32,7 @@ static logical c_true = TRUE_;
     real r__1, r__2, r__3, r__4;
 
     /* Builtin functions */
-    float sqrt(floatreal);
+    float sqrtf(floatreal);
 
     /* Local variables */
     integer i__, j, k;
@@ -383,8 +383,8 @@ L40:
 	    wr = t[ki + ki * t_dim1];
 	    wi = 0.f;
 	    if (ip != 0) {
-		wi = sqrt((r__1 = t[ki + (ki - 1) * t_dim1], dabs(r__1))) * 
-			sqrt((r__2 = t[ki - 1 + ki * t_dim1], dabs(r__2)));
+		wi = sqrtf((r__1 = t[ki + (ki - 1) * t_dim1], dabs(r__1))) * 
+		 sqrtf((r__2 = t[ki - 1 + ki * t_dim1], dabs(r__2)));
 	    }
 /* Computing MAX */
 	    r__1 = ulp * (dabs(wr) + dabs(wi));
@@ -787,8 +787,8 @@ L150:
 	    wr = t[ki + ki * t_dim1];
 	    wi = 0.f;
 	    if (ip != 0) {
-		wi = sqrt((r__1 = t[ki + (ki + 1) * t_dim1], dabs(r__1))) * 
-			sqrt((r__2 = t[ki + 1 + ki * t_dim1], dabs(r__2)));
+		wi = sqrtf((r__1 = t[ki + (ki + 1) * t_dim1], dabs(r__1))) * 
+		 sqrtf((r__2 = t[ki + 1 + ki * t_dim1], dabs(r__2)));
 	    }
 /* Computing MAX */
 	    r__1 = ulp * (dabs(wr) + dabs(wi));

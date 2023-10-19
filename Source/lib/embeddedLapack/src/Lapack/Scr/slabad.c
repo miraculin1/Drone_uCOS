@@ -16,7 +16,7 @@
 /* Subroutine */ int slabad_(real *small, real *large)
 {
     /* Builtin functions */
-    float r_lg10(real *), sqrt(floatreal);
+    float r_lg10(real *), sqrtf(floatreal);
 
 
 /*  -- LAPACK auxiliary routine (version 3.2) -- */
@@ -61,8 +61,8 @@
 /*     SMALL and LARGE to avoid overflow and underflow problems. */
 
     if (r_lg10(large) > 2e3f) {
-	*small = sqrt(*small);
-	*large = sqrt(*large);
+	*small = sqrtf(*small);
+	*large = sqrtf(*large);
     }
 
     return 0;

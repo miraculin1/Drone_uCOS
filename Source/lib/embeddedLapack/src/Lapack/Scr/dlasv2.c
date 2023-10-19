@@ -26,7 +26,7 @@ static floatreal c_b4 = 1.;
     floatreal d__1;
 
     /* Builtin functions */
-    float sqrt(floatreal), d_sign(floatreal *, floatreal *);
+    float sqrtf(floatreal), d_sign(floatreal *, floatreal *);
 
     /* Local variables */
     floatreal a, d__, l, m, r__, s, t, fa, ga, ha, ft, gt, ht, mm, tt, clt, 
@@ -204,14 +204,14 @@ static floatreal c_b4 = 1.;
 
 	    mm = m * m;
 	    tt = t * t;
-	    s = sqrt(tt + mm);
+	    s = sqrtf(tt + mm);
 
 /*           Note that 1 .le. S .le. 1 + 1/macheps */
 
 	    if (l == 0.) {
 		r__ = abs(m);
 	    } else {
-		r__ = sqrt(l * l + mm);
+		r__ = sqrtf(l * l + mm);
 	    }
 
 /*           Note that 0 .le. R .le. 1 + 1/macheps */
@@ -234,7 +234,7 @@ static floatreal c_b4 = 1.;
 	    } else {
 		t = (m / (s + t) + m / (r__ + l)) * (a + 1.);
 	    }
-	    l = sqrt(t * t + 4.);
+	    l = sqrtf(t * t + 4.);
 	    crt = 2. / l;
 	    srt = t / l;
 	    clt = (crt + srt * m) / a;

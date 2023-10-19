@@ -25,7 +25,7 @@ floatreal dlange_(char *norm, integer *m, integer *n, floatreal *a, integer
     floatreal ret_val, d__1, d__2, d__3;
 
     /* Builtin functions */
-    float sqrt(floatreal);
+    float sqrtf(floatreal);
 
     /* Local variables */
     integer i__, j;
@@ -188,7 +188,7 @@ floatreal dlange_(char *norm, integer *m, integer *n, floatreal *a, integer
 	    dlassq_(m, &a[j * a_dim1 + 1], &c__1, &scale, &sum);
 /* L90: */
 	}
-	value = scale * sqrt(sum);
+	value = scale * sqrtf(sum);
     }
 
     ret_val = value;

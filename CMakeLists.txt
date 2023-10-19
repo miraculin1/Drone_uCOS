@@ -1,13 +1,18 @@
 cmake_minimum_required(VERSION 3.20)
 
+set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/arm-none-eabi.cmake)
+
 set(PROJECT_NAME drone)
 set(CMAKE_EXPORT_COMPILE_COMMANDS true)
 
 project(${PROJECT_NAME} C ASM)
 
-add_compile_options(-mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -DSTM32F401xx -fdata-sections -ffunction-sections -g3)
+add_compile_options(-mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -DSTM32F401xx -fdata-sections -ffunction-sections -g3 
+  -I/usr/arm-none-eabi/include
+  )
 add_link_options(-mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -DSTM32F401xx -specs=nano.specs -u _printf_float -T${CMAKE_SOURCE_DIR}/STM32F401RETx_FLASH.ld -lc -lnosys -lm -Wl,-Map=${CMAKE_SOURCE_DIR}/build/${CMAKE_PROJECT_NAME}.map,--cref -Wl,--gc-sections)
 
+# include_directories(/usr/arm-none-eabi/include)
 
 include_directories(./Cfg/Template)
 aux_source_directory(./Cfg/Template allSrc)

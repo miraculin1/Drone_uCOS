@@ -1543,7 +1543,7 @@ returnValue QProblemBCPY_computeCholesky( QProblem* _THIS )
 	{
 		case HST_ZERO:
 			/* if Hessian is zero matrix and it has been regularised,
-			 * its Cholesky factor is the identity matrix scaled by sqrt(eps). */
+			 * its Cholesky factor is the identity matrix scaled by sqrtf(eps). */
 			if ( QProblem_usingRegularisation( _THIS ) == BT_TRUE )
 			{
 				for( i=0; i<nV; ++i )
@@ -4682,7 +4682,7 @@ returnValue QProblem_removeConstraint(	QProblem* _THIS, int number,
 		 ( _THIS->hessianType != HST_ZERO ) && ( _THIS->hessianType != HST_IDENTITY ) )
 	{
 		/* III) UPDATE CHOLESKY DECOMPOSITION,
-		 *      calculate new additional column (i.e. [r sqrt(rho2)]')
+		 *      calculate new additional column (i.e. [r sqrtf(rho2)]')
 		 *      of the Cholesky factor R. */
 
 		/* 1) Calculate Hz = H*z, where z is the new rightmost column of Z
@@ -4912,7 +4912,7 @@ returnValue QProblem_removeBound(	QProblem* _THIS, int number,
 		 ( _THIS->hessianType != HST_ZERO ) && ( _THIS->hessianType != HST_IDENTITY ) )
 	{
 		/* III) UPDATE CHOLESKY DECOMPOSITION,
-		 *      calculate new additional column (i.e. [r sqrt(rho2)]')
+		 *      calculate new additional column (i.e. [r sqrtf(rho2)]')
 		 *      of the Cholesky factor R: */
 		z2 = QQ(nnFRp1,nZ);
 		rho2 = DenseMatrix_diag(_THIS->H,nnFRp1)*z2*z2; /* rho2 = h2*z2*z2 */

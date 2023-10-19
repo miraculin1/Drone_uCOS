@@ -35,7 +35,7 @@ static integer c__12 = 12;
     real r__1, r__2, r__3, r__4, r__5, r__6;
 
     /* Builtin functions */
-    float sqrt(floatreal);
+    float sqrtf(floatreal);
 
     /* Local variables */
     integer i__, j, k;
@@ -442,8 +442,8 @@ L20:
 
 /*           ==== Complex conjugate pair ==== */
 
-	    foo = (r__3 = t[*ns + *ns * t_dim1], dabs(r__3)) + sqrt((r__1 = t[
-		    *ns + (*ns - 1) * t_dim1], dabs(r__1))) * sqrt((r__2 = t[*
+	    foo = (r__3 = t[*ns + *ns * t_dim1], dabs(r__3)) + sqrtf((r__1 = t[
+		    *ns + (*ns - 1) * t_dim1], dabs(r__1))) * sqrtf((r__2 = t[*
 		    ns - 1 + *ns * t_dim1], dabs(r__2)));
 	    if (foo == 0.f) {
 		foo = dabs(s);
@@ -510,8 +510,8 @@ L40:
 	    if (k == i__ + 1) {
 		evi = (r__1 = t[i__ + i__ * t_dim1], dabs(r__1));
 	    } else {
-		evi = (r__3 = t[i__ + i__ * t_dim1], dabs(r__3)) + sqrt((r__1 
-			= t[i__ + 1 + i__ * t_dim1], dabs(r__1))) * sqrt((
+		evi = (r__3 = t[i__ + i__ * t_dim1], dabs(r__3)) + sqrtf((r__1 
+			= t[i__ + 1 + i__ * t_dim1], dabs(r__1))) * sqrtf((
 			r__2 = t[i__ + (i__ + 1) * t_dim1], dabs(r__2)));
 	    }
 
@@ -520,8 +520,8 @@ L40:
 	    } else if (t[k + 1 + k * t_dim1] == 0.f) {
 		evk = (r__1 = t[k + k * t_dim1], dabs(r__1));
 	    } else {
-		evk = (r__3 = t[k + k * t_dim1], dabs(r__3)) + sqrt((r__1 = t[
-			k + 1 + k * t_dim1], dabs(r__1))) * sqrt((r__2 = t[k 
+		evk = (r__3 = t[k + k * t_dim1], dabs(r__3)) + sqrtf((r__1 = t[
+			k + 1 + k * t_dim1], dabs(r__1))) * sqrtf((r__2 = t[k 
 			+ (k + 1) * t_dim1], dabs(r__2)));
 	    }
 

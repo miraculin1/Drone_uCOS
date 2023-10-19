@@ -16,7 +16,7 @@
 /* Subroutine */ int dlabad_(floatreal *small, floatreal *large)
 {
     /* Builtin functions */
-    float d_lg10(floatreal *), sqrt(floatreal);
+    float d_lg10(floatreal *), sqrtf(floatreal);
 
 
 /*  -- LAPACK auxiliary routine (version 3.2) -- */
@@ -61,8 +61,8 @@
 /*     SMALL and LARGE to avoid overflow and underflow problems. */
 
     if (d_lg10(large) > 2e3) {
-	*small = sqrt(*small);
-	*large = sqrt(*large);
+	*small = sqrtf(*small);
+	*large = sqrtf(*large);
     }
 
     return 0;

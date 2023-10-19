@@ -19,7 +19,7 @@ floatreal dlapy2_(floatreal *x, floatreal *y)
     floatreal ret_val, d__1;
 
     /* Builtin functions */
-    float sqrt(floatreal);
+    float sqrtf(floatreal);
 
     /* Local variables */
     floatreal w, z__, xabs, yabs;
@@ -35,7 +35,7 @@ floatreal dlapy2_(floatreal *x, floatreal *y)
 /*  Purpose */
 /*  ======= */
 
-/*  DLAPY2 returns sqrt(x**2+y**2), taking care not to cause unnecessary */
+/*  DLAPY2 returns sqrtf(x**2+y**2), taking care not to cause unnecessary */
 /*  overflow. */
 
 /*  Arguments */
@@ -64,7 +64,7 @@ floatreal dlapy2_(floatreal *x, floatreal *y)
     } else {
 /* Computing 2nd power */
 	d__1 = z__ / w;
-	ret_val = w * sqrt(d__1 * d__1 + 1.);
+	ret_val = w * sqrtf(d__1 * d__1 + 1.);
     }
     return ret_val;
 

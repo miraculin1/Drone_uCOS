@@ -25,7 +25,7 @@ floatreal slange_(char *norm, integer *m, integer *n, real *a, integer *lda,
     real ret_val, r__1, r__2, r__3;
 
     /* Builtin functions */
-    float sqrt(floatreal);
+    float sqrtf(floatreal);
 
     /* Local variables */
     integer i__, j;
@@ -188,7 +188,7 @@ floatreal slange_(char *norm, integer *m, integer *n, real *a, integer *lda,
 	    slassq_(m, &a[j * a_dim1 + 1], &c__1, &scale, &sum);
 /* L90: */
 	}
-	value = scale * sqrt(sum);
+	value = scale * sqrtf(sum);
     }
 
     ret_val = value;

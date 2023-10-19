@@ -1341,7 +1341,7 @@ returnValue QProblemB_computeCholesky( QProblemB* _THIS )
 	{
 		case HST_ZERO:
 			/* if Hessian is zero matrix and it has been regularised,
-			 * its Cholesky factor is the identity matrix scaled by sqrt(eps). */
+			 * its Cholesky factor is the identity matrix scaled by sqrtf(eps). */
 			if ( QProblemB_usingRegularisation( _THIS ) == BT_TRUE )
 			{
 				for( i=0; i<nV; ++i )

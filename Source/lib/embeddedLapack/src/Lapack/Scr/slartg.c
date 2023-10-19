@@ -20,7 +20,7 @@
     real r__1, r__2;
 
     /* Builtin functions */
-    float logf(floatreal), pow_ri(real *, integer *), sqrt(floatreal);
+    float logf(floatreal), pow_ri(real *, integer *), sqrtf(floatreal);
 
     /* Local variables */
     integer i__;
@@ -135,7 +135,7 @@ L10:
 	    r__1 = f1;
 /* Computing 2nd power */
 	    r__2 = g1;
-	    *r__ = sqrt(r__1 * r__1 + r__2 * r__2);
+	    *r__ = sqrtf(r__1 * r__1 + r__2 * r__2);
 	    *cs = f1 / *r__;
 	    *sn = g1 / *r__;
 	    i__1 = count;
@@ -159,7 +159,7 @@ L30:
 	    r__1 = f1;
 /* Computing 2nd power */
 	    r__2 = g1;
-	    *r__ = sqrt(r__1 * r__1 + r__2 * r__2);
+	    *r__ = sqrtf(r__1 * r__1 + r__2 * r__2);
 	    *cs = f1 / *r__;
 	    *sn = g1 / *r__;
 	    i__1 = count;
@@ -172,7 +172,7 @@ L30:
 	    r__1 = f1;
 /* Computing 2nd power */
 	    r__2 = g1;
-	    *r__ = sqrt(r__1 * r__1 + r__2 * r__2);
+	    *r__ = sqrtf(r__1 * r__1 + r__2 * r__2);
 	    *cs = f1 / *r__;
 	    *sn = g1 / *r__;
 	}

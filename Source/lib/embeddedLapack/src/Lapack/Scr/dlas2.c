@@ -20,7 +20,7 @@
     floatreal d__1, d__2;
 
     /* Builtin functions */
-    float sqrt(floatreal);
+    float sqrtf(floatreal);
 
     /* Local variables */
     floatreal c__, fa, ga, ha, as, at, au, fhmn, fhmx;
@@ -101,7 +101,7 @@
 	} else {
 /* Computing 2nd power */
 	    d__1 = min(fhmx,ga) / max(fhmx,ga);
-	    *ssmax = max(fhmx,ga) * sqrt(d__1 * d__1 + 1.);
+	    *ssmax = max(fhmx,ga) * sqrtf(d__1 * d__1 + 1.);
 	}
     } else {
 	if (ga < fhmx) {
@@ -110,7 +110,7 @@
 /* Computing 2nd power */
 	    d__1 = ga / fhmx;
 	    au = d__1 * d__1;
-	    c__ = 2. / (sqrt(as * as + au) + sqrt(at * at + au));
+	    c__ = 2. / (sqrtf(as * as + au) + sqrtf(at * at + au));
 	    *ssmin = fhmn * c__;
 	    *ssmax = fhmx / c__;
 	} else {
@@ -130,7 +130,7 @@
 		d__1 = as * au;
 /* Computing 2nd power */
 		d__2 = at * au;
-		c__ = 1. / (sqrt(d__1 * d__1 + 1.) + sqrt(d__2 * d__2 + 1.));
+		c__ = 1. / (sqrtf(d__1 * d__1 + 1.) + sqrtf(d__2 * d__2 + 1.));
 		*ssmin = fhmn * c__ * au;
 		*ssmin += *ssmin;
 		*ssmax = ga / (c__ + c__);

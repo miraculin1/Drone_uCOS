@@ -29,7 +29,7 @@ static integer c_n1 = -1;
     floatreal d__1, d__2;
 
     /* Builtin functions */
-    float sqrt(floatreal);
+    float sqrtf(floatreal);
 
     /* Local variables */
     integer i__, k;
@@ -332,7 +332,7 @@ static integer c_n1 = -1;
     smlnum = dlamch_("S");
     bignum = 1. / smlnum;
     dlabad_(&smlnum, &bignum);
-    smlnum = sqrt(smlnum) / eps;
+    smlnum = sqrtf(smlnum) / eps;
     bignum = 1. / smlnum;
 
 /*     Scale A if max element outside range [SMLNUM,BIGNUM] */

@@ -31,7 +31,7 @@ static floatreal c_b72 = -1.;
     floatreal d__1, d__2, d__3, d__4;
 
     /* Builtin functions */
-    float pow_dd(floatreal *, floatreal *), sqrt(floatreal), d_sign(
+    float pow_dd(floatreal *, floatreal *), sqrtf(floatreal), d_sign(
 	    floatreal *, floatreal *);
 
     /* Local variables */
@@ -378,7 +378,7 @@ static floatreal c_b72 = -1.;
 /* L40: */
 	}
 L50:
-	sminoa /= sqrt((floatreal) (*n));
+	sminoa /= sqrtf((floatreal) (*n));
 /* Computing MAX */
 	d__1 = tol * sminoa, d__2 = *n * 6 * *n * unfl;
 	thresh = max(d__1,d__2);

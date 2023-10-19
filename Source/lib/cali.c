@@ -27,9 +27,9 @@ void caliAcc() {
   x0 = -tmp[2] / 2;
   y0 = -tmp[3] / 2 / tmp[0];
   z0 = -tmp[4] / 2 / tmp[1];
-  A = sqrt(x0 * x0 + tmp[0] * y0 * y0 + tmp[1] * z0 * z0 - tmp[5]);
-  B = A / sqrt(tmp[0]);
-  C = A / sqrt(tmp[1]);
+  A =sqrtf(x0 * x0 + tmp[0] * y0 * y0 + tmp[1] * z0 * z0 - tmp[5]);
+  B = A /sqrtf(tmp[0]);
+  C = A /sqrtf(tmp[1]);
 
   accBias[0] = x0;
   accBias[1] = y0;
@@ -47,9 +47,9 @@ void caliMag() {
   x0 = -tmp[2] / 2;
   y0 = -tmp[3] / 2 / tmp[0];
   z0 = -tmp[4] / 2 / tmp[1];
-  A = sqrt(x0 * x0 + tmp[0] * y0 * y0 + tmp[1] * z0 * z0 - tmp[5]);
-  B = A / sqrt(tmp[0]);
-  C = A / sqrt(tmp[1]);
+  A =sqrtf(x0 * x0 + tmp[0] * y0 * y0 + tmp[1] * z0 * z0 - tmp[5]);
+  B = A /sqrtf(tmp[0]);
+  C = A /sqrtf(tmp[1]);
 
   magBias[0] = x0;
   magBias[1] = y0;

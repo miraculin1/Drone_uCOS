@@ -27,7 +27,7 @@ static integer c__1 = 1;
     real r__1, r__2, r__3, r__4;
 
     /* Builtin functions */
-    float sqrt(floatreal);
+    float sqrtf(floatreal);
 
     /* Local variables */
     integer i__, j, k, l, m;
@@ -117,7 +117,7 @@ static integer c__1 = 1;
 /*          eigenvalues are stored in the same order as on the diagonal */
 /*          of the Schur form returned in H, with WR(i) = H(i,i), and, if */
 /*          H(i:i+1,i:i+1) is a 2-by-2 diagonal block, */
-/*          WI(i) = sqrt(H(i+1,i)*H(i,i+1)) and WI(i+1) = -WI(i). */
+/*          WI(i) = sqrtf(H(i+1,i)*H(i,i+1)) and WI(i+1) = -WI(i). */
 
 /*     ILOZ    (input) INTEGER */
 /*     IHIZ    (input) INTEGER */
@@ -379,7 +379,7 @@ L40:
 	    h22 /= s;
 	    tr = (h11 + h22) / 2.f;
 	    det = (h11 - tr) * (h22 - tr) - h12 * h21;
-	    rtdisc = sqrt((dabs(det)));
+	    rtdisc = sqrtf((dabs(det)));
 	    if (det >= 0.f) {
 
 /*              ==== complex conjugate shifts ==== */

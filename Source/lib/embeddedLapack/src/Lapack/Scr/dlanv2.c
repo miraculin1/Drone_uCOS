@@ -25,7 +25,7 @@ static floatreal c_b4 = 1.;
     floatreal d__1, d__2;
 
     /* Builtin functions */
-    float d_sign(floatreal *, floatreal *), sqrt(floatreal);
+    float d_sign(floatreal *, floatreal *), sqrtf(floatreal);
 
     /* Local variables */
     floatreal p, z__, aa, bb, cc, dd, cs1, sn1, sab, sac, eps, tau, temp, 
@@ -51,7 +51,7 @@ static floatreal c_b4 = 1.;
 
 /*  where either */
 /*  1) CC = 0 so that AA and DD are real eigenvalues of the matrix, or */
-/*  2) AA = DD and BB*CC < 0, so that AA + or - sqrt(BB*CC) are complex */
+/*  2) AA = DD and BB*CC < 0, so that AA + or - sqrtf(BB*CC) are complex */
 /*  conjugate eigenvalues. */
 
 /*  Arguments */
@@ -140,7 +140,7 @@ static floatreal c_b4 = 1.;
 
 /*           Real eigenvalues. Compute A and D. */
 
-	    d__1 = sqrt(scale) * sqrt(z__);
+	    d__1 = sqrtf(scale) * sqrtf(z__);
 	    z__ = p + d_sign(&d__1, &p);
 	    *a = *d__ + z__;
 	    *d__ -= bcmax / z__ * bcmis;
@@ -159,7 +159,7 @@ static floatreal c_b4 = 1.;
 
 	    sigma = *b + *c__;
 	    tau = dlapy2_(&sigma, &temp);
-	    *cs = sqrt((abs(sigma) / tau + 1.) * .5);
+	    *cs = sqrtf((abs(sigma) / tau + 1.) * .5);
 	    *sn = -(p / (tau * *cs)) * d_sign(&c_b4, &sigma);
 
 /*           Compute [ AA  BB ] = [ A  B ] [ CS -SN ] */
@@ -188,11 +188,11 @@ static floatreal c_b4 = 1.;
 
 /*                    Real eigenvalues: reduce to upper triangular form */
 
-			sab = sqrt((abs(*b)));
-			sac = sqrt((abs(*c__)));
+			sab = sqrtf((abs(*b)));
+			sac = sqrtf((abs(*c__)));
 			d__1 = sab * sac;
 			p = d_sign(&d__1, c__);
-			tau = 1. / sqrt((d__1 = *b + *c__, abs(d__1)));
+			tau = 1. / sqrtf((d__1 = *b + *c__, abs(d__1)));
 			*a = temp + p;
 			*d__ = temp - p;
 			*b -= *c__;
@@ -225,7 +225,7 @@ L10:
 	*rt1i = 0.;
 	*rt2i = 0.;
     } else {
-	*rt1i = sqrt((abs(*b))) * sqrt((abs(*c__)));
+	*rt1i = sqrtf((abs(*b))) * sqrtf((abs(*c__)));
 	*rt2i = -(*rt1i);
     }
     return 0;

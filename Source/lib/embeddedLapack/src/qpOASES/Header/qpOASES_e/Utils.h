@@ -482,9 +482,9 @@ static inline real_t qpOASES_getSqrt(	real_t x
 										)
 {
     #ifdef __NO_FMATH__
-	return sqrt(x); /* put your custom sqrt-replacement here */
+	return sqrtf(x); /* put your custom sqrt-replacement here */
 	#else
-	return sqrt(x);
+	return sqrtf(x);
 	#endif
 }
 

@@ -1520,7 +1520,7 @@ static inline void QProblemB_computeGivens(	real_t xold, real_t yold,
 		if ( fabsf( yold ) > mu )
 			mu = fabsf( yold );
 
-		t = mu * sqrt( (xold/mu)*(xold/mu) + (yold/mu)*(yold/mu) );
+		t = mu * sqrtf( (xold/mu)*(xold/mu) + (yold/mu)*(yold/mu) );
 
 		if ( xold < 0.0 )
 		t = -t;

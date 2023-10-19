@@ -20,7 +20,7 @@ floatreal snrm2_(integer *n, real *x, integer *incx)
     real ret_val, r__1;
 
     /* Builtin functions */
-    float sqrt(floatreal);
+    float sqrtf(floatreal);
 
     /* Local variables */
     integer ix;
@@ -37,7 +37,7 @@ floatreal snrm2_(integer *n, real *x, integer *incx)
 /*  SNRM2 returns the euclidean norm of a vector via the function */
 /*  name, so that */
 
-/*     SNRM2 := sqrt( x'*x ). */
+/*     SNRM2 := sqrtf( x'*x ). */
 
 /*  Further Details */
 /*  =============== */
@@ -86,7 +86,7 @@ floatreal snrm2_(integer *n, real *x, integer *incx)
 	    }
 /* L10: */
 	}
-	norm = scale * sqrt(ssq);
+	norm = scale * sqrtf(ssq);
     }
 
     ret_val = norm;

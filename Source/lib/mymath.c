@@ -39,7 +39,7 @@ void normalize(float *v, int dim) {
   for (int i = 0; i < dim; i++) {
     sum += v[i] * v[i];
   }
-  sum = sqrtf(sum);
+  sum =sqrtf(sum);
   for (int i = 0; i < dim; i++) {
     v[i] = v[i] / sum;
   }
@@ -47,10 +47,10 @@ void normalize(float *v, int dim) {
 
 void DCM2quat(quaternion_t out, DCM_t R) {
   float q0, q1, q2, q3;
-  q0 = sqrtf((1 + R[0][0] + R[1][1] + R[2][2]) / 4);
-  q1 = sqrtf((1 + R[0][0] - R[1][1] - R[2][2]) / 4);
-  q2 = sqrtf((1 - R[0][0] + R[1][1] - R[2][2]) / 4);
-  q3 = sqrtf((1 - R[0][0] - R[1][1] + R[2][2]) / 4);
+  q0 =sqrtf((1 + R[0][0] + R[1][1] + R[2][2]) / 4);
+  q1 =sqrtf((1 + R[0][0] - R[1][1] - R[2][2]) / 4);
+  q2 =sqrtf((1 - R[0][0] + R[1][1] - R[2][2]) / 4);
+  q3 =sqrtf((1 - R[0][0] - R[1][1] + R[2][2]) / 4);
 
   float now = maxIn4(q0, q1, q2, q3);
   if (now == q0) {
