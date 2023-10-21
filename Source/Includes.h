@@ -29,7 +29,7 @@
 #include "mymath.h"
 #include "ekf.h"
 
-#define STK_SIZE 3000
+#define STK_SIZE 4000
 #define STK_CNT 4
 
 #endif

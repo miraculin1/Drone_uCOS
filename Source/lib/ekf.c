@@ -7,7 +7,9 @@ EKF_T ekftmp;
 EKF_T *const ekf = &ekftmp;
 static void LPF(float *acc, float *data, float alpha);
 
+const float *const yprOut = ekf->ypr;
 const float *const quatOut = ekf->x;
+const float *const gyroOut = ekf->u;
 float ATT_RATE = 1000;
 
 // read data from three sensors
@@ -239,6 +241,7 @@ void attitudeEST() {
     updX_est(ekf);
     updP_est(ekf);
     normalize(ekf->x, 4);
+    updYPR(ekf);
     if (cnt > 0) {
       cnt--;
     } else {
@@ -270,15 +273,13 @@ void outputForPython() {
   printf("\n");
 }
 
-void outputYPR(float *yaw, float *pitch, float *roll) {
+void updYPR(EKF_T *ekf) {
   float q0 = ekf->x[0], q1 = ekf->x[1], q2 = ekf->x[2], q3 = ekf->x[3];
-  *yaw =
-      atan2f(-2 * (q1 * q2 + q0 * q3), q0 * q0 - q1 * q1 + q2 * q2 - q3 * q3) /
-      PI * 180;
-  *pitch = asinf(2 * (q2 * q3 - q0 * q1)) / PI * 180;
-  *roll =
-      atan2f(-2 * (q1 * q3 + q0 * q2), q0 * q0 - q1 * q1 - q2 * q2 + q3 * q3) /
-      PI * 180;
+  ekf->ypr[0] =
+      atan2f(-2 * (q1 * q2 + q0 * q3), q0 * q0 - q1 * q1 + q2 * q2 - q3 * q3);
+  ekf->ypr[1] = asinf(2 * (q2 * q3 - q0 * q1));
+  ekf->ypr[2] =
+      atan2f(-2 * (q1 * q3 + q0 * q2), q0 * q0 - q1 * q1 - q2 * q2 + q3 * q3);
 }
 
 static void LPF(float *acc, float *data, float alpha) {

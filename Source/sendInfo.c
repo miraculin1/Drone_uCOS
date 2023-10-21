@@ -2,6 +2,7 @@
 #include "declareFunctions.h"
 static void magBaseTest(EKF_T *ekf) {
 
+  void msr2State(EKF_T *ekf);
   msr2State(ekf);
 
   /* // print out the quaternion */
@@ -29,6 +30,7 @@ static void magBaseTest(EKF_T *ekf) {
 }
 
 static void accBaseTest(EKF_T *ekf) {
+  void msr2State(EKF_T *ekf);
   msr2State(ekf);
 
   float v[4], conx[4];
@@ -59,9 +61,7 @@ static void printMagForPlot() {
 
 void SendInfo() {
   while (1) {
-    float yaw, pitch, roll;
-    outputYPR(&yaw, &pitch, &roll);
-    printf("%.2f %.2f %.2f %d, %d\n", yaw, pitch, roll, deltatick, OSCPUUsage);
+    printf("%.2f %.2f %.2f %d, %d\n", yprOut[0], yprOut[1], yprOut[2], deltatick, OSCPUUsage);
 
     /* for (int i = 0; i < 4; ++i) { */
       /* printf("%.2f ", quatOut[i]); */

@@ -85,5 +85,5 @@ add_custom_target(
   load
   DEPENDS ${CMAKE_PROJECT_NAME}.elf
   COMMAND
-  openocd -f interface/stlink.cfg -f target/stm32f4x.cfg -c "program $(BUILD_DIR)/$(TARGET).hex verify reset exit"
+  openocd -f interface/stlink.cfg -f target/stm32f4x.cfg -c "program ${CMAKE_SOURCE_DIR}/build/${CMAKE_PROJECT_NAME}.hex verify reset exit"
   )

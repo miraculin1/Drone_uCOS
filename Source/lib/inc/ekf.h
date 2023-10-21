@@ -27,6 +27,8 @@ typedef struct {
   float magBase[3];
   float K[ST_DIM * Z_DIM];
   float H[Z_DIM * ST_DIM];
+  // yaw pithc roll in rad
+  float ypr[3];
 } EKF_T;
 
 #define INITSAMPLES 10
@@ -34,13 +36,14 @@ typedef struct {
 
 extern float ATT_RATE;
 
-void msr2State(EKF_T *ekf);
-void magBase(EKF_T *ekf);
 void attitudeEST();
 void outputDCM();
 void outputForPython();
-void outputYPR(float *yaw, float *pitch, float *roll);
+void updYPR(EKF_T *ekf);
 
 extern const float *const quatOut;
 extern uint32_t deltatick;
+extern const float *const yprOut;
+// rad
+extern const float *const gyroOut;
 #endif
