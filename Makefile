@@ -17,7 +17,7 @@ SZ = $(PREFIX)size
 # from Truestudio
 ASM_SRC = \
 ./startup_stm32f401xe.s \
-./Ports/stm32f401/GNU/os_cpu_a.s \
+./Source/OS/Ports/stm32f401/GNU/os_cpu_a.s \
 
 # wheather debug DEBUG = 1
 DEBUG = 1
@@ -51,7 +51,8 @@ AS_INC =
 
 C_INC = \
 				-I./Source \
-				-I./Ports/stm32f401/GNU \
+				-I./Source/OS \
+				-I./Source/OS/Ports/stm32f401/GNU \
 				-I./Cfg/Template \
 				-I/usr/arm-none-eabi/include \
 				-I./Basic/Inc/ \
@@ -61,7 +62,8 @@ C_INC = \
 				-I./Source/lib/inc \
 				-I./Source/lib/embeddedLapack/src/Lapack/Include \
 				-I./Source/lib/embeddedLapack/src/LinearAlgebra \
-				-I./Source/lib/embeddedLapack/src/qpOASES/Header
+				-I./Source/lib/embeddedLapack/src/qpOASES/Header \
+				-I./Source/lib/printf \
 
 
 
@@ -75,10 +77,11 @@ CFLAGS = $(MCU) $(C_DEFS) $(C_INC) $(OPT) -Wall -fdata-sections -ffunction-secti
 
 # set debug flag
 ifeq ($(DEBUG), 1)
-CFLAGS += -g3
 #optimize
 OPT = \
 			-Og
+
+CFLAGS += -g
 else
 OPT += -O3
 endif
@@ -107,9 +110,6 @@ LIBDIR =
 # --gc-sections delete the unused code
 LDFLAG = $(MCU) -specs=nano.specs -u _printf_float -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
 
-
-test:
-	echo $(LDFLAG)
 
 all: $(BUILD_DIR)/$(TARGET).elf $(BUILD_DIR)/$(TARGET).hex $(BUILD_DIR)/$(TARGET).bin
 

@@ -4,8 +4,8 @@ OS_STK __stk_Array[STK_CNT * STK_SIZE];
 OS_MEM *stkpool;
 OS_STK mainStk[STK_SIZE];
 OS_STK *topMainSTK = &mainStk[STK_SIZE - 1];
-uint8_t m0[20];
-uint8_t m1[20];
+uint8_t m0[22];
+uint8_t m1[22];
 
 /*******************************
  * Table of tasks
@@ -41,7 +41,7 @@ int main() {
   INT8U ERROR;
 
   while (1) {
-    OSInit();
+   OSInit();
 
     stkpool =
         OSMemCreate(__stk_Array, STK_CNT, sizeof(OS_STK) * STK_SIZE, &ERROR);

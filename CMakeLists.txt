@@ -4,13 +4,14 @@ set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/arm-none-eabi.cmake)
 
 set(PROJECT_NAME drone)
 set(CMAKE_EXPORT_COMPILE_COMMANDS true)
+set(CMAKE_TRY_COMPILE_TARGET_TYPE "STATIC_LIBRARY")
 
-project(${PROJECT_NAME} C ASM)
+project(${PROJECT_NAME} C ASM CXX)
 
-add_compile_options(-mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -DSTM32F401xx -fdata-sections -ffunction-sections -g3 
+add_compile_options(-mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -DSTM32F401xx -fdata-sections -ffunction-sections  -Wall -Og
   -I/usr/arm-none-eabi/include
   )
-add_link_options(-mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -DSTM32F401xx -specs=nano.specs -u _printf_float -T${CMAKE_SOURCE_DIR}/STM32F401RETx_FLASH.ld -lc -lnosys -lm -Wl,-Map=${CMAKE_SOURCE_DIR}/build/${CMAKE_PROJECT_NAME}.map,--cref -Wl,--gc-sections)
+add_link_options(-mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -DSTM32F401xx -T${CMAKE_SOURCE_DIR}/STM32F401RETx_FLASH.ld --specs=nano.specs -lc -lm -Wl,-Map=${CMAKE_SOURCE_DIR}/build/${CMAKE_PROJECT_NAME}.map,--cref -Wl,--gc-sections)
 
 # include_directories(/usr/arm-none-eabi/include)
 
@@ -22,14 +23,13 @@ include_directories(./Source)
 aux_source_directory(./ allSrc)
 aux_source_directory(./Source/ allSrc)
 
-# include_directories(./Source/syscalls/inc)
-# aux_source_directory(./Source/syscalls allSrc)
+include_directories(./Source/syscalls/inc)
+aux_source_directory(./Source/syscalls allSrc)
 
 include_directories(./Source/trace)
 aux_source_directory(./Source/trace allSrc)
 
 aux_source_directory(./Source/drivers allSrc)
-
 include_directories(./Source/drivers/Inc)
 aux_source_directory(./Source/drivers drvSrc)
 add_library(drivers STATIC ${drvSrc})

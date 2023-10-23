@@ -9,7 +9,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include <stdio.h>
 #include "stm32f4xx.h"
 #include "trace.h"
 
