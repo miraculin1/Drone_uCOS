@@ -12,7 +12,7 @@ void DCM2quat(quaternion_t out, DCM_t R);
 void quat2DCM(quaternion_t q, DCM_t R);
 void DCMTrans(float out[3], DCM_t R, float vect[3]);
 void squrMxVec(float *out, float **M, float *v, int dim);
-float vecMod(int n, float v[n]);
+float vecMod(int n, float *v);
 void quatMulQuat(float *q, float *p, float *out);
 void vec2Quat(float *vec, float *quat);
 void quatConj(float *q, float *conq);

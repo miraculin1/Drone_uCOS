@@ -22,10 +22,10 @@ void userTaskCreate() {
                OS_TASK_OPT_STK_CHK | OS_TASK_OPT_STK_CLR);
   OSTaskNameSet(4, (unsigned char *)"sendInfo", &ERROR);
 
-  pstk = OSMemGet(stkpool, &ERROR);
-  OSTaskCreateExt(&attitudeEST, NULL, &pstk[STK_SIZE - 1], 2, 2, pstk, STK_SIZE,
-                  NULL, OS_TASK_OPT_STK_CHK | OS_TASK_OPT_STK_CLR);
-  OSTaskNameSet(2, (unsigned char *)"attitudeEST", &ERROR);
+  /* pstk = OSMemGet(stkpool, &ERROR); */
+  /* OSTaskCreateExt(&attitudeEST, NULL, &pstk[STK_SIZE - 1], 2, 2, pstk, STK_SIZE, */
+                  /* NULL, OS_TASK_OPT_STK_CHK | OS_TASK_OPT_STK_CLR); */
+  /* OSTaskNameSet(2, (unsigned char *)"attitudeEST", &ERROR); */
 
   pstk = OSMemGet(stkpool, &ERROR);
   OSTaskCreateExt(&updateThro, NULL, &pstk[STK_SIZE - 1], 3, 3, pstk, STK_SIZE,
@@ -40,7 +40,7 @@ int main() {
   INT8U ERROR;
 
   while (1) {
-    OSInit();
+   OSInit();
 
     stkpool =
         OSMemCreate(__stk_Array, STK_CNT, sizeof(OS_STK) * STK_SIZE, &ERROR);

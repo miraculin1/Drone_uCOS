@@ -119,3 +119,7 @@ void USendInt(uint32_t data) {
 
   USendStr(res);
 }
+
+void _putchar(char character) {
+  USendByte(character);
+}

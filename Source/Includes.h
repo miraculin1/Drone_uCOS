@@ -9,7 +9,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include <stdio.h>
 #include "stm32f4xx.h"
 #include "trace.h"
 
@@ -23,13 +22,13 @@
 #include "USART.h"
 #include "cali.h"
 #include "sendInfo.h"
+#include "ekf.hpp"
 
 #include "main.h"
 
 #include "mymath.h"
-#include "ekf.h"
 
-#define STK_SIZE 3000
+#define STK_SIZE 4000
 #define STK_CNT 4
 
 #endif

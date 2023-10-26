@@ -1,6 +1,5 @@
 #include "cali.h"
 #include "Includes.h"
-#include "declareFunctions.h"
 
 static void ellipse(void (*fp)(float *, float *), float *bais);
 
@@ -149,7 +148,7 @@ static void ellipse(void (*msrFunc)(float *, float *), float *bais) {
     right[i] /= sampleLimit;
   }
 
-  linsolve(M, res, right, 6, 1);
+  /* linsolve(M, res, right, 6, 1); */
   for (int i = 0; i < 6; ++i) {
     bais[i] = res[i];
   }

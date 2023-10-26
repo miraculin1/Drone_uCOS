@@ -55,7 +55,6 @@ void initRec() {
   TIM1->ARR = 20 * 1000 - 1;
   // NVIC settings
   // enable interrupt
-  // TODO: check NVIC settings
   NVIC->ISER[0] |= (0x1 << 27);
 
   // enable counter
@@ -65,3 +64,7 @@ void initRec() {
   TIM1->CCER |= (0x1 << 0);
 }
 
+// TODO: write this
+void getWantedYPR(float yprRAD[3]) {
+
+}
