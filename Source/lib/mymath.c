@@ -21,7 +21,7 @@ void vec2Quat(float *vec, float *quat) {
 
 static float maxIn4(float a, float b, float c, float d);
 
-float vecMod(int n, float v[n]) {
+float vecMod(int n, float *v) {
   float sum = 0;
   for (int dim = 0; dim < n; dim++) {
     sum += v[dim] * v[dim];

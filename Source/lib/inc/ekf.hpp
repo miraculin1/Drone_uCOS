@@ -1,7 +1,15 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-void out();
+
+#ifndef _EKF_HPP
+#define _EKF_HPP
+
+void test();
+
+
+#endif
+
 #ifdef __cplusplus
 }
 #endif

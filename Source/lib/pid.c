@@ -1,6 +1,5 @@
 #include "pid.h"
 #include "REC.h"
-#include "ekf.h"
 
 // pid for position outer loop
 // output the desired spin speed in rad
@@ -56,7 +55,7 @@ void roll(float rad) {}
 void innerPID() {
   float error[PID_DIM];
   for (int i = 0; i < PID_DIM; ++i) {
-    error[i] = posPID.control[i] - gyroOut[i];
+    /* error[i] = posPID.control[i] - gyroOut[i]; */
   }
 
   updPID(&ratePID, error, PID_DeltaSec);
@@ -78,7 +77,7 @@ void PID() {
     getWantedYPR(tar);
 
     for (int i = 0; i < PID_DIM; ++i) {
-      error[i] = tar[i] - yprOut[i];
+      /* error[i] = tar[i] - yprOut[i]; */
     }
 
     updPID(&posPID, error, PID_DeltaSec);

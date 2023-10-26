@@ -2,7 +2,6 @@
 #define __MPU6050_H
 
 #include "IIC.h"
-#include "ekf.h"
 void initMPU6050();
 void GyroRadpSData(float out[3], float *bias);
 void GyroDpSData(float out[3], float *bias);

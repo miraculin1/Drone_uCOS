@@ -22,11 +22,11 @@
 #include "USART.h"
 #include "cali.h"
 #include "sendInfo.h"
+#include "ekf.hpp"
 
 #include "main.h"
 
 #include "mymath.h"
-#include "ekf.h"
 
 #define STK_SIZE 4000
 #define STK_CNT 4
