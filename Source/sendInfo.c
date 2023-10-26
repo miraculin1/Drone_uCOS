@@ -1,5 +1,6 @@
 #include "Includes.h"
 #include "declareFunctions.h"
+#include "test.hpp"
 static void magBaseTest(EKF_T *ekf) {
 
   void msr2State(EKF_T *ekf);
@@ -63,6 +64,7 @@ void SendInfo() {
   while (1) {
     printf("%.2f %.2f %.2f %d, %d\n", yprOut[0], yprOut[1], yprOut[2], deltatick, OSCPUUsage);
 
+    out();
     /* for (int i = 0; i < 4; ++i) { */
       /* printf("%.2f ", quatOut[i]); */
     /* } */
