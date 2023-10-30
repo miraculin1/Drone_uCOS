@@ -1,8 +1,8 @@
 #ifndef __HMC5883_H
 #define __HMC5883_H
 
-#include "stm32f4xx.h"
 
+#include <stdint.h>
 void HMCWrite(uint8_t tar, uint8_t data);
 void initHMC();
 void MagmGuassData(float dest[3], float *bias);

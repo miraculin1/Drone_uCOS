@@ -60,7 +60,8 @@
 
 void SendInfo() {
   while (1) {
-    printf("Hello");
+    /* printf("%f, %f %f\n", pToYPR[0], pToYPR[1], pToYPR[2]); */
+    /* printf("%d, %d\n", deltatick, OSCPUUsage); */
     /* printf("%.2f %.2f %.2f %d, %d\n", yprOut[0], yprOut[1], yprOut[2], deltatick, OSCPUUsage); */
 
     /* for (int i = 0; i < 4; ++i) { */

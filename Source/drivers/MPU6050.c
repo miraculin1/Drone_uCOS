@@ -94,7 +94,7 @@ void AccRawData(int16_t data[3]) {
   }
 }
 
-void AccGData(float out[3], float *bias) {
+void AccGData(float *out, float *bias) {
   if (bias == NULL) {
     int16_t data[3];
     AccRawData(data);
@@ -141,7 +141,7 @@ void GyroRawData(int16_t data[3]) {
   }
 }
 
-void GyroDpSData(float out[3], float *bias) {
+void GyroDpSData(float *out, float *bias) {
   if (bias == NULL || (CALIBDONE & 0b001) == 0) {
   int16_t data[3];
   GyroRawData(data);
@@ -156,7 +156,7 @@ void GyroDpSData(float out[3], float *bias) {
     out[i] = (float)data[i] / GyroLSBPerDegree - bias[i];
   }
 }
-void GyroRadpSData(float out[3], float *bias) {
+void GyroRadpSData(float *out, float *bias) {
   GyroDpSData(out, bias);
   const float dPreRad = 180 / M_PI;
   for (int dim = 0; dim < 3; ++dim) {

@@ -1,11 +1,11 @@
 #ifndef __MPU6050_H
 #define __MPU6050_H
 
-#include "IIC.h"
+#include <stdint.h>
 void initMPU6050();
-void GyroRadpSData(float out[3], float *bias);
-void GyroDpSData(float out[3], float *bias);
-void AccGData(float out[3], float *bias);
+void GyroRadpSData(float *out, float *bias);
+void GyroDpSData(float *out, float *bias);
+void AccGData(float *out, float *bias);
 
 void enBypass();
 void disenBypass();

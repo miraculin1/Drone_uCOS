@@ -5,7 +5,10 @@ extern "C" {
 #ifndef _EKF_HPP
 #define _EKF_HPP
 
-void test();
+void attitudeEST();
+extern const float *pToQuat;
+extern const float *pToYPR;
+extern int deltatick;
 
 
 #endif

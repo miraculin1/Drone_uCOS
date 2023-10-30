@@ -64,16 +64,18 @@ void caliGyro() {
   printf("Gyro calibration start in 3 sec...\n");
   OSTimeDlyHMSM(0,0,3,0);
   printf("now\n");
+  IICDMARead();
 
   float tmp[3];
   for (int i = 0; i < SAMPLE_NUM; ++i) {
     GyroDpSData(tmp, NULL);
+    IICDMARead();
     for (int dim = 0; dim < 3; ++dim) {
       gyroBias[dim] += tmp[dim];
     }
   }
   for (int dim = 0; dim < 3; ++dim) {
-    gyroBias[dim] /= 10;
+    gyroBias[dim] /= SAMPLE_NUM;
   }
   CALIBDONE |= 0x1;
 }

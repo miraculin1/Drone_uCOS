@@ -59,7 +59,7 @@ static void dmaHMC() {
       // write 0
       OSSemPend(dbuf.sem0, 0, &errno);
       dbuf.size0 += 6;
-      DMA1_Stream0->M0AR = (uint32_t)dbuf.rawbuf0;
+      DMA1_Stream0->M0AR = (uint32_t)dbuf.rawbuf0 + 14;
     }
 
     DMA1_Stream0->NDTR = 6;
