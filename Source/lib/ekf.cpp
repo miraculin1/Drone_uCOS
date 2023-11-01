@@ -5,6 +5,7 @@ extern "C" {
 #include "IIC.h"
 #include "MPU6050.h"
 #include "cali.h"
+#include "os_cfg.h"
 #include "ucos_ii.h"
 #include <stdio.h>
 }
@@ -24,6 +25,7 @@ const float PI = 3.14159265359f;
 const float *pToQuat;
 const float *pToYPR;
 
+uint32_t lastInterTick;
 int deltatick;
 
 using namespace std;
@@ -40,7 +42,7 @@ private:
   Matrix<float, XDIM, ZDIM> K;
   Matrix<float, ZDIM, XDIM> H;
   // TODO: update by clocking
-  float ATT_RATE = 20;
+  float ATT_RATE = 400;
 
   void getMsr();
   void initMsr2State();
@@ -68,9 +70,13 @@ void EKF::getMsr() {
   static Vector3f accA = Vector3f::Zero();
   float datatmp[3];
   if (!init) {
-  AccGData(datatmp, accBias);
-  accA = Map<Vector3f>(datatmp, 3, 1);
-  init = true;
+    for (int i = 0; i < INITSAMPLES; ++i) {
+      IICDMARead();
+      AccGData(datatmp, accBias);
+      Vector3f tmp = Map<Vector3f>(datatmp, 3, 1);
+      LPF(accA, tmp, a4A);
+    }
+    init = true;
   }
   AccGData(datatmp, accBias);
   Vector3f tmp = Map<Vector3f>(datatmp, 3, 1);
@@ -133,7 +139,7 @@ void EKF::calKalGain() {
       {q1 * bx + q2 * by + q3 * bz, -q2 * bx + q1 * by - q0 * bz,
        -q3 * bx + q0 * by + q1 * bz, q0 * bx + q3 * by - q2 * bz},
       {q2 * bx - q1 * by + q0 * bz, q1 * bx + q2 * by + q3 * bz,
-       - q0 * bx - q3 * by + q2 * bz, -q3 * bx + q0 * by + q1 * bz},
+       -q0 * bx - q3 * by + q2 * bz, -q3 * bx + q0 * by + q1 * bz},
       {q3 * bx - q0 * by - q1 * bz, q0 * bx + q3 * by - q2 * bz,
        q1 * bx + q2 * by + q3 * bz, q2 * bx - q1 * by + q0 * bz},
   };
@@ -182,12 +188,13 @@ void EKF::attitudeEST() {
   static uint8_t initcnt = 100;
   static uint8_t cnt;
   cnt = initcnt;
-  static uint32_t lastInterTick;
-  IICDMARead();
   getMsr();
   initMsr2State();
   P << 0.1, 0, 0, 0, 0, 0.1, 0, 0, 0, 0, 0.1, 0, 0, 0, 0, 0.1;
   while (1) {
+    if (cnt == initcnt) {
+      lastInterTick = OSTime;
+    }
     predictX();
     predictP();
     calKalGain();
@@ -199,12 +206,13 @@ void EKF::attitudeEST() {
       cnt--;
     } else {
       deltatick = OSTime - lastInterTick;
-      lastInterTick = OSTime;
+      cout << (x.inverse().matrix().eulerAngles(2, 1, 0) * (180 / PI))
+                  .transpose()
+           << "," << float(deltatick) / OS_TICKS_PER_SEC / initcnt * 1000
+           << "ms" << int(OSCPUUsage) << "%" << endl;
       cnt = initcnt;
     }
-    cout << "======" << endl;
-    cout << (x * z.tail<3>()).transpose() << (x * z.head<3>()).transpose() << endl;
-    OSTimeDlyHMSM(0, 0, 0, 1000 / ATT_RATE);
+    // OSTimeDlyHMSM(0, 0, 0, 1000 / ATT_RATE);
   }
 }
 

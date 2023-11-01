@@ -8,8 +8,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS true)
 set(CMAKE_TRY_COMPILE_TARGET_TYPE "STATIC_LIBRARY")
 project(${PROJECT_NAME} C ASM CXX)
 
-add_compile_options(-mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -DSTM32F401xx -fdata-sections -ffunction-sections  -Wall -Og
-  )
+add_compile_options(-mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -DSTM32F401xx -fdata-sections -ffunction-sections  -Wall)
+add_compile_options("$<$<CONFIG:Debug>:-Og>")
 add_link_options(-mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -DSTM32F401xx -T${CMAKE_SOURCE_DIR}/STM32F401RETx_FLASH.ld --specs=nano.specs -u _printf_float -lc -lm -Wl,-Map=${CMAKE_SOURCE_DIR}/build/${CMAKE_PROJECT_NAME}.map,--cref -Wl,--gc-sections)
 
 include_directories(/usr/include/eigen3/)
