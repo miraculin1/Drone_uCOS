@@ -6,10 +6,9 @@ extern "C" {
 #define _EKF_HPP
 
 void attitudeEST();
-extern const float *pToQuat;
-extern const float *pToYPR;
 extern int deltatick;
 
+extern float ypr[3];
 
 #endif
 

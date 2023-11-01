@@ -1,10 +1,10 @@
 #include "ekf.hpp"
+#include "cali.hpp"
 
 extern "C" {
 #include "HMC5883.h"
 #include "IIC.h"
 #include "MPU6050.h"
-#include "cali.h"
 #include "os_cfg.h"
 #include "ucos_ii.h"
 #include <stdio.h>
@@ -20,11 +20,11 @@ const int XDIM = 4;
 const int ZDIM = 6;
 const int UDIM = 3;
 const int INITSAMPLES = 10;
-const float PI = 3.14159265359f;
 
-const float *pToQuat;
-const float *pToYPR;
+// output yaw pitch roll in rad/s
+float ypr[3];
 
+// use to show how long to finish a attitudeEST
 uint32_t lastInterTick;
 int deltatick;
 
@@ -33,13 +33,20 @@ using namespace Eigen;
 
 class EKF {
 private:
+  // v_r = x * v_b (eigen quaterion mul)
   Quaternionf x;
+  // [accX, accY, accZ, magX, magY, magZ]
   Matrix<float, ZDIM, 1> z;
+  // [gyroX, gyroY, gyroZ]
   Matrix<float, UDIM, 1> u;
+  // covarience matrix for x
   Matrix<float, XDIM, XDIM> P;
+  // transition matrix of X, here is linear transition
   Matrix<float, XDIM, XDIM> F;
   Vector3f magBase;
+  // kalman gain
   Matrix<float, XDIM, ZDIM> K;
+  // 1st time linearlize h(x), Z_predicted = h(x_est)
   Matrix<float, ZDIM, XDIM> H;
   // TODO: update by clocking
   float ATT_RATE = 400;
@@ -51,17 +58,15 @@ private:
   void calKalGain();
   void updX_est();
   void updP_est();
-  void updOutput();
+  void updYPR();
 
+  // low pass filter for mag or acc data
   void LPF(Vector3f &acc, const Vector3f &data, const float &alpha) {
     acc = data * alpha + (1 - alpha) * acc;
   }
 
 public:
   void attitudeEST();
-  void getYPR(float ypr[3]);
-  float *quatOut;
-  float *yprOut;
 };
 
 void EKF::getMsr() {
@@ -90,6 +95,7 @@ void EKF::getMsr() {
   IICDMARead();
 }
 
+// init the x vector to get a faster converge
 void EKF::initMsr2State() {
   Matrix3f dcm;
   dcm.row(0) = z.head<3>().cross(z.tail<3>());
@@ -111,8 +117,9 @@ void EKF::predictX() {
   float ax = u(0) / twiceATT_RATE, ay = u(1) / twiceATT_RATE,
         az = u(2) / twiceATT_RATE;
 
-  F << 1, -ax, -ay, -az, ax, 1, az, -ay, ay, -az, 1, ax, az, ay, -ax, 1;
+  F << 1, az, -ay, ax, -az, 1, ax, ay, ay, -ax, 1, az, -ax, -ay, -az, 1;
 
+  // NOTE: here eigen's quaterion.coeffs multiply is in [q1 q2 q3 q0] order
   x.coeffs() = F * x.coeffs();
 }
 
@@ -158,7 +165,8 @@ void EKF::calKalGain() {
   Matrix<float, XDIM, ZDIM> tmp = P * H.transpose();
 
   Matrix<float, ZDIM, ZDIM> S = H * tmp + R;
-  K = tmp * S.inverse();
+  PartialPivLU<Matrix<float, ZDIM, ZDIM>> Slu(S);
+  K = tmp * Slu.inverse();
 }
 
 void EKF::updX_est() {
@@ -171,6 +179,7 @@ void EKF::updX_est() {
 
   Matrix<float, 6, 1> y = z - hx;
 
+  // eigen's quaternion.coeffs add is in [q1, q2, q3, q0] order, weird
   x.coeffs() = x.coeffs() + K * y;
 }
 
@@ -179,13 +188,19 @@ void EKF::updP_est() {
   P = (I - K * H) * P;
 }
 
-void EKF::updOutput() {
-  pToQuat = x.coeffs().data();
-  pToYPR = x.matrix().eulerAngles(2, 1, 0).data();
+// NOTE: not using eigen's method since that one always makes yaw in range
+// (0 to PI)
+void EKF::updYPR() {
+  float q0 = x.w(), q1 = -x.x(), q2 = -x.y(), q3 = -x.z();
+  ypr[0] =
+      atan2f(-2 * (q1 * q2 + q0 * q3), q0 * q0 - q1 * q1 + q2 * q2 - q3 * q3);
+  ypr[1] = asinf(2 * (q2 * q3 - q0 * q1));
+  ypr[2] =
+      atan2f(-2 * (q1 * q3 + q0 * q2), q0 * q0 - q1 * q1 - q2 * q2 + q3 * q3);
 }
 
 void EKF::attitudeEST() {
-  static uint8_t initcnt = 100;
+  static int initcnt = 1000;
   static uint8_t cnt;
   cnt = initcnt;
   getMsr();
@@ -201,18 +216,18 @@ void EKF::attitudeEST() {
     updX_est();
     updP_est();
     x.normalize();
-    updOutput();
+    updYPR();
     if (cnt > 0) {
       cnt--;
     } else {
       deltatick = OSTime - lastInterTick;
-      cout << (x.inverse().matrix().eulerAngles(2, 1, 0) * (180 / PI))
-                  .transpose()
-           << "," << float(deltatick) / OS_TICKS_PER_SEC / initcnt * 1000
-           << "ms" << int(OSCPUUsage) << "%" << endl;
+      // cout << (x.inverse().matrix().eulerAngles(2, 1, 0) * (180 / PI))
+      // .transpose()
+      // << "," << float(deltatick) / OS_TICKS_PER_SEC / initcnt * 1000
+      // << "ms" << int(OSCPUUsage) << "%" << endl;
       cnt = initcnt;
     }
-    // OSTimeDlyHMSM(0, 0, 0, 1000 / ATT_RATE);
+    OSTimeDlyHMSM(0, 0, 0, 1);
   }
 }
 
