@@ -37,8 +37,9 @@ void initRec() {
   // reset the data
   recData.now = 0;
   recData.linedUp = 0;
+  recData.valid = 0;
 
-  RCC->AHB1ENR |= (0x1 << 0);
+  RCC->APB2ENR |= (0x1 << 0);
   // en ARR preload
   // not deviding the input running on 84MHz
   TIM1->CR1 |= (0x1 << 7);
@@ -56,7 +57,8 @@ void initRec() {
   TIM1->ARR = 20 * 1000 - 1;
   // NVIC settings
   // enable interrupt
-  NVIC->ISER[0] |= (0x1 << 27);
+  NVIC_EnableIRQ(TIM1_CC_IRQn);
+  /* NVIC->ISER[0] |= (0x1 << 27); */
 
   // enable counter
   TIM1->CR1 |= (0x1);

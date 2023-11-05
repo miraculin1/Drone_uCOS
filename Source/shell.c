@@ -1,4 +1,5 @@
 #include "shell.h"
+#include "sendInfo.h"
 #include "USART.h"
 #include <stdint.h>
 #include <string.h>
@@ -27,7 +28,7 @@ void test(int argc, char **argv) { printf("hello\n"); }
 
 const static Entry_T entTbl[6] = {
     {.name = "test", .fp = test},
-    {.name = "", .fp = defaultSehllFunction},
+    {.name = "log", .fp = logToggle},
     {.name = "", .fp = defaultSehllFunction},
     {.name = "", .fp = defaultSehllFunction},
     {.name = "", .fp = defaultSehllFunction},

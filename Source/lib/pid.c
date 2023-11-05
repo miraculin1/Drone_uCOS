@@ -1,5 +1,7 @@
 #include "pid.h"
+#include "motor.h"
 #include "REC.h"
+#include "ekf.hpp"
 
 // pid for position outer loop
 // output the desired spin speed in rad
@@ -7,6 +9,8 @@ static PID_T posPID;
 // pid for rategyro inner loop
 // output for throtle addjust funcions
 static PID_T ratePID;
+// TODO: this shall be changed 
+float PID_DeltaSec = 0.1f;
 
 void initPID(PID_T *ppid, float pram[PID_DIM][3]) {
 
@@ -52,6 +56,11 @@ void pitch(float rad) {}
 
 void roll(float rad) {}
 
+// reciever data, rate pid output contol
+void powerDistri() {
+
+}
+
 void innerPID() {
   float error[PID_DIM];
   for (int i = 0; i < PID_DIM; ++i) {
@@ -77,14 +86,12 @@ void PID() {
     getWantedYPR(tar);
 
     for (int i = 0; i < PID_DIM; ++i) {
-      /* error[i] = tar[i] - yprOut[i]; */
+      error[i] = tar[i] - ypr[i];
     }
 
     updPID(&posPID, error, PID_DeltaSec);
     innerPID();
 
-    yaw(ratePID.control[0]);
-    pitch(ratePID.control[1]);
-    roll(ratePID.control[2]);
+    powerDistri();
   }
 }

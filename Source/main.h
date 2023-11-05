@@ -13,4 +13,6 @@ void SendInfo();
 void userTaskCreate();
 void initSystickPsv();
 
+extern enum { PriSendinfo = 4, PriAttitude = 2, PriUpdThro = 3, PriShell = 5 } prioTbl;
+
 #endif

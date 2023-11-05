@@ -10,6 +10,5 @@ typedef struct {
   float intergrator[PID_DIM];
 } PID_T;
 
-#define PID_DeltaSec 0.1f
 
 #endif

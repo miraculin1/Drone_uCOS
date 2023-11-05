@@ -17,35 +17,39 @@ bool rotorLocked;
 // CCR val ranger from 1000-2000 linearly refer to
 // 0%-100% of throtle
 void setThro(uint16_t fourMotor[4]) {
-  // TODO: check the channel
-  if (recData.chs[0] == 1000) {
-    // lock channel
+  if (rotorLocked && recData.chs[4] > 1500) {
+    // unlock
+    /* RCC->APB1ENR |= (0b1 << 1); */
     initMotor();
     rotorLocked = false;
-    printf("[INFO] motor unlocked\n");
-  } else {
-    RCC->APB1ENR &= ~(0b1 << 1);
-    rotorLocked = true;
-    printf("[INFO] motor locked\n");
+    Armed = false;
+    printf("[INFO] unlocked\n");
   }
 
-  if (recData.chs[1] == 1000) {
-    // stop channel
+  if (!rotorLocked && recData.chs[4] <= 1500){
+    // lockup
+    RCC->APB1ENR &= ~(0b1 << 1);
+    rotorLocked = true;
+    printf("[WARNING] locked\n");
+  }
+
+  if (Armed && recData.chs[5] > 1500) {
+    // stop
     TIM3->CCR1 = 1000;
     TIM3->CCR2 = 1000;
     TIM3->CCR3 = 1000;
     TIM3->CCR4 = 1000;
-    printf("[WARNING] motor stoped\n");
+    printf("[WARNING] motor stoped, disarmed\n");
     Armed = false;
   }
 
-  if (!Armed && fourMotor[1] == 0 && !rotorLocked) {
+  if (!Armed && !rotorLocked && recData.chs[5] <= 1500 && recData.chs[2] < 1100) {
     // not locked and throtle is min, enable all things
     Armed = true;
-    printf("[INFO] motor disarmed\n");
+    printf("[INFO] motor armed\n");
   }
+
   if (!Armed) {
-    printf("[INFO] NOT armed\n");
     TIM3->CCR1 = 1000;
     TIM3->CCR2 = 1000;
     TIM3->CCR3 = 1000;
@@ -138,11 +142,10 @@ void initTIM3PWM() {
   TIM3->CCER |= (0x1 << 8);
   TIM3->CCER |= (0x1 << 12);
 
-  // reset all four motors to 0 thro
-  for (int i = 0; i < 4; i++) {
-    fourMotor[i] = 0;
-  }
-  setThro(fourMotor);
+  TIM3->CCR1 = 1000;
+  TIM3->CCR2 = 1000;
+  TIM3->CCR3 = 1000;
+  TIM3->CCR4 = 1000;
 
   // enable Counter
   TIM3->CR1 |= (0x1 << 0);
