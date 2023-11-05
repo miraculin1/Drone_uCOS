@@ -1,6 +1,7 @@
-#include "Includes.h"
+#include "REC.h"
 
 struct RecData recData;
+
 /*
  * in total there is 8 chanels in ppm
  */

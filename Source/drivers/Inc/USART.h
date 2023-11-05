@@ -11,10 +11,19 @@
 #define USART_RxNE 0x020
 #define USART_IDLE 0x010
 
-void USendByte(uint8_t data);
 void initUSART();
-void USendStr(char *str);
-void UReceByte(uint8_t *Byte);
-void USendInt(uint32_t data);
+// void USendByte(const uint8_t data);
+// void USendStr(const char *str);
+// void USendStrDMA(const char *str);
+uint8_t USART1CheckStatus(uint16_t sr);
+void os_writeByte(char byte);
+void os_witeStr(char *str, int len);
+extern char *puRecBuf;
+extern char *const puRecBufInit;
+
+#define MAXBUFLEN 100
+
+#include "ucos_ii.h"
+extern OS_EVENT *uart1Sem;
 
 #endif

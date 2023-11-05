@@ -69,8 +69,9 @@ public:
   void attitudeEST();
 };
 
+// TODO: maybe add threahold for exceeding data
 void EKF::getMsr() {
-  static const float a4A = 1;
+  static const float a4A = 0.06;
   static bool init = false;
   static Vector3f accA = Vector3f::Zero();
   float datatmp[3];
@@ -85,7 +86,10 @@ void EKF::getMsr() {
   }
   AccGData(datatmp, accBias);
   Vector3f tmp = Map<Vector3f>(datatmp, 3, 1);
-  LPF(accA, tmp, a4A);
+  float norm = tmp.norm();
+  if (norm < 1.1 && norm > 0.9) {
+    LPF(accA, tmp, a4A);
+  }
   z.block<3, 1>(0, 0) = accA;
 
   MagmGuassData(datatmp, magBias);
@@ -179,7 +183,6 @@ void EKF::updX_est() {
 
   Matrix<float, 6, 1> y = z - hx;
 
-  // eigen's quaternion.coeffs add is in [q1, q2, q3, q0] order, weird
   x.coeffs() = x.coeffs() + K * y;
 }
 
@@ -188,7 +191,7 @@ void EKF::updP_est() {
   P = (I - K * H) * P;
 }
 
-// NOTE: not using eigen's method since that one always makes yaw in range
+// NOTE: not using eigen's eulerangles method since that one always makes yaw in range
 // (0 to PI)
 void EKF::updYPR() {
   float q0 = x.w(), q1 = -x.x(), q2 = -x.y(), q3 = -x.z();
@@ -200,7 +203,7 @@ void EKF::updYPR() {
 }
 
 void EKF::attitudeEST() {
-  static int initcnt = 1000;
+  static int initcnt = 100;
   static uint8_t cnt;
   cnt = initcnt;
   getMsr();

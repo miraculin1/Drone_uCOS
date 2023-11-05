@@ -1,5 +1,13 @@
-#include "Includes.h"
-uint16_t fourMotor[4]; /*
+#include "USART.h"
+#include "motor.h"
+#include <stdbool.h>
+#include <REC.h>
+
+uint16_t fourMotor[4];
+bool Armed = false;
+bool rotorLocked;
+
+/*
  * this is the motor file
  * for now only init one motor, but the reset three
  * are exactly the same
@@ -9,10 +17,45 @@ uint16_t fourMotor[4]; /*
 // CCR val ranger from 1000-2000 linearly refer to
 // 0%-100% of throtle
 void setThro(uint16_t fourMotor[4]) {
-  TIM3->CCR1 = fourMotor[0] + 1000;
-  TIM3->CCR2 = fourMotor[1] + 1000;
-  TIM3->CCR3 = fourMotor[2] + 1000;
-  TIM3->CCR4 = fourMotor[3] + 1000;
+  // TODO: check the channel
+  if (recData.chs[0] == 1000) {
+    // lock channel
+    initMotor();
+    rotorLocked = false;
+    printf("[INFO] motor unlocked\n");
+  } else {
+    RCC->APB1ENR &= ~(0b1 << 1);
+    rotorLocked = true;
+    printf("[INFO] motor locked\n");
+  }
+
+  if (recData.chs[1] == 1000) {
+    // stop channel
+    TIM3->CCR1 = 1000;
+    TIM3->CCR2 = 1000;
+    TIM3->CCR3 = 1000;
+    TIM3->CCR4 = 1000;
+    printf("[WARNING] motor stoped\n");
+    Armed = false;
+  }
+
+  if (!Armed && fourMotor[1] == 0 && !rotorLocked) {
+    // not locked and throtle is min, enable all things
+    Armed = true;
+    printf("[INFO] motor disarmed\n");
+  }
+  if (!Armed) {
+    printf("[INFO] NOT armed\n");
+    TIM3->CCR1 = 1000;
+    TIM3->CCR2 = 1000;
+    TIM3->CCR3 = 1000;
+    TIM3->CCR4 = 1000;
+  } else {
+    TIM3->CCR1 = fourMotor[0] + 1000;
+    TIM3->CCR2 = fourMotor[1] + 1000;
+    TIM3->CCR3 = fourMotor[2] + 1000;
+    TIM3->CCR4 = fourMotor[3] + 1000;
+  }
 }
 
 // init all four pins
@@ -101,14 +144,11 @@ void initTIM3PWM() {
   }
   setThro(fourMotor);
 
-
   // enable Counter
   TIM3->CR1 |= (0x1 << 0);
 }
 
-void initMotor() {
-  initTIM3PWM();
-}
+void initMotor() { initTIM3PWM(); }
 
 void motorCalThro() {
   initTIM3PWM();

@@ -32,6 +32,11 @@ void userTaskCreate() {
                   NULL, OS_TASK_OPT_STK_CHK | OS_TASK_OPT_STK_CLR);
   OSTaskNameSet(3, (unsigned char *)"updThro", &ERROR);
 
+  pstk = OSMemGet(stkpool, &ERROR);
+  OSTaskCreateExt(&taskShell, NULL, &pstk[STK_SIZE - 1], 5, 5, pstk, STK_SIZE,
+                  NULL, OS_TASK_OPT_STK_CHK | OS_TASK_OPT_STK_CLR);
+  OSTaskNameSet(5, (unsigned char *)"shell", &ERROR);
+
 
 }
 
@@ -76,7 +81,7 @@ void initHardware() {
   initMPU6050();
   initHMC();
   initRec();
-  initMotor();
+  /* initMotor(); */
 
   initDMA(m0, m1, sizeof(m0));
   caliGyro();

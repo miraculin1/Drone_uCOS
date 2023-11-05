@@ -1,5 +1,5 @@
 #include "IIC.h"
-#include "dma.h"
+#include "stm32f4xx.h"
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -189,6 +189,32 @@ void IICBurstRead(uint32_t addr, uint32_t startReg, uint32_t cnt,
   cnt--;
 }
 
+void I2CDMAPrep() {
+  RCC->AHB1ENR |= (0b1 << 21);
+
+  // select channel
+  DMA1_Stream0->CR |= (0b1 << 25);
+
+  // set priority level
+  DMA1_Stream0->CR |= (0b10 << 16);
+
+  // selete mem increase
+  DMA1_Stream0->CR |= (0b1 << 10);
+
+  // choose direction
+  DMA1_Stream0->CR &= ~(0b11 << 6);
+
+  DMA1_Stream0->PAR = 0x40005410;
+
+  // enable tranfer complete interrupt
+  DMA1_Stream0->CR |= (0b1 << 4);
+
+  // mem data size and preiph data size all default 8bit
+
+
+  NVIC_EnableIRQ(DMA1_Stream0_IRQn);
+}
+
 void initDMA(void *addr0, void *addr1, uint32_t size) {
   dbuf.rawbuf0 = addr0;
   dbuf.size0 = -1;
@@ -204,10 +230,13 @@ void initDMA(void *addr0, void *addr1, uint32_t size) {
   dbuf.DMAsem = OSSemCreate(1);
 }
 
+
+// TODO: this code using OS sem, 
+// shall be isolated from basic driver
 static void enterDMA(uint16_t cnt) {
   uint8_t errno;
   OSSemPend(dbuf.DMAsem, 0, &errno);
-  DMAPrep();
+  I2CDMAPrep();
   // enable dma in i2c
   I2C1->CR2 |= (0b1 << 11);
   I2C1->CR2 |= (0b1 << 12);
@@ -233,6 +262,8 @@ static void enterDMA(uint16_t cnt) {
   DMA1_Stream0->CR |= (0b1);
 }
 
+// TODO: this code using OS sem, 
+// shall be isolated from basic driver
 void exitDMA() {
   if (dbuf.curVal == -1) {
     // init
@@ -252,7 +283,10 @@ void exitDMA() {
   OSSemPost(dbuf.DMAsem);
 }
 
+// TODO: this code using OS sem, 
+// shall be isolated from basic driver
 void IICDMARead() {
+  // set to read MPU data
   uint8_t addr = 0xd0;
   uint8_t startReg = 0x3b;
   uint8_t cnt = 14;

@@ -11,6 +11,7 @@ struct RecData {
   int chs[9];
   int linedUp;
 };
+#include <stdbool.h>
 
 extern struct RecData recData;
 void getWantedYPR(float ypr[3]);

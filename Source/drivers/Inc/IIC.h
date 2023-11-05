@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include "ucos_ii.h"
 
-void DMAPrep();
+void I2CDMAPrep();
 void sendAdress();
 void initIIC();
 int IIC1_CheckStatus(uint16_t s1, uint16_t s2);
