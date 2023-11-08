@@ -24,12 +24,13 @@
 #include "sendInfo.h"
 #include "ekf.hpp"
 #include "shell.h"
+#include "control.h"
 
 #include "main.h"
 
 #include "mymath.h"
 
 #define STK_SIZE 2000
-#define STK_CNT 6
+#define STK_CNT 7
 
 #endif

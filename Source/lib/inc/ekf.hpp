@@ -9,6 +9,7 @@ void attitudeEST();
 extern int deltatick;
 
 extern float ypr[3];
+extern float gyroRate[3];
 
 #endif
 

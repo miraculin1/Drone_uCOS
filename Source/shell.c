@@ -3,33 +3,30 @@
 #include "USART.h"
 #include <stdint.h>
 #include <string.h>
+#include "pid.h"
 
 // use to indecate the ready msg from terminal
 OS_EVENT *termMsgSem;
 
-#define ARGSIZE 10
-#define MAXARGNUM 5
-#define ENTRYSIZE 6
-
 typedef struct {
   uint8_t argc;
-  char argv[MAXARGNUM][ARGSIZE];
+  char *argv[MAXARGNUM];
 } CMD_T;
 
 typedef struct {
   // max size of ARGSIZE
   char *name;
-  void (*fp)(int argc, char **argv);
+  void (*fp)(int argc, char *argv[]);
 } Entry_T;
 
-void defaultSehllFunction(int argc, char **argv) {}
+void defaultSehllFunction(int argc, char *argv[]) {}
 
 void test(int argc, char **argv) { printf("hello\n"); }
 
 const static Entry_T entTbl[6] = {
+    {.name = "log", .fp = shellSendInfo},
+    {.name = "pid", .fp = shellPID},
     {.name = "test", .fp = test},
-    {.name = "log", .fp = logToggle},
-    {.name = "", .fp = defaultSehllFunction},
     {.name = "", .fp = defaultSehllFunction},
     {.name = "", .fp = defaultSehllFunction},
     {.name = "", .fp = defaultSehllFunction},
@@ -50,13 +47,14 @@ void parserCMD(CMD_T *out, char *buffer) {
   out->argc = 0;
   char *tmp = strtok(buffer, " ");
   for (; out->argc < MAXARGNUM && tmp != NULL; ++out->argc) {
-    strncpy(out->argv[out->argc], tmp, ARGSIZE);
+    out->argv[out->argc] = tmp;
     tmp = strtok(NULL, " ");
   }
 }
 
 // excute the corresponding funciton
 void excuteCMD(CMD_T *cmd) {
+  printf("\n");
   if (strcmp(cmd->argv[0], "\0") == 0) {
     printf("%s", prompt);
     return;

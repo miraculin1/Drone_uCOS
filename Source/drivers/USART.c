@@ -126,6 +126,7 @@ void initUDMASend() {
   // enable tranfer complete interrupt
   DMA2_Stream7->CR |= (0b1 << 4);
 
+  /* NVIC_SetPriority(DMA2_Stream7_IRQn, 0x1f); */
   NVIC_EnableIRQ(DMA2_Stream7_IRQn);
 }
 
@@ -149,36 +150,37 @@ void UsendDMA(char *buf, const char *str, int len) {
   DMA2_Stream7->CR |= 0b1;
 }
 
-// [Abandon] using 3 interrupt to recieve data
-void initUDMARec() {
-  RCC->AHB1ENR |= (0b1 << 22);
-  // set channel 4 for rx
-  DMA2_Stream5->CR |= (0b100 << 25);
-  // priority highest
-  DMA2_Stream5->CR |= (0b11 << 16);
-  // mem increasing
-  DMA2_Stream5->CR |= (0b1 << 10);
-  // circular mode
-  DMA2_Stream5->CR |= (0b1 << 8);
-  // tc interrupt
-  DMA2_Stream5->CR |= (0b1 << 4);
-  // ht interrupt
-  DMA2_Stream5->CR |= (0b1 << 3);
-
-  DMA2_Stream5->PAR = (uint32_t)&USART1->DR;
-  DMA2_Stream5->M0AR = (uint32_t)&uartRecBuf;
-
-  // enable idle interrupt
-  USART1->CR1 |= (0b1 << 4);
-  NVIC_EnableIRQ(DMA2_Stream5_IRQn);
-  NVIC_EnableIRQ(USART1_IRQn);
-}
+/* // [Abandon] using 3 interrupt to recieve data */
+/* void initUDMARec() { */
+  /* RCC->AHB1ENR |= (0b1 << 22); */
+  /* // set channel 4 for rx */
+  /* DMA2_Stream5->CR |= (0b100 << 25); */
+  /* // priority highest */
+  /* DMA2_Stream5->CR |= (0b11 << 16); */
+  /* // mem increasing */
+  /* DMA2_Stream5->CR |= (0b1 << 10); */
+  /* // circular mode */
+  /* DMA2_Stream5->CR |= (0b1 << 8); */
+  /* // tc interrupt */
+  /* DMA2_Stream5->CR |= (0b1 << 4); */
+  /* // ht interrupt */
+  /* DMA2_Stream5->CR |= (0b1 << 3); */
+/*  */
+  /* DMA2_Stream5->PAR = (uint32_t)&USART1->DR; */
+  /* DMA2_Stream5->M0AR = (uint32_t)&uartRecBuf; */
+/*  */
+  /* // enable idle interrupt */
+  /* USART1->CR1 |= (0b1 << 4); */
+  /* NVIC_EnableIRQ(DMA2_Stream5_IRQn); */
+  /* NVIC_EnableIRQ(USART1_IRQn); */
+/* } */
 
 void initUrec() {
   // enable rxne int
   USART1->CR1 |= (0b1 << 5);
   USART1->CR1 |= (0b1 << 2);
   puRecBuf = uartRecBuf;
+  /* NVIC_SetPriority(USART1_IRQn, 0x13); */
   NVIC_EnableIRQ(USART1_IRQn);
 }
 

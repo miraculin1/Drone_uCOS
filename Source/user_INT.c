@@ -2,25 +2,30 @@
 
 void TIM1_CC_IRQHandler() {
   OSIntEnter();
-  // reset CNT after each interrupt TIM1->CNT = 0;
-  TIM1->CNT = 0;
 
   // line up when possible
   if (!recData.linedUp) {
     if (TIM1->CCR1 >= 4000) {
       recData.linedUp = 1;
+      recData.now = 0;
     }
   } else {
     recData.chs[recData.now] = TIM1->CCR1;
+
     if (recData.now == 8) {
       recData.now = 0;
       // check whether linedUp or not
       if (recData.chs[8] < 3000) {
         recData.linedUp = 0;
+        recData.valid = 0;
       } else {
         recData.valid = 1;
       }
     } else {
+      if (recData.chs[recData.now] > 2000 || recData.chs[recData.now] < 990) {
+        recData.linedUp = 0;
+        recData.valid = 0;
+      }
       recData.now++;
     }
   }
@@ -96,6 +101,7 @@ static void dmaHMC() {
 }
 
 void DMA1_Stream0_IRQHandler() {
+  OSIntEnter();
   I2C1->CR1 |= I2C_CR1_STOP;
   I2C1->CR1 |= I2C_CR1_STOP;
   DMA1->LIFCR |= (0b1 << 5);
@@ -104,9 +110,11 @@ void DMA1_Stream0_IRQHandler() {
   } else {
     exitDMA();
   }
+  OSIntExit();
 }
 
 void DMA2_Stream7_IRQHandler() {
+  OSIntEnter();
   // disable UART dma tx
   USART1->CR3 &= ~(0b1 << 7);
   DMA2->HIFCR |= (0b1 << 27);
@@ -116,17 +124,21 @@ void DMA2_Stream7_IRQHandler() {
   // disable TE
   USART1->CR1 &= ~(0x1 << 3);
   OSSemPost(uart1Sem);
+  OSIntExit();
 }
 
 void DMA2_Stream5_IRQHandler() {
+  OSIntEnter();
   if (DMA2->HISR & (0b1 << 11)) {
     // tc
   } else if (DMA2->HISR & (0b1 << 10)) {
     // ht
   }
+  OSIntExit();
 }
 
 void USART1_IRQHandler() {
+  OSIntEnter();
   if (USART1->SR & (0b1 << 5)) {
     char tmp;
     tmp = USART1->DR;
@@ -147,4 +159,5 @@ void USART1_IRQHandler() {
       *puRecBuf = USART1->DR;
     }
   }
+  OSIntExit();
 }

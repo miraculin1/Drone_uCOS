@@ -23,6 +23,7 @@ const int INITSAMPLES = 10;
 
 // output yaw pitch roll in rad/s
 float ypr[3];
+float gyroRate[3];
 
 // use to show how long to finish a attitudeEST
 uint32_t lastInterTick;
@@ -49,7 +50,7 @@ private:
   // 1st time linearlize h(x), Z_predicted = h(x_est)
   Matrix<float, ZDIM, XDIM> H;
   // TODO: update by clocking
-  float ATT_RATE = 400;
+  float ATT_RATE = 100;
 
   void getMsr();
   void initMsr2State();
@@ -95,6 +96,7 @@ void EKF::getMsr() {
   MagmGuassData(datatmp, magBias);
   z.block<3, 1>(3, 0) = Map<Vector3f>(datatmp, 3, 1);
   GyroRadpSData(datatmp, gyroBias);
+  memcpy(gyroRate, datatmp, sizeof(float) * 3);
   u = Map<Vector3f>(datatmp, 3, 1);
   IICDMARead();
 }
@@ -230,7 +232,7 @@ void EKF::attitudeEST() {
       // << "ms" << int(OSCPUUsage) << "%" << endl;
       cnt = initcnt;
     }
-    OSTimeDlyHMSM(0, 0, 0, 1);
+    OSTimeDlyHMSM(0, 0, 0, 10);
   }
 }
 

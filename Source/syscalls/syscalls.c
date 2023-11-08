@@ -9,15 +9,15 @@
  */
 int _write(int file, char *ptr, int len) {
 
-  os_witeStr(ptr, len);
-  /* int todo; */
-  /* for (todo = 0; todo < len; todo++) { */
-    /* // redirecting out put to uart or swo */
-    /* [> ITM_SendChar(*(ptr++)); <] */
-    /* [> os_writeByte(*ptr); <] */
-    /* [> USendByte(*ptr); <] */
-    /* ptr++; */
-  /* } */
+  /* os_witeStr(ptr, len); */
+  int todo;
+  for (todo = 0; todo < len; todo++) {
+    // redirecting out put to uart or swo
+    /* ITM_SendChar(*(ptr++)); */
+    os_writeByte(*ptr);
+    /* USendByte(*ptr); */
+    ptr++;
+  }
   return len;
 }
 

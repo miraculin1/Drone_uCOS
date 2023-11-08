@@ -212,6 +212,7 @@ void I2CDMAPrep() {
   // mem data size and preiph data size all default 8bit
 
 
+  NVIC_SetPriority(DMA1_Stream0_IRQn, 0x11);
   NVIC_EnableIRQ(DMA1_Stream0_IRQn);
 }
 
@@ -291,7 +292,6 @@ void IICDMARead() {
   uint8_t startReg = 0x3b;
   uint8_t cnt = 14;
   enterDMA(cnt);
-  NVIC_DisableIRQ(TIM1_CC_IRQn);
   while (IIC1_CheckStatus(0x0000, 0x0002))
     ;
 
@@ -314,5 +314,4 @@ void IICDMARead() {
   I2C1->DR = addr | 0b1;
   while (!IIC1_CheckStatus(I2C_SR1_ADDR, 0x0))
     ;
-  NVIC_EnableIRQ(TIM1_CC_IRQn);
 }

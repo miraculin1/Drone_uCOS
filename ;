@@ -20,7 +20,7 @@ void SendInfo() {
       printf("%d, %d\n", deltatick, OSCPUUsage);
     }
 
-    OSTimeDlyHMSM(0, 0, 0, 100);
+    OSTimeDlyHMSM(0, 0, 0, 20);
   }
 }
 

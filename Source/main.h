@@ -8,10 +8,9 @@
 void initSys();
 extern OS_MEM *stkpool;
 void initHardware();
-void updateThro();
-void SendInfo();
 void userTaskCreate();
 void initSystickPsv();
+extern float SYS_DELTASEC;
 
 extern enum { PriSendinfo = 4, PriAttitude = 2, PriUpdThro = 3, PriShell = 5 } prioTbl;
 

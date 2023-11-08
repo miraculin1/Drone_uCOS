@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <REC.h>
 
-uint16_t fourMotor[4];
+uint16_t fourMotorG[4];
 bool Armed = false;
 bool rotorLocked;
 
@@ -30,6 +30,7 @@ void setThro(uint16_t fourMotor[4]) {
     // lockup
     RCC->APB1ENR &= ~(0b1 << 1);
     rotorLocked = true;
+    Armed = false;
     printf("[WARNING] locked\n");
   }
 
@@ -39,8 +40,8 @@ void setThro(uint16_t fourMotor[4]) {
     TIM3->CCR2 = 1000;
     TIM3->CCR3 = 1000;
     TIM3->CCR4 = 1000;
-    printf("[WARNING] motor stoped, disarmed\n");
     Armed = false;
+    printf("[WARNING] motor stoped, disarmed\n");
   }
 
   if (!Armed && !rotorLocked && recData.chs[5] <= 1500 && recData.chs[2] < 1100) {

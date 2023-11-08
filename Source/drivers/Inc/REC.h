@@ -22,7 +22,6 @@ struct RecData {
 #include <stdbool.h>
 
 extern struct RecData recData;
-void getWantedYPR(float ypr[3]);
 
 // int rawCh[9];
 void initRec();
