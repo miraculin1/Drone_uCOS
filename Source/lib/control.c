@@ -10,35 +10,35 @@
 const float yawGain = 0.5, pitchGain = 0.3, rollGain = 0.3;
 
 const float throThre = 0.8;
-// TODO: assumed, need check the num and set rotation
+// TODO: need check the num and set rotation
 //     [y]
-// [0+]  [1-]
+// [0+]  [3-]
 //   |    |
 //  [board]   [x]
 //   |    |
-// [2-]  [3+]
+// [1-]  [2+]
 void yaw(float control, uint16_t *fourMotor) {
   fourMotor[0] -= control;
-  fourMotor[3] -= control;
+  fourMotor[2] -= control;
 
   fourMotor[1] += control;
-  fourMotor[2] += control;
+  fourMotor[3] += control;
 }
 
 void pitch(float control, uint16_t *fourMotor) {
+  fourMotor[1] -= control;
+  fourMotor[2] -= control;
+
+  fourMotor[0] += control;
+  fourMotor[3] += control;
+}
+
+void roll(float control, uint16_t *fourMotor) {
   fourMotor[2] -= control;
   fourMotor[3] -= control;
 
   fourMotor[0] += control;
   fourMotor[1] += control;
-}
-
-void roll(float control, uint16_t *fourMotor) {
-  fourMotor[1] -= control;
-  fourMotor[3] -= control;
-
-  fourMotor[0] += control;
-  fourMotor[2] += control;
 }
 
 void getWantedYPR(float yprRAD[3]) {
@@ -66,12 +66,15 @@ void powerDistri(const float *pidControl, uint16_t *fourMotor) {
   }
   /* // do position transition */
   yaw(pidControl[0], fourMotor);
-  /* pitch(pidControl[1], fourMotor); */
-  /* roll(pidControl[2], fourMotor); */
+  pitch(pidControl[1], fourMotor);
+  roll(pidControl[2], fourMotor);
   for (int i = 0; i < 4; ++i) {
     if (fourMotor[i] > 1000) {
       fourMotor[i] = 1000;
       printf("[WARN] motor%d over load\n", i);
+    } else if (fourMotor[i] < 0) {
+      fourMotor[i] = 0;
+      printf("[WARN] motor%d under load\n", i);
     }
   }
   setThro(fourMotor);

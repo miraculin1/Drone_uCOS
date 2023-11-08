@@ -3,9 +3,16 @@
 static bool ekf = false;
 static bool use = false;
 static bool rec = false;
+static bool thro = false;
 void SendInfo() {
   OSTaskSuspend(PriSendinfo);
   while (1) {
+    if (thro) {
+      for (int i = 0; i < 4; i++) {
+        printf("%d ", fourMotorG[i]);
+      }
+      printf("\n");
+    }
     if (rec) {
       for (int i = 0; i < 9; ++i) {
         printf("%4d ", recData.chs[i]);
@@ -42,6 +49,8 @@ void shellSendInfo(int argc, char *argv[]) {
       use ^= true;
     } else if (strcmp(argv[1], "rec") == 0) {
       rec ^= true;
+    } else if (strcmp(argv[1], "thro") == 0) {
+      thro ^= true;
     } else {
       printf("bad pram\n");
     }
