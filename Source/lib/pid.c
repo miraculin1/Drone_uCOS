@@ -8,12 +8,14 @@
 #include <stdlib.h>
 #include <string.h>
 
+const float ITHRE = 500;
+
 // pid for position outer loop
 // output the desired spin speed in rad
-static PID_T posPID;
+PID_T posPID;
 // pid for rategyro inner loop
 // output for throtle addjust funcions
-static PID_T ratePID;
+PID_T ratePID;
 
 void initPID(PID_T *ppid, float pram[PID_DIM][3]) {
 
@@ -22,6 +24,7 @@ void initPID(PID_T *ppid, float pram[PID_DIM][3]) {
       ppid->pram[i][j] = pram[i][j];
     }
     ppid->intergrator[i] = 0;
+    ppid->lastError[i] = 0;
   }
 }
 
@@ -39,6 +42,9 @@ void updPID(PID_T *ppid, float *error, float deltas) {
   for (int i = 0; i < PID_DIM; ++i) {
     ppid->intergrator[i] += error[i] * deltas;
     ppid->control[i] += ppid->pram[i][1] * ppid->intergrator[i];
+    if (ppid->intergrator[i] > ITHRE) {
+      ppid->intergrator[i] = ITHRE;
+    }
   }
 
   // add derivtive
@@ -55,14 +61,14 @@ void updPID(PID_T *ppid, float *error, float deltas) {
 
 void initbothPID() {
   float pramOut[PID_DIM][3] = {
-      {10, 0, 0},
-      {10, 0, 0},
-      {10, 0, 0},
+      {1, 0, 0},
+      {1, 0, 0},
+      {1, 0, 0},
   };
   float pramIn[PID_DIM][3] = {
-      {10, 0, 0},
-      {10, 0, 0},
-      {10, 0, 0},
+      {100, 0, 0},
+      {100, 0, 0},
+      {100, 0, 0},
   };
   initPID(&posPID, pramOut);
   initPID(&ratePID, pramIn);
@@ -74,13 +80,16 @@ void PID(float *tar, float *cur, float *control) {
     error[i] = tar[i] - cur[i];
   }
   updPID(&posPID, error, SYS_DELTASEC);
-
-  for (int i = 0; i < PID_DIM; ++i) {
-    error[i] = posPID.control[i] - gyroRate[i];
-  }
+    // gyroRate [x y z]
+    // control y p r
+    error[0] = posPID.control[0] - gyroRate[2];
+    error[1] = posPID.control[1] - gyroRate[0];
+    error[2] = posPID.control[2] - gyroRate[1];
   updPID(&ratePID, error, SYS_DELTASEC);
-  for (int i = 0; i < PID_DIM; ++i) {
-    control[i] = ratePID.control[i];
+  if (recData.chs[2] < 1100) {
+    initbothPID();
+  }
+  for (int i = 0; i < PID_DIM; ++i) { control[i] = ratePID.control[i];
   }
 }
 
@@ -88,7 +97,6 @@ void PID(float *tar, float *cur, float *control) {
 void shellPID(int argc, char *argv[ARGSIZE]) {
   float(*tarPram)[3];
   if (argc == 1) {
-    printf("%sPID\n", argv[1]);
     tarPram = posPID.pram;
     for (int i = 0; i < PID_DIM; ++i) {
       printf("%.2f, %.2f, %.2f\n", tarPram[i][0], tarPram[i][1], tarPram[i][2]);

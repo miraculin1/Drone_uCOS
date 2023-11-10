@@ -9,7 +9,7 @@ uint8_t m0[20];
 uint8_t m1[20];
 
 // TODO: this shall be changed
-float SYS_DELTASEC = 0.1f;
+float SYS_DELTASEC = 0.005f;
 
 enum prioTbl;
 
@@ -88,7 +88,6 @@ void initHardware() {
   /* initMotor(); */
 
   initDMA(m0, m1, sizeof(m0));
-  caliGyro();
   initRec();
 }
 

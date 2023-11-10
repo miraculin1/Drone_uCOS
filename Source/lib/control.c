@@ -5,6 +5,7 @@
 #include "motor.h"
 #include "pid.h"
 #include "ucos_ii.h"
+#include <math.h>
 #include <stdint.h>
 #include <stdio.h>
 const float yawGain = 0.5, pitchGain = 0.3, rollGain = 0.3;
@@ -80,6 +81,15 @@ void powerDistri(const float *pidControl, uint16_t *fourMotor) {
   setThro(fourMotor);
 }
 
+bool safe(float *tar, float *ypr) {
+  for (int i = 0; i < 3; ++i) {
+    if (fabsf(tar[i] - ypr[i]) > 0.7) {
+      return false;
+    }
+  }
+  return true;
+}
+
 void taskControl() {
   float tar[PID_DIM];
   float control[3];
@@ -89,7 +99,12 @@ void taskControl() {
     if (recData.valid) {
       getWantedYPR(tar);
       PID(tar, ypr, control);
-      powerDistri(control, fourMotorG);
+      if (!safe(tar, ypr)) {
+        RCC->APB1ENR &= ~(0b1 << 1);
+        printf("[WARN] unsafe attitude\n");
+      } else {
+        powerDistri(control, fourMotorG);
+      }
     }
     OSTimeDlyHMSM(0, 0, 0, SYS_DELTASEC * 1000);
   }

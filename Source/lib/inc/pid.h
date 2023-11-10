@@ -14,5 +14,11 @@ void PID(float *tar, float *cur, float *control);
 void initbothPID();
 #include "shell.h"
 void shellPID(int argc, char *argv[ARGSIZE]);
+// pid for position outer loop
+// output the desired spin speed in rad
+extern PID_T posPID;
+// pid for rategyro inner loop
+// output for throtle addjust funcions
+extern PID_T ratePID;
 
 #endif

@@ -161,3 +161,10 @@ void USART1_IRQHandler() {
   }
   OSIntExit();
 }
+void HardFault_Handler() {
+    RCC->APB1ENR &= ~(0b1 << 1);
+    printf("[CRITICAL] hardFault!, motor locked\n");
+    while (1) {
+
+    }
+}

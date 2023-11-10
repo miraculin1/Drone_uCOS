@@ -1,9 +1,13 @@
 #include "Includes.h"
+#include "pid.h"
 #include <math.h>
 static bool ekf = false;
 static bool use = false;
 static bool rec = false;
 static bool thro = false;
+static bool pid = false;
+static bool gyro = false;
+static bool inner = false;
 void SendInfo() {
   OSTaskSuspend(PriSendinfo);
   while (1) {
@@ -23,8 +27,29 @@ void SendInfo() {
       printf("%f, %f %f\n", ypr[0] / M_PI * 180, ypr[1] / M_PI * 180,
              ypr[2] / M_PI * 180);
     }
+    if (gyro) {
+      printf("%f, %f %f\n", gyroRate[0] / M_PI * 180, gyroRate[1] / M_PI * 180,
+             gyroRate[2] / M_PI * 180);
+    }
     if (use) {
       printf("%d, %d\n", deltatick, OSCPUUsage);
+    }
+    if (pid) {
+      printf("pos: ");
+      for (int i = 0; i < 3; ++i) {
+        printf("%.2f ", posPID.control[i]);
+      }
+      printf("\n");
+
+      printf("rate: ");
+      for (int i = 0; i < 3; ++i) {
+        printf("%.2f ", ratePID.control[i]);
+      }
+      printf("\n");
+    }
+    if (inner) {
+      printf("%.2f %.2f %.2f\n", posPID.control[0], posPID.control[1], posPID.control[2]);
+      printf("%.2f %.2f %.2f\n", gyroRate[0], gyroRate[1], gyroRate[2]);
     }
 
     OSTimeDlyHMSM(0, 0, 0, 100);
@@ -51,6 +76,12 @@ void shellSendInfo(int argc, char *argv[]) {
       rec ^= true;
     } else if (strcmp(argv[1], "thro") == 0) {
       thro ^= true;
+    } else if (strcmp(argv[1], "pid") == 0) {
+      pid ^= true;
+    } else if (strcmp(argv[1], "gyro") == 0) {
+      gyro ^= true;
+    } else if (strcmp(argv[1], "inner") == 0) {
+      inner ^= true;
     } else {
       printf("bad pram\n");
     }

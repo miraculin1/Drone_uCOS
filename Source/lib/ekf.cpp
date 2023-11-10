@@ -50,7 +50,7 @@ private:
   // 1st time linearlize h(x), Z_predicted = h(x_est)
   Matrix<float, ZDIM, XDIM> H;
   // TODO: update by clocking
-  float ATT_RATE = 100;
+  float ATT_RATE = 333;
 
   void getMsr();
   void initMsr2State();
@@ -72,7 +72,7 @@ public:
 
 // TODO: maybe add threahold for exceeding data
 void EKF::getMsr() {
-  static const float a4A = 0.06;
+  static const float a4A = 0.1;
   static bool init = false;
   static Vector3f accA = Vector3f::Zero();
   float datatmp[3];
@@ -193,8 +193,8 @@ void EKF::updP_est() {
   P = (I - K * H) * P;
 }
 
-// NOTE: not using eigen's eulerangles method since that one always makes yaw in range
-// (0 to PI)
+// NOTE: not using eigen's eulerangles method since that one always makes yaw in
+// range (0 to PI)
 void EKF::updYPR() {
   float q0 = x.w(), q1 = -x.x(), q2 = -x.y(), q3 = -x.z();
   ypr[0] =
@@ -232,7 +232,7 @@ void EKF::attitudeEST() {
       // << "ms" << int(OSCPUUsage) << "%" << endl;
       cnt = initcnt;
     }
-    OSTimeDlyHMSM(0, 0, 0, 10);
+    OSTimeDlyHMSM(0, 0, 0, 3);
   }
 }
 
