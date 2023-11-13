@@ -9,8 +9,10 @@
 #include <stdint.h>
 #include <stdio.h>
 const float yawGain = 0.5, pitchGain = 0.3, rollGain = 0.3;
+const float MAXTHRO = 0.8;
+uint32_t CONdeltatick;
 
-const float throThre = 0.8;
+const float throThre = 0.6;
 // TODO: need check the num and set rotation
 //     [y]
 // [0+]  [3-]
@@ -70,8 +72,8 @@ void powerDistri(const float *pidControl, uint16_t *fourMotor) {
   pitch(pidControl[1], fourMotor);
   roll(pidControl[2], fourMotor);
   for (int i = 0; i < 4; ++i) {
-    if (fourMotor[i] > 1000) {
-      fourMotor[i] = 1000;
+    if (fourMotor[i] > 1000 * MAXTHRO) {
+      fourMotor[i] = 1000 * MAXTHRO;
       printf("[WARN] motor%d over load\n", i);
     } else if (fourMotor[i] < 0) {
       fourMotor[i] = 0;
@@ -91,11 +93,18 @@ bool safe(float *tar, float *ypr) {
 }
 
 void taskControl() {
+  static int lastInterTick;
+  static int initcnt = 100;
+  static uint8_t cnt;
+  cnt = initcnt;
   float tar[PID_DIM];
   float control[3];
   initbothPID();
 
   while (1) {
+    if (cnt == initcnt) {
+      lastInterTick = OSTime;
+    }
     if (recData.valid) {
       getWantedYPR(tar);
       PID(tar, ypr, control);
@@ -106,6 +115,34 @@ void taskControl() {
         powerDistri(control, fourMotorG);
       }
     }
+    if (cnt > 0) {
+      cnt--;
+    } else {
+      CONdeltatick = OSTime - lastInterTick;
+      // cout << (x.inverse().matrix().eulerAngles(2, 1, 0) * (180 / PI))
+      // .transpose()
+      // << "," << float(deltatick) / OS_TICKS_PER_SEC / initcnt * 1000
+      // << "ms" << int(OSCPUUsage) << "%" << endl;
+      cnt = initcnt;
+    }
     OSTimeDlyHMSM(0, 0, 0, SYS_DELTASEC * 1000);
   }
 }
+
+void setTopThro() {
+  OSTaskSuspend(PriUpdThro);
+  uint16_t motor[4] = {1000, 1000, 1000, 1000};
+  setThro(motor);
+}
+
+void setBotThro() {
+  uint16_t motor[4] = {0, 0, 0, 0};
+  setThro(motor);
+  OSTaskResume(PriUpdThro);
+}
+void motorCalThro() {
+  setTopThro();
+  OSTimeDlyHMSM(0, 0, 3, 400);
+  setBotThro();
+}
+

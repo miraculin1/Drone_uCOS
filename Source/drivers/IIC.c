@@ -44,8 +44,15 @@ void initIIC() {
   I2C1->CR2 &= ~(0x3f);
   I2C1->CR2 |= (42);
 
-  I2C1->CCR &= ~(0x1 << 15);
-  I2C1->CCR |= (210);
+  // set fast mode about 400k Hz
+  I2C1->CCR |= (0b1 << 15);
+  I2C1->CCR |= (0b1 << 14);
+  I2C1->CCR &= ~(0xFFF);
+  I2C1->CCR |= (4);
+
+  /* // legacy, 100k */
+  /* I2C1->CCR &= ~(0x1 << 15); */
+  /* I2C1->CCR |= (210); */
 
   I2C1->TRISE |= (43);
 

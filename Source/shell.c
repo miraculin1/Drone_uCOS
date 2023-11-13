@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <string.h>
 #include "pid.h"
+#include "control.h"
 
 // use to indecate the ready msg from terminal
 OS_EVENT *termMsgSem;
@@ -27,8 +28,8 @@ const static Entry_T entTbl[6] = {
     {.name = "log", .fp = shellSendInfo},
     {.name = "pid", .fp = shellPID},
     {.name = "test", .fp = test},
-    {.name = "", .fp = defaultSehllFunction},
-    {.name = "", .fp = defaultSehllFunction},
+    {.name = "top", .fp = setTopThro},
+    {.name = "bot", .fp = setBotThro},
     {.name = "", .fp = defaultSehllFunction},
 };
 

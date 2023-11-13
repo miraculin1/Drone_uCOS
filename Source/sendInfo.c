@@ -32,7 +32,7 @@ void SendInfo() {
              gyroRate[2] / M_PI * 180);
     }
     if (use) {
-      printf("%d, %d\n", deltatick, OSCPUUsage);
+      printf("EKF:%.2fms CON:%.2fms CPU:%d\n", (float)EKFdeltatick / 100, (float)CONdeltatick / 100, OSCPUUsage);
     }
     if (pid) {
       printf("pos: ");

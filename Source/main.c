@@ -9,7 +9,7 @@ uint8_t m0[20];
 uint8_t m1[20];
 
 // TODO: this shall be changed
-float SYS_DELTASEC = 0.005f;
+float SYS_DELTASEC = 0.001f;
 
 enum prioTbl;
 

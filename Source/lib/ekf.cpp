@@ -26,8 +26,7 @@ float ypr[3];
 float gyroRate[3];
 
 // use to show how long to finish a attitudeEST
-uint32_t lastInterTick;
-int deltatick;
+int EKFdeltatick;
 
 using namespace std;
 using namespace Eigen;
@@ -50,7 +49,7 @@ private:
   // 1st time linearlize h(x), Z_predicted = h(x_est)
   Matrix<float, ZDIM, XDIM> H;
   // TODO: update by clocking
-  float ATT_RATE = 333;
+  float ATT_RATE = 1000;
 
   void getMsr();
   void initMsr2State();
@@ -205,6 +204,7 @@ void EKF::updYPR() {
 }
 
 void EKF::attitudeEST() {
+  static uint32_t lastInterTick;
   static int initcnt = 100;
   static uint8_t cnt;
   cnt = initcnt;
@@ -225,14 +225,14 @@ void EKF::attitudeEST() {
     if (cnt > 0) {
       cnt--;
     } else {
-      deltatick = OSTime - lastInterTick;
+      EKFdeltatick = OSTime - lastInterTick;
       // cout << (x.inverse().matrix().eulerAngles(2, 1, 0) * (180 / PI))
       // .transpose()
       // << "," << float(deltatick) / OS_TICKS_PER_SEC / initcnt * 1000
       // << "ms" << int(OSCPUUsage) << "%" << endl;
       cnt = initcnt;
     }
-    OSTimeDlyHMSM(0, 0, 0, 3);
+    OSTimeDlyHMSM(0, 0, 0, 1000 / ATT_RATE);
   }
 }
 

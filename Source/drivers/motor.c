@@ -154,9 +154,3 @@ void initTIM3PWM() {
 
 void initMotor() { initTIM3PWM(); }
 
-void motorCalThro() {
-  initTIM3PWM();
-  OSTimeDly(10);
-  OSTimeDly(100);
-  OSTimeDly(100);
-}
