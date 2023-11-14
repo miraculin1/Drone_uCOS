@@ -30,7 +30,7 @@ const static Entry_T entTbl[6] = {
     {.name = "test", .fp = test},
     {.name = "top", .fp = setTopThro},
     {.name = "bot", .fp = setBotThro},
-    {.name = "", .fp = defaultSehllFunction},
+    {.name = "py", .fp = shellEnDigram},
 };
 
 const char *prompt = "drone $";

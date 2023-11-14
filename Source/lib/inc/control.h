@@ -13,4 +13,5 @@ extern uint32_t CONdeltatick;
 // void motorCalThro();
 void setTopThro();
 void setBotThro();
+void shellEnDigram();
 #endif

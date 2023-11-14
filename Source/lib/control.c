@@ -8,6 +8,8 @@
 #include <math.h>
 #include <stdint.h>
 #include <stdio.h>
+
+static void outForPython(float ekf, float tarRad, float gyro, float inPID);
 const float yawGain = 0.5, pitchGain = 0.3, rollGain = 0.3;
 const float MAXTHRO = 0.8;
 uint32_t CONdeltatick;
@@ -92,6 +94,8 @@ bool safe(float *tar, float *ypr) {
   return true;
 }
 
+static bool out;
+
 void taskControl() {
   static int lastInterTick;
   static int initcnt = 100;
@@ -112,6 +116,9 @@ void taskControl() {
         RCC->APB1ENR &= ~(0b1 << 1);
         printf("[WARN] unsafe attitude\n");
       } else {
+        if (out) {
+          outForPython(ypr[2], tar[2], gyroRate[1], posPID.control[2]);
+        }
         powerDistri(control, fourMotorG);
       }
     }
@@ -146,3 +153,16 @@ void motorCalThro() {
   setBotThro();
 }
 
+static void outForPython(float ekf, float tarRad, float gyro, float inPID) {
+  static int a = 0;
+  if (a > 100) {
+    a = 0;
+    printf("%f %f %f %f\n", ekf, tarRad, gyro, inPID);
+  } else {
+    ++a;
+  }
+}
+
+void shellEnDigram() {
+  out ^= true;
+}

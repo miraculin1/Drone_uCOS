@@ -14,7 +14,8 @@ def animation(step):
     while 1:
         global fig, ax
         # 生成测试数据
-        ser = serial.Serial('/dev/ttyACM1')
+        ser = serial.Serial('/dev/ttyACM1', buad=115200, timeout=1)
+        print("hello")
 
         line1 = ser.readline()
         sl1 = str(line1, 'ascii')
