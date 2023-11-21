@@ -1,35 +1,43 @@
-这是为了四轴飞机的 uCOS2 仓库。
+这是一个自制四轴飞机飞控代码仓库，基于 EKF
 
-当前状态：`开发中`
+当前状态：`PID 调试`
 支持的编译器：`arm-none-eabi-gcc`
+使用构建工具：`cmake`
+
+# 硬件选型
+- MCU: stm32f401RET6
+- IMU: GY-86
+- Radio: flysky FS-i6(support 6 chs ppm)
+- Reciever: flysky FS_iA6B(support 8 chs ppm)
+- DCDC module
+
+![pic](./doc/asserts/sch.jpg)
+*NOTE: wire jumper 是用于电源供给切换（在 DCDC 模块和 USB 5V 之间）*
+
+# 特性
+
+- 在 STM32 完成的便于调试的简易 shell
+- 基于 EKF 的姿态解算(with -O3 optimization:1000hz/with -g optimization:300hz)
+- 基于 Eigen 的矩阵运算
+- 串级 PID 的闭环控制
+- tool 中基于 matplotlib 的数据图形化工具
+> ![pic](./doc/asserts/matplotlib.png)
 
 
+# 构建
+
+使用 CMAKE
+```bash
+mkdir build
+cd build
+cmake .. -DCMAKE_BUILD_TYPE=Release
+```
+
+
+# 开发注意
 1. 调用 intEnter （关中断）
 2. 进行处理
 3. 调用 intexit 标记需要上下文切换
 
-如果在应用的程序中需要进行类似 entercritical 的行为可以调用
+如果在应用的程序中需要进行类似 enter critical 的行为可以调用
 函数打开 schedule lock
-
-# 注意事项
-ARM 的 汇编有两种语法，ARM 语法（即 keil 使用的），GNU 语法
-
-暂时只是在 linux 下开发，汇编的伪指令语法为 GNU 的，
-有想法可以在 `Ports/stm32f401` 下再新建一个叫 ARM 的文件夹，
-这两种应该可以共用同一个 OS_CPU_C.c 代码
-
-# `git` 约定
-
-- 对于每一个大块（例如一个难写的需要多次变动更新的 .c 文件，
-甚至一个难实现的功能函数）设立一个分支.
-
-- 由于有可能多个人同时实现一个函数，
-分支名字为 `功能名_名字首字母` 例如 `stackInit_wx`
-
-- 在自己的分支上完成工作开发，如果遇到问题可以在群里问
-或者在 github 上提出一个 Issue （推荐后者因为方便跟踪问题）
-
-- 工作完成之后提出一个 pull request，请求将代码合并到主开发
-分支上
-
-- 每次开工的时候看看有没有更新，及时更新最新的代码
