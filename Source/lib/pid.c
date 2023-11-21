@@ -9,6 +9,8 @@
 #include <string.h>
 
 const float ITHRE = 500;
+const float posISepThre = 0.1;
+const float rateIsepThre = 0.3;
 
 // pid for position outer loop
 // output the desired spin speed in rad
@@ -28,7 +30,7 @@ void initPID(PID_T *ppid, float pram[PID_DIM][3]) {
   }
 }
 
-void updPID(PID_T *ppid, float *error, float deltas) {
+void updPID(PID_T *ppid, float *error, float deltas, float intThre) {
   for (int i = 0; i < PID_DIM; ++i) {
     ppid->control[i] = 0;
   }
@@ -40,7 +42,11 @@ void updPID(PID_T *ppid, float *error, float deltas) {
 
   // add intergrate
   for (int i = 0; i < PID_DIM; ++i) {
-    ppid->intergrator[i] += error[i] * deltas;
+    if (error[i] > intThre) {
+      ppid->intergrator[i] = 0;
+    } else {
+      ppid->intergrator[i] += error[i] * deltas;
+    }
     ppid->control[i] += ppid->pram[i][1] * ppid->intergrator[i];
     if (ppid->intergrator[i] > ITHRE) {
       ppid->intergrator[i] = ITHRE;
@@ -61,14 +67,14 @@ void updPID(PID_T *ppid, float *error, float deltas) {
 
 void initbothPID() {
   float pramOut[PID_DIM][3] = {
-      {3.7, 0, 0},
-      {3.7, 0, 0},
-      {3.7, 0, 0},
+      {2, 0, 0},
+      {2, 0, 0},
+      {2, 0, 0},
   };
   float pramIn[PID_DIM][3] = {
-      {45, 0, 0},
-      {45, 0, 0},
-      {45, 0, 0},
+      {50, 0, 0},
+      {50, 0, 0},
+      {50, 0, 0},
   };
   initPID(&posPID, pramOut);
   initPID(&ratePID, pramIn);
@@ -79,20 +85,21 @@ void PID(float *tar, float *cur, float *control) {
   for (int i = 0; i < PID_DIM; ++i) {
     error[i] = tar[i] - cur[i];
   }
-  updPID(&posPID, error, SYS_DELTASEC);
-    // gyroRate [x y z]
-    // control y p r
-    error[0] = posPID.control[0] - gyroRate[2];
-    error[1] = posPID.control[1] - gyroRate[0];
-    error[2] = posPID.control[2] - gyroRate[1];
-  updPID(&ratePID, error, SYS_DELTASEC);
   if (recData.chs[2] < 1100) {
-    for (int i = 0 ; i < PID_DIM; ++i) {
+    for (int i = 0; i < PID_DIM; ++i) {
       posPID.intergrator[i] = 0;
       ratePID.intergrator[i] = 0;
     }
   }
-  for (int i = 0; i < PID_DIM; ++i) { control[i] = ratePID.control[i];
+  updPID(&posPID, error, SYS_DELTASEC, posISepThre);
+  // gyroRate [x y z]
+  // control y p r
+  error[0] = posPID.control[0] - gyroRate[2];
+  error[1] = posPID.control[1] - gyroRate[0];
+  error[2] = posPID.control[2] - gyroRate[1];
+  updPID(&ratePID, error, SYS_DELTASEC, rateIsepThre);
+  for (int i = 0; i < PID_DIM; ++i) {
+    control[i] = ratePID.control[i];
   }
 }
 
@@ -102,11 +109,11 @@ void shellPID(int argc, char *argv[ARGSIZE]) {
   if (argc == 1) {
     tarPram = posPID.pram;
     for (int i = 0; i < PID_DIM; ++i) {
-      printf("%.4f, %.4f, %.4f\n", tarPram[i][0], tarPram[i][1], tarPram[i][2]);
+      printf("%.4f, %.4f, %.6f\n", tarPram[i][0], tarPram[i][1], tarPram[i][2]);
     }
     tarPram = ratePID.pram;
     for (int i = 0; i < PID_DIM; ++i) {
-      printf("%.4f, %.4f, %.4f\n", tarPram[i][0], tarPram[i][1], tarPram[i][2]);
+      printf("%.4f, %.4f, %.6f\n", tarPram[i][0], tarPram[i][1], tarPram[i][2]);
     }
     return;
   }
@@ -135,7 +142,7 @@ void shellPID(int argc, char *argv[ARGSIZE]) {
     }
     printf("%sPID set\n", argv[1]);
     for (int i = 0; i < PID_DIM; ++i) {
-      printf("%.4f, %.4f, %.4f\n", tarPram[i][0], tarPram[i][1], tarPram[i][2]);
+      printf("%.4f, %.4f, %.6f\n", tarPram[i][0], tarPram[i][1], tarPram[i][2]);
     }
   } else {
     int i = atoi(argv[2]);
@@ -146,7 +153,7 @@ void shellPID(int argc, char *argv[ARGSIZE]) {
     tarPram[i][1] = Pi;
     tarPram[i][2] = Pd;
     printf("%sPID %d set\n", argv[1], i);
-    printf("%.4f, %.4f, %.4f\n", tarPram[i][0], tarPram[i][1], tarPram[i][2]);
+    printf("%.4f, %.4f, %.6f\n", tarPram[i][0], tarPram[i][1], tarPram[i][2]);
   }
 
   printf("good luck\n");

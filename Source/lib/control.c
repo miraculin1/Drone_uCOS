@@ -9,6 +9,18 @@
 #include <stdint.h>
 #include <stdio.h>
 
+// TODO: enable watch dog
+static void getAdog() {
+  IWDG->KR = 0x5555;
+  IWDG->PR = 3;
+  IWDG->RLR = 50;
+  IWDG->KR = 0xcccc;
+}
+
+static void feedThatDog() {
+  IWDG->KR = 0xaaaa;
+}
+
 static void outForPython(float ekf, float tarRad, float gyro, float inPID);
 const float yawGain = 0.5, pitchGain = 0.3, rollGain = 0.3;
 const float MAXTHRO = 0.8;
@@ -97,6 +109,8 @@ bool safe(float *tar, float *ypr) {
 static bool out;
 
 void taskControl() {
+  static const int initInvalidCNT = 10;
+  static int invalidCNT = initInvalidCNT;
   static int lastInterTick;
   static int initcnt = 100;
   static uint8_t cnt;
@@ -104,32 +118,44 @@ void taskControl() {
   float tar[PID_DIM];
   float control[3];
   initbothPID();
+  getAdog();
 
   while (1) {
     if (cnt == initcnt) {
       lastInterTick = OSTime;
     }
+    feedThatDog();
     if (recData.valid) {
+      invalidCNT = initInvalidCNT;
       getWantedYPR(tar);
       PID(tar, ypr, control);
       if (!safe(tar, ypr)) {
+        static uint8_t a;
         RCC->APB1ENR &= ~(0b1 << 1);
-        printf("[WARN] unsafe attitude\n");
+        if (a > 20) {
+          a = 0;
+          printf("[WARN] unsafe attitude\n");
+        } else {
+          ++a;
+        }
       } else {
         if (out) {
           outForPython(ypr[2], tar[2], gyroRate[1], posPID.control[2]);
         }
         powerDistri(control, fourMotorG);
       }
+    } else {
+      // invalid rec for to long
+        if (invalidCNT > 0) {
+        --invalidCNT;
+        } else {
+          disarm("[ERROR] bad REC");
+        }
     }
     if (cnt > 0) {
       cnt--;
     } else {
       CONdeltatick = OSTime - lastInterTick;
-      // cout << (x.inverse().matrix().eulerAngles(2, 1, 0) * (180 / PI))
-      // .transpose()
-      // << "," << float(deltatick) / OS_TICKS_PER_SEC / initcnt * 1000
-      // << "ms" << int(OSCPUUsage) << "%" << endl;
       cnt = initcnt;
     }
     OSTimeDlyHMSM(0, 0, 0, SYS_DELTASEC * 1000);

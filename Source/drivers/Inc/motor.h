@@ -8,6 +8,7 @@
 void initTIM3PWM();
 void setThro(uint16_t fourMotor[4]);
 void initMotor();
+void disarm(const char *const reason);
 // TODO: assumed, need check the num and set rotation
 //     [y]
 // [0+]  [1-]

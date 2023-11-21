@@ -1,5 +1,7 @@
 #include "Includes.h"
 
+// NOTE: remmeber to add the OSIntExit before return of INT handles!
+
 void TIM1_CC_IRQHandler() {
   OSIntEnter();
 
@@ -142,14 +144,25 @@ void USART1_IRQHandler() {
   if (USART1->SR & (0b1 << 5)) {
     char tmp;
     tmp = USART1->DR;
+    // handle the back space
+    if (tmp == '\b') {
+      // check if buffer isnt empty
+      if (puRecBuf > puRecBufInit) {
+        printf("\b \b");
+        --puRecBuf;
+      } else {
+      }
+      OSIntExit();
+      return;
+    }
     // rxne
     // read dr to clear flag
     if (puRecBuf - puRecBufInit < MAXBUFLEN) {
-      printf("%c", tmp);
       if (tmp == '\n' || tmp == '\r') {
         *puRecBuf++ = '\0';
         OSSemPost(termMsgSem);
       } else {
+        printf("%c", tmp);
         *puRecBuf++ = tmp;
       }
     } else {
@@ -162,9 +175,8 @@ void USART1_IRQHandler() {
   OSIntExit();
 }
 void HardFault_Handler() {
-    RCC->APB1ENR &= ~(0b1 << 1);
-    printf("[CRITICAL] hardFault!, motor locked\n");
-    while (1) {
-
-    }
+  RCC->APB1ENR &= ~(0b1 << 1);
+  printf("[CRITICAL] hardFault!, motor locked\n");
+  while (1) {
+  }
 }

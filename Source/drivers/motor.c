@@ -1,7 +1,7 @@
-#include "USART.h"
 #include "motor.h"
-#include <stdbool.h>
+#include "USART.h"
 #include <REC.h>
+#include <stdbool.h>
 
 uint16_t fourMotorG[4];
 bool Armed = false;
@@ -26,7 +26,7 @@ void setThro(uint16_t fourMotor[4]) {
     printf("[INFO] unlocked\n");
   }
 
-  if (!rotorLocked && recData.chs[4] <= 1500){
+  if (!rotorLocked && recData.chs[4] <= 1500) {
     // lockup
     RCC->APB1ENR &= ~(0b1 << 1);
     rotorLocked = true;
@@ -44,7 +44,8 @@ void setThro(uint16_t fourMotor[4]) {
     printf("[WARNING] motor stoped, disarmed\n");
   }
 
-  if (!Armed && !rotorLocked && recData.chs[5] <= 1500 && recData.chs[2] < 1100) {
+  if (!Armed && !rotorLocked && recData.chs[5] <= 1500 &&
+      recData.chs[2] < 1100) {
     // not locked and throtle is min, enable all things
     Armed = true;
     printf("[INFO] motor armed\n");
@@ -61,6 +62,15 @@ void setThro(uint16_t fourMotor[4]) {
     TIM3->CCR3 = fourMotor[2] + 1000;
     TIM3->CCR4 = fourMotor[3] + 1000;
   }
+}
+
+void disarm(const char *const reason) {
+  if (Armed) {
+    printf("[WARN]disarm due to %s", reason);
+  }
+  RCC->APB1ENR &= ~(0b1 << 1);
+  rotorLocked = true;
+  Armed = false;
 }
 
 // init all four pins
@@ -153,4 +163,3 @@ void initTIM3PWM() {
 }
 
 void initMotor() { initTIM3PWM(); }
-

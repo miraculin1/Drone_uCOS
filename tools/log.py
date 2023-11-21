@@ -9,7 +9,7 @@ from matplotlib import animation
 dispNum = 100
 x = np.linspace(0, 100, 101)
 
-ser = serial.Serial('/dev/ttyACM1', 115200)
+ser = serial.Serial('/dev/ttyACM0', 115200)
 
 # using the variable axs for multiple Axes
 fig, (ax1, ax2) = plt.subplots(2, 1)
@@ -93,6 +93,6 @@ def update(t):
 
 
 ani = animation.FuncAnimation(
-    fig, update, fargs=(), interval=10)
+    fig, update, fargs=(), interval=1)
 #
 plt.show()
