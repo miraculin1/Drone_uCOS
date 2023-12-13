@@ -72,20 +72,22 @@ public:
 // TODO: maybe add threahold for exceeding data
 void EKF::getMsr() {
   static const float a4A = 0.1;
+  static const float a4gyro = 0.4;
   static bool init = false;
   static Vector3f accA = Vector3f::Zero();
+  static Vector3f accgyro = Vector3f::Zero();
+  static Vector3f tmp;
   float datatmp[3];
   if (!init) {
-    for (int i = 0; i < INITSAMPLES; ++i) {
-      IICDMARead();
-      AccGData(datatmp, accBias);
-      Vector3f tmp = Map<Vector3f>(datatmp, 3, 1);
-      LPF(accA, tmp, a4A);
-    }
+    IICDMARead();
+    AccGData(datatmp, accBias);
+    accA = Map<Vector3f>(datatmp, 3, 1);
     init = true;
+    GyroRadpSData(datatmp, gyroBias);
+    accgyro = Map<Vector3f>(datatmp, 3, 1);
   }
   AccGData(datatmp, accBias);
-  Vector3f tmp = Map<Vector3f>(datatmp, 3, 1);
+  tmp = Map<Vector3f>(datatmp, 3, 1);
   float norm = tmp.norm();
   if (norm < 1.1 && norm > 0.9) {
     LPF(accA, tmp, a4A);
@@ -96,7 +98,9 @@ void EKF::getMsr() {
   z.block<3, 1>(3, 0) = Map<Vector3f>(datatmp, 3, 1);
   GyroRadpSData(datatmp, gyroBias);
   memcpy(gyroRate, datatmp, sizeof(float) * 3);
-  u = Map<Vector3f>(datatmp, 3, 1);
+  tmp = Map<Vector3f>(datatmp, 3, 1);
+  LPF(accgyro, tmp, a4gyro);
+  u = accgyro;
   IICDMARead();
 }
 

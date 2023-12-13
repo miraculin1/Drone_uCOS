@@ -9,24 +9,31 @@
 #include <stdint.h>
 #include <stdio.h>
 
+#define WDG_EN
+
 // TODO: enable watch dog
 static void getAdog() {
+#ifdef WDG_EN
   IWDG->KR = 0x5555;
   IWDG->PR = 3;
   IWDG->RLR = 50;
   IWDG->KR = 0xcccc;
+#endif
 }
 
 static void feedThatDog() {
+#ifdef WDG_EN
   IWDG->KR = 0xaaaa;
+#endif
 }
 
-static void outForPython(float ekf, float tarRad, float gyro, float inPID);
+static void outForPython(float msr1, float tar1, float msr2, float tar2,
+                         float con1, float con2, uint16_t *thros);
 const float yawGain = 0.5, pitchGain = 0.3, rollGain = 0.3;
-const float MAXTHRO = 0.8;
+const float MAXTHRO = 0.9;
 uint32_t CONdeltatick;
 
-const float throThre = 0.6;
+const float throThre = 0.8;
 // TODO: need check the num and set rotation
 //     [y]
 // [0+]  [3-]
@@ -140,17 +147,18 @@ void taskControl() {
         }
       } else {
         if (out) {
-          outForPython(ypr[2], tar[2], gyroRate[1], posPID.control[2]);
+          outForPython(ypr[2], tar[2], gyroRate[1], posPID.control[2],
+                       posPID.control[2], ratePID.control[2] / 100, fourMotorG);
         }
         powerDistri(control, fourMotorG);
       }
     } else {
       // invalid rec for to long
-        if (invalidCNT > 0) {
+      if (invalidCNT > 0) {
         --invalidCNT;
-        } else {
-          disarm("[ERROR] bad REC");
-        }
+      } else {
+        disarm("[ERROR] bad REC");
+      }
     }
     if (cnt > 0) {
       cnt--;
@@ -179,16 +187,19 @@ void motorCalThro() {
   setBotThro();
 }
 
-static void outForPython(float ekf, float tarRad, float gyro, float inPID) {
+static void outForPython(float msr1, float tar1, float msr2, float tar2,
+                         float con1, float con2, uint16_t *thros) {
   static int a = 0;
   if (a > 100) {
     a = 0;
-    printf("%f %f %f %f\n", ekf, tarRad, gyro, inPID);
+    printf("%f %f %f %f %f %f", msr1, tar1, msr2, tar2, con1, con2);
+    for (int i = 0; i < 4; ++i) {
+      printf(" %d", thros[i]);
+    }
+    printf("\n");
   } else {
     ++a;
   }
 }
 
-void shellEnDigram() {
-  out ^= true;
-}
+void shellEnDigram() { out ^= true; }

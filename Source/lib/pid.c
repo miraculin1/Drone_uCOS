@@ -7,10 +7,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 const float ITHRE = 500;
-const float posISepThre = 0.1;
-const float rateIsepThre = 0.3;
+const float posISepThre = 0.4;
+const float rateIsepThre = 1;
 
 // pid for position outer loop
 // output the desired spin speed in rad
@@ -42,13 +43,13 @@ void updPID(PID_T *ppid, float *error, float deltas, float intThre) {
 
   // add intergrate
   for (int i = 0; i < PID_DIM; ++i) {
-    if (error[i] > intThre) {
-      ppid->intergrator[i] = 0;
+    if (fabsf(error[i]) > intThre) {
+      ppid->intergrator[i] *= 0.3;
     } else {
       ppid->intergrator[i] += error[i] * deltas;
     }
     ppid->control[i] += ppid->pram[i][1] * ppid->intergrator[i];
-    if (ppid->intergrator[i] > ITHRE) {
+    if (fabsf(ppid->intergrator[i]) > ITHRE) {
       ppid->intergrator[i] = ITHRE;
     }
   }
@@ -67,23 +68,28 @@ void updPID(PID_T *ppid, float *error, float deltas, float intThre) {
 
 void initbothPID() {
   float pramOut[PID_DIM][3] = {
-      {2, 0, 0},
-      {2, 0, 0},
-      {2, 0, 0},
+      {2, 0, 0.0003},
+      {2, 0, 0.0003},
+      {2, 0, 0.0003},
   };
   float pramIn[PID_DIM][3] = {
-      {50, 0, 0},
-      {50, 0, 0},
-      {50, 0, 0},
+      {130, 10, 1},
+      {130, 10, 1},
+      {130, 10, 1},
   };
   initPID(&posPID, pramOut);
   initPID(&ratePID, pramIn);
 }
 
 void PID(float *tar, float *cur, float *control) {
+  static float lpfAcc[3] = {0};
+  static const float gyroPass = 1;
+  for (int i = 0; i < 3; ++i) {
+    lpfAcc[i] = gyroPass * cur[i] + (1 - gyroPass) * lpfAcc[i];
+  }
   float error[PID_DIM];
   for (int i = 0; i < PID_DIM; ++i) {
-    error[i] = tar[i] - cur[i];
+    error[i] = tar[i] - lpfAcc[i];
   }
   if (recData.chs[2] < 1100) {
     for (int i = 0; i < PID_DIM; ++i) {
