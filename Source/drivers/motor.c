@@ -1,5 +1,13 @@
-#include "Includes.h"
-uint16_t fourMotor[4]; /*
+#include "motor.h"
+#include "USART.h"
+#include <REC.h>
+#include <stdbool.h>
+
+uint16_t fourMotorG[4];
+bool Armed = false;
+bool rotorLocked;
+
+/*
  * this is the motor file
  * for now only init one motor, but the reset three
  * are exactly the same
@@ -9,10 +17,60 @@ uint16_t fourMotor[4]; /*
 // CCR val ranger from 1000-2000 linearly refer to
 // 0%-100% of throtle
 void setThro(uint16_t fourMotor[4]) {
-  TIM3->CCR1 = fourMotor[0] + 1000;
-  TIM3->CCR2 = fourMotor[1] + 1000;
-  TIM3->CCR3 = fourMotor[2] + 1000;
-  TIM3->CCR4 = fourMotor[3] + 1000;
+  if (rotorLocked && recData.chs[4] > 1500) {
+    // unlock
+    /* RCC->APB1ENR |= (0b1 << 1); */
+    initMotor();
+    rotorLocked = false;
+    Armed = false;
+    printf("[INFO] unlocked\n");
+  }
+
+  if (!rotorLocked && recData.chs[4] <= 1500) {
+    // lockup
+    RCC->APB1ENR &= ~(0b1 << 1);
+    rotorLocked = true;
+    Armed = false;
+    printf("[WARNING] locked\n");
+  }
+
+  if (Armed && recData.chs[5] > 1500) {
+    // stop
+    TIM3->CCR1 = 1000;
+    TIM3->CCR2 = 1000;
+    TIM3->CCR3 = 1000;
+    TIM3->CCR4 = 1000;
+    Armed = false;
+    printf("[WARNING] motor stoped, disarmed\n");
+  }
+
+  if (!Armed && !rotorLocked && recData.chs[5] <= 1500 &&
+      recData.chs[2] < 1100) {
+    // not locked and throtle is min, enable all things
+    Armed = true;
+    printf("[INFO] motor armed\n");
+  }
+
+  if (!Armed) {
+    TIM3->CCR1 = 1000;
+    TIM3->CCR2 = 1000;
+    TIM3->CCR3 = 1000;
+    TIM3->CCR4 = 1000;
+  } else {
+    TIM3->CCR1 = fourMotor[0] + 1000;
+    TIM3->CCR2 = fourMotor[1] + 1000;
+    TIM3->CCR3 = fourMotor[2] + 1000;
+    TIM3->CCR4 = fourMotor[3] + 1000;
+  }
+}
+
+void disarm(const char *const reason) {
+  if (Armed) {
+    printf("[WARN]disarm due to %s", reason);
+  }
+  RCC->APB1ENR &= ~(0b1 << 1);
+  rotorLocked = true;
+  Armed = false;
 }
 
 // init all four pins
@@ -95,24 +153,13 @@ void initTIM3PWM() {
   TIM3->CCER |= (0x1 << 8);
   TIM3->CCER |= (0x1 << 12);
 
-  // reset all four motors to 0 thro
-  for (int i = 0; i < 4; i++) {
-    fourMotor[i] = 0;
-  }
-  setThro(fourMotor);
-
+  TIM3->CCR1 = 1000;
+  TIM3->CCR2 = 1000;
+  TIM3->CCR3 = 1000;
+  TIM3->CCR4 = 1000;
 
   // enable Counter
   TIM3->CR1 |= (0x1 << 0);
 }
 
-void initMotor() {
-  initTIM3PWM();
-}
-
-void motorCalThro() {
-  initTIM3PWM();
-  OSTimeDly(10);
-  OSTimeDly(100);
-  OSTimeDly(100);
-}
+void initMotor() { initTIM3PWM(); }

@@ -1,7 +1,7 @@
 #include "Includes.h"
 #define MPU_ADDR 0xd0
 
-double GyroLSBPerDegree = 0, AccLSBPerG = 0;
+float GyroLSBPerDegree = 0, AccLSBPerG = 0;
 
 static uint8_t selfTest();
 
@@ -67,30 +67,45 @@ void realconfig() {
 }
 
 void AccRawData(int16_t data[3]) {
-  uint8_t temp[6];
-  OSSchedLock();
-  IICBurstRead(MPU_ADDR, 0x3b, 6, temp);
-  OSSchedUnlock();
+  uint8_t errno;
+  uint8_t *temp;
+  if (dbuf.curVal == 0) {
+    OSSemPend(dbuf.sem0, 0, &errno);
+    temp = dbuf.rawbuf0;
+  } else if (dbuf.curVal == 1) {
+    OSSemPend(dbuf.sem1, 0, &errno);
+    temp = dbuf.rawbuf1;
+  } else {
+    OSSemPend(dbuf.sem0, 0, &errno);
+    temp = dbuf.rawbuf0;
+  }
   for (int i = 0; i < 3; i++) {
     data[i] = 0;
     data[i] |= temp[i * 2];
     data[i] = data[i] << 8;
     data[i] |= temp[i * 2 + 1];
   }
+  if (dbuf.curVal == 0) {
+    OSSemPost(dbuf.sem0);
+  } else if (dbuf.curVal == 1) {
+    OSSemPost(dbuf.sem1);
+  } else {
+    OSSemPost(dbuf.sem0);
+  }
 }
 
-void AccGData(double out[3], double *bias) {
+void AccGData(float *out, float *bias) {
   if (bias == NULL) {
     int16_t data[3];
     AccRawData(data);
     for (int i = 0; i < 3; i++) {
-      out[i] = -(double)data[i] / AccLSBPerG;
+      out[i] = -(float)data[i] / AccLSBPerG;
     }
   } else {
     int16_t data[3];
     AccRawData(data);
     for (int i = 0; i < 3; i++) {
-      out[i] = (-(double)data[i] / AccLSBPerG - bias[i]) / bias[3 + i];
+      out[i] = (-(float)data[i] / AccLSBPerG - bias[i]) / bias[3 + i];
     }
   }
 }
@@ -102,31 +117,48 @@ uint8_t whoami() {
 }
 
 void GyroRawData(int16_t data[3]) {
-  uint8_t temp[6];
-  IICBurstRead(MPU_ADDR, 0x43, 6, temp);
+  uint8_t errno;
+  uint8_t *temp;
+  if (dbuf.curVal == 0) {
+    OSSemPend(dbuf.sem0, 0, &errno);
+    temp = dbuf.rawbuf0 + 8;
+  } else if (dbuf.curVal == 1) {
+    OSSemPend(dbuf.sem1, 0, &errno);
+    temp = dbuf.rawbuf1 + 8;
+  } else {
+    OSSemPend(dbuf.sem0, 0, &errno);
+    temp = dbuf.rawbuf0 + 8;
+  }
   for (int i = 0; i < 3; i++) {
     data[i] = (temp[i * 2] << 8) | temp[i * 2 + 1];
   }
+  if (dbuf.curVal == 0) {
+    OSSemPost(dbuf.sem0);
+  } else if (dbuf.curVal == 1) {
+    OSSemPost(dbuf.sem1);
+  } else {
+    OSSemPost(dbuf.sem0);
+  }
 }
 
-void GyroDpSData(double out[3], double *bias) {
+void GyroDpSData(float *out, float *bias) {
   if (bias == NULL || (CALIBDONE & 0b001) == 0) {
   int16_t data[3];
   GyroRawData(data);
   for (int i = 0; i < 3; i++) {
-    out[i] = (double)data[i] / GyroLSBPerDegree;
+    out[i] = (float)data[i] / GyroLSBPerDegree;
   }
   }
 
   int16_t data[3];
   GyroRawData(data);
   for (int i = 0; i < 3; i++) {
-    out[i] = (double)data[i] / GyroLSBPerDegree - bias[i];
+    out[i] = (float)data[i] / GyroLSBPerDegree - bias[i];
   }
 }
-void GyroRadpSData(double out[3], double *bias) {
+void GyroRadpSData(float *out, float *bias) {
   GyroDpSData(out, bias);
-  const double dPreRad = 180 / M_PI;
+  const float dPreRad = 180 / M_PI;
   for (int dim = 0; dim < 3; ++dim) {
     out[dim] /= dPreRad;
   }

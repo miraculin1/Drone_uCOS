@@ -1313,8 +1313,8 @@ typedef struct
 #define FPU_MVFR0_FP_excep_trapping_Pos    12                                             /*!< MVFR0: FP exception trapping bits Position */
 #define FPU_MVFR0_FP_excep_trapping_Msk    (0xFUL << FPU_MVFR0_FP_excep_trapping_Pos)     /*!< MVFR0: FP exception trapping bits Mask */
 
-#define FPU_MVFR0_Double_precision_Pos      8                                             /*!< MVFR0: Double-precision bits Position */
-#define FPU_MVFR0_Double_precision_Msk     (0xFUL << FPU_MVFR0_Double_precision_Pos)      /*!< MVFR0: Double-precision bits Mask */
+#define FPU_MVFR0_float_precision_Pos      8                                             /*!< MVFR0: float-precision bits Position */
+#define FPU_MVFR0_float_precision_Msk     (0xFUL << FPU_MVFR0_float_precision_Pos)      /*!< MVFR0: float-precision bits Mask */
 
 #define FPU_MVFR0_Single_precision_Pos      4                                             /*!< MVFR0: Single-precision bits Position */
 #define FPU_MVFR0_Single_precision_Msk     (0xFUL << FPU_MVFR0_Single_precision_Pos)      /*!< MVFR0: Single-precision bits Mask */

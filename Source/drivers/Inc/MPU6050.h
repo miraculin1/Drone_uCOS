@@ -1,16 +1,15 @@
 #ifndef __MPU6050_H
 #define __MPU6050_H
 
-#include "IIC.h"
-#include "ekf.h"
+#include <stdint.h>
 void initMPU6050();
-void GyroRadpSData(double out[3], double *bias);
-void GyroDpSData(double out[3], double *bias);
-void AccGData(double out[3], double *bias);
+void GyroRadpSData(float *out, float *bias);
+void GyroDpSData(float *out, float *bias);
+void AccGData(float *out, float *bias);
 
 void enBypass();
 void disenBypass();
 uint8_t whoami();
 
-extern double GyroLSBPerDegree, AccLSBPerG;
+extern float GyroLSBPerDegree, AccLSBPerG;
 #endif

@@ -1,4 +1,5 @@
 #include "syscalls.h"
+#include "USART.h"
 
 /**********************************
  * this func always called by printf
@@ -7,12 +8,14 @@
  ***********************************
  */
 int _write(int file, char *ptr, int len) {
-  int todo;
 
+  /* os_witeStr(ptr, len); */
+  int todo;
   for (todo = 0; todo < len; todo++) {
     // redirecting out put to uart or swo
     /* ITM_SendChar(*(ptr++)); */
-    USendByte(*ptr);
+    os_writeByte(*ptr);
+    /* USendByte(*ptr); */
     ptr++;
   }
   return len;
@@ -54,6 +57,26 @@ int _close(int file) { return -1; }
 // The sys/stat.h header file required is distributed in the include
 // subdirectory for this C library.
 
-int _fstat() {
-  return 0;
+int _fstat() { return 0; }
+
+void *_sbrk(intptr_t increment) {
+  extern char _end;
+  extern char _Min_Heap_Size;
+  static char *heap_end;
+  char *prev_heap_end;
+  if (heap_end == NULL) {
+    heap_end = &_end;
+  }
+  if (heap_end + increment > &_end + (int)&_Min_Heap_Size) {
+    return (void *)-1;
+  }
+  prev_heap_end = heap_end;
+  heap_end += increment;
+
+  return (void *)prev_heap_end;
+}
+
+void _exit(int a) {
+  while (1) {
+  }
 }

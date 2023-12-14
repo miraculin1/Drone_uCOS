@@ -51,7 +51,7 @@
 #define OS_SCHED_LOCK_EN          1u   /* Include code for OSSchedLock() and OSSchedUnlock()           */
 
 #define OS_TICK_STEP_EN           1u   /* Enable tick stepping feature for uC/OS-View                  */
-#define OS_TICKS_PER_SEC        100u   /* Set the number of ticks in one second                        */
+#define OS_TICKS_PER_SEC        1000u   /* Set the number of ticks in one second                        */
 
 #define OS_TLS_TBL_SIZE           0u   /* Size of Thread-Local Storage Table                           */
 
@@ -104,10 +104,10 @@
 
 
                                        /* ---------------- MUTUAL EXCLUSION SEMAPHORES --------------- */
-#define OS_MUTEX_EN               1u   /* Enable (1) or Disable (0) code generation for MUTEX          */
-#define OS_MUTEX_ACCEPT_EN        1u   /*     Include code for OSMutexAccept()                         */
-#define OS_MUTEX_DEL_EN           1u   /*     Include code for OSMutexDel()                            */
-#define OS_MUTEX_QUERY_EN         1u   /*     Include code for OSMutexQuery()                          */
+#define OS_MUTEX_EN               0u   /* Enable (1) or Disable (0) code generation for MUTEX          */
+#define OS_MUTEX_ACCEPT_EN        0u   /*     Include code for OSMutexAccept()                         */
+#define OS_MUTEX_DEL_EN           0u   /*     Include code for OSMutexDel()                            */
+#define OS_MUTEX_QUERY_EN         0u   /*     Include code for OSMutexQuery()                          */
 
 
                                        /* ---------------------- MESSAGE QUEUES ---------------------- */

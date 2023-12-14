@@ -7,9 +7,19 @@
 // used to store the raw data from PPM
 struct RecData {
   int now;
+  // (ch[i] - 1000) / 10 = persentage of power
+  // chs defined as:
+  // [R] l to r
+  // [R] down to up
+  // [L] down to up
+  // [L] l to r
+  // swa
+  // swd
   int chs[9];
-  int linedUp;
+  uint8_t linedUp;
+  uint8_t valid;
 };
+#include <stdbool.h>
 
 extern struct RecData recData;
 

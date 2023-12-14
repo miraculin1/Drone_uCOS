@@ -1,75 +1,89 @@
 #include "Includes.h"
-#include "declareFunctions.h"
-static void magBaseTest(EKF_T *ekf) {
-
-  msr2State(ekf);
-
-  /* // print out the quaternion */
-  /* for (int i = 0; i < 4; i++) { */
-  /* printf("%.2f ", ekf->x[i]); */
-  /* } */
-  /* printf("   "); */
-
-  double v[4], conx[4];
-  double qtmp[4];
-  quatConj(ekf->x, conx);
-  vec2Quat(ekf->magBase, v);
-  quatMulQuat(conx, v, qtmp);
-  quatMulQuat(qtmp, ekf->x, v);
-
-  for (int i = 1; i < 4; i++) {
-    printf("%.2f ", v[i]);
-  }
-  printf("\n");
-
-  printf("%.2f ", ekf->z[3]);
-  printf("%.2f ", ekf->z[4]);
-  printf("%.2f, %.1f\n", ekf->z[5], vecMod(3, ekf->z + 3));
-  printf("============\n");
-}
-
-static void accBaseTest(EKF_T *ekf) {
-  msr2State(ekf);
-
-  double v[4], conx[4];
-  double qtmp[4];
-  quatConj(ekf->x, conx);
-  vec2Quat(ekf->z, v);
-  quatMulQuat(ekf->x, v, qtmp);
-  quatMulQuat(qtmp, conx, v);
-
-  for (int i = 1; i < 4; i++) {
-    printf("%.2f ", v[i]);
-  }
-  printf("\n");
-
-  printf("%.2f ", ekf->z[0]);
-  printf("%.2f ", ekf->z[1]);
-  printf("%.2f, %.1f\n", ekf->z[2], vecMod(3, ekf->z));
-  printf("============\n");
-}
-
-static void printMagForPlot() {
-  double data[3];
-  MagmGuassData(data, magBias);
-  printf("%.2f ", data[0]);
-  printf("%.2f ", data[1]);
-  printf("%.2f\n", data[2]);
-}
-
+#include "pid.h"
+#include <math.h>
+static bool ekf = false;
+static bool use = false;
+static bool rec = false;
+static bool thro = false;
+static bool pid = false;
+static bool gyro = false;
+static bool inner = false;
 void SendInfo() {
+  OSTaskSuspend(PriSendinfo);
   while (1) {
-    double yaw, pitch, roll;
-    outputYPR(&yaw, &pitch, &roll);
-    printf("%.2f %.2f %.2f %d, %d\n", yaw, pitch, roll, deltatick, OSCPUUsage);
+    if (thro) {
+      for (int i = 0; i < 4; i++) {
+        printf("%d ", fourMotorG[i]);
+      }
+      printf("\n");
+    }
+    if (rec) {
+      for (int i = 0; i < 9; ++i) {
+        printf("%4d ", recData.chs[i]);
+      }
+      printf("\n");
+    }
+    if (ekf) {
+      printf("%f, %f %f\n", ypr[0] / M_PI * 180, ypr[1] / M_PI * 180,
+             ypr[2] / M_PI * 180);
+    }
+    if (gyro) {
+      printf("%f, %f %f\n", gyroRate[0] / M_PI * 180, gyroRate[1] / M_PI * 180,
+             gyroRate[2] / M_PI * 180);
+    }
+    if (use) {
+      printf("EKF:%.2fms CON:%.2fms CPU:%d\n", (float)EKFdeltatick / 100, (float)CONdeltatick / 100, OSCPUUsage);
+    }
+    if (pid) {
+      printf("pos: ");
+      for (int i = 0; i < 3; ++i) {
+        printf("%.2f ", posPID.control[i]);
+      }
+      printf("\n");
 
-    /* for (int i = 0; i < 4; ++i) { */
-      /* printf("%.2f ", quatOut[i]); */
-    /* } */
-    /* printf("\n"); */
-    /* print(ekftmp.P, 4, 4); */
-    /* printf("========\n"); */
+      printf("rate: ");
+      for (int i = 0; i < 3; ++i) {
+        printf("%.2f ", ratePID.control[i]);
+      }
+      printf("\n");
+    }
+    if (inner) {
+      printf("%.2f %.2f %.2f\n", posPID.control[0], posPID.control[1], posPID.control[2]);
+      printf("%.2f %.2f %.2f\n", gyroRate[0], gyroRate[1], gyroRate[2]);
+    }
 
-    OSTimeDlyHMSM(0, 0, 0, 50);
+    OSTimeDlyHMSM(0, 0, 0, 100);
+  }
+}
+
+void shellSendInfo(int argc, char *argv[]) {
+  if (argc == 1) {
+    OS_TCB tmp;
+    OSTaskQuery(PriSendinfo, &tmp);
+    if (tmp.OSTCBStat & OS_STAT_SUSPEND) {
+      OSTaskResume(PriSendinfo);
+      printf("[INFO] log on\n");
+    } else {
+      OSTaskSuspend(PriSendinfo);
+      printf("[INFO] log off\n");
+    }
+  } else {
+    if (strcmp(argv[1], "ekf") == 0) {
+      ekf ^= true;
+    } else if (strcmp(argv[1], "use") == 0) {
+      use ^= true;
+    } else if (strcmp(argv[1], "rec") == 0) {
+      rec ^= true;
+    } else if (strcmp(argv[1], "thro") == 0) {
+      thro ^= true;
+    } else if (strcmp(argv[1], "pid") == 0) {
+      pid ^= true;
+    } else if (strcmp(argv[1], "gyro") == 0) {
+      gyro ^= true;
+    } else if (strcmp(argv[1], "inner") == 0) {
+      inner ^= true;
+    } else {
+      printf("bad pram\n");
+    }
   }
 }

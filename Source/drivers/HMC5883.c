@@ -1,7 +1,7 @@
 #include "Includes.h"
 #define HMCAdd 0x3c
 
-double HMCmGaussPerLSB = 0;
+float HMCmGaussPerLSB = 0;
 
 // 8-avg 15Hz normal measurement continuos
 // need to delay at least 65ms before write in
@@ -56,38 +56,55 @@ void HMCJustListen(uint8_t *data) {
 }
 
 void MagRawData(int16_t out[3]) {
-  uint8_t raw[6];
-  IICBurstRead(HMCAdd, 0x03, 6, raw);
-
+  uint8_t errno;
+  uint8_t *raw;
+  if (dbuf.curVal == 0) {
+    OSSemPend(dbuf.sem0, 0, &errno);
+    raw = dbuf.rawbuf0 + 14;
+  } else if (dbuf.curVal == 1) {
+    OSSemPend(dbuf.sem1, 0, &errno);
+    raw = dbuf.rawbuf1 + 14;
+  } else {
+    OSSemPend(dbuf.sem0, 0, &errno);
+    raw = dbuf.rawbuf0 + 14;
+  }
   for (int i = 0; i < 3; i++) {
     out[i] = (raw[2 * i] << 8) | raw[2 * i + 1];
   }
+  if (dbuf.curVal == 0) {
+    OSSemPost(dbuf.sem0);
+  } else if (dbuf.curVal == 1) {
+    OSSemPost(dbuf.sem1);
+  } else {
+    OSSemPost(dbuf.sem0);
+  }
+
   uint16_t tmp = out[1];
   out[1] = out[2];
   out[2] = tmp;
 }
 
-void MagmGuassData(double dest[3], double *bias) {
+void MagmGuassData(float dest[3], float *bias) {
   int16_t data[3];
   if (bias == NULL) {
     MagRawData(data);
     for (int i = 0; i < 3; i++) {
-      dest[i] = ((double)data[i] * HMCmGaussPerLSB);
+      dest[i] = ((float)data[i] * HMCmGaussPerLSB);
     }
   } else {
     MagRawData(data);
     for (int i = 0; i < 3; i++) {
       dest[i] =
-          ((double)data[i] * HMCmGaussPerLSB - bias[i]) / bias[3 + i];
+          ((float)data[i] * HMCmGaussPerLSB - bias[i]) / bias[3 + i];
     }
   }
 }
 
 /* // TODO: implimant the RLS algorisim to get a "online" calibration */
-/* void HMCHardCal(double msr[9]) { */
-/* static double lamda = 0.98; */
-/* double theta[4] = {0}; */
-/* double P[4][4]; */
+/* void HMCHardCal(float msr[9]) { */
+/* static float lamda = 0.98; */
+/* float theta[4] = {0}; */
+/* float P[4][4]; */
 /*  */
 /* for (int i = 0; i < MAGCALSAMPLES; ++i) { */
 /* // take single sample */

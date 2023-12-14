@@ -9018,7 +9018,7 @@ typedef struct
 #define  QUADSPI_CCR_FMODE_1                      ((uint32_t)0x08000000)            /*!< Bit 1 */
 #define  QUADSPI_CCR_SIOO                         ((uint32_t)0x10000000)            /*!< SIOO: Send Instruction Only Once Mode */
 #define  QUADSPI_CCR_DHHC                         ((uint32_t)0x40000000)            /*!< DHHC: Delay Half Hclk Cycle */
-#define  QUADSPI_CCR_DDRM                         ((uint32_t)0x80000000)            /*!< DDRM: Double Data Rate Mode */ 
+#define  QUADSPI_CCR_DDRM                         ((uint32_t)0x80000000)            /*!< DDRM: float Data Rate Mode */ 
 /******************  Bit definition for QUADSPI_AR register  *******************/
 #define  QUADSPI_AR_ADDRESS                       ((uint32_t)0xFFFFFFFF)            /*!< ADDRESS[31:0]: Address */
 

@@ -1,14 +1,21 @@
 #include "Includes.h"
+#include "stm32f4xx.h"
 
 OS_STK __stk_Array[STK_CNT * STK_SIZE];
 OS_MEM *stkpool;
 OS_STK mainStk[STK_SIZE];
 OS_STK *topMainSTK = &mainStk[STK_SIZE - 1];
+uint8_t m0[20];
+uint8_t m1[20];
+
+// TODO: this shall be changed
+float SYS_DELTASEC = 0.02f;
+
+enum prioTbl;
 
 /*******************************
  * Table of tasks
- *******************************
- * prio|name|note
+ ******************************* * prio|name|note
  * */
 void userTaskCreate() {
   OS_STK *pstk;
@@ -18,21 +25,24 @@ void userTaskCreate() {
   // stkUSED counts zero enteties
   //
   pstk = OSMemGet(stkpool, &ERROR);
-  OSTaskCreateExt(&SendInfo, NULL, &pstk[STK_SIZE - 1], 2, 2, pstk, STK_SIZE, NULL,
-               OS_TASK_OPT_STK_CHK | OS_TASK_OPT_STK_CLR);
-  OSTaskNameSet(2, (unsigned char *)"sendInfo", &ERROR);
+  OSTaskCreateExt(&SendInfo, NULL, &pstk[STK_SIZE - 1], PriSendinfo, PriSendinfo, pstk, STK_SIZE,
+                  NULL, OS_TASK_OPT_STK_CHK | OS_TASK_OPT_STK_CLR);
+  OSTaskNameSet(PriSendinfo, (unsigned char *)"sendInfo", &ERROR);
 
   pstk = OSMemGet(stkpool, &ERROR);
-  OSTaskCreateExt(&attitudeEST, NULL, &pstk[STK_SIZE - 1], 4, 4, pstk, STK_SIZE,
+  OSTaskCreateExt(&attitudeEST, NULL, &pstk[STK_SIZE - 1], PriAttitude, PriAttitude, pstk, STK_SIZE,
                   NULL, OS_TASK_OPT_STK_CHK | OS_TASK_OPT_STK_CLR);
-  OSTaskNameSet(4, (unsigned char *)"attitudeEST", &ERROR);
+  OSTaskNameSet(PriAttitude, (unsigned char *)"attitudeEST", &ERROR);
 
-  /* pstk = OSMemGet(stkpool, &ERROR); */
-  /* OSTaskCreateExt(&updateThro, NULL, &pstk[STK_SIZE - 1], 3, 3, pstk, STK_SIZE, */
-                  /* NULL, OS_TASK_OPT_STK_CHK | OS_TASK_OPT_STK_CLR); */
-  /* OSTaskNameSet(3, (unsigned char *)"updThro", &ERROR); */
+  pstk = OSMemGet(stkpool, &ERROR);
+  OSTaskCreateExt(&taskControl, NULL, &pstk[STK_SIZE - 1], PriUpdThro, PriUpdThro, pstk, STK_SIZE,
+                  NULL, OS_TASK_OPT_STK_CHK | OS_TASK_OPT_STK_CLR);
+  OSTaskNameSet(PriUpdThro, (unsigned char *)"updThro", &ERROR);
 
-
+  pstk = OSMemGet(stkpool, &ERROR);
+  OSTaskCreateExt(&taskShell, NULL, &pstk[STK_SIZE - 1], PriShell, PriShell, pstk, STK_SIZE,
+                  NULL, OS_TASK_OPT_STK_CHK | OS_TASK_OPT_STK_CLR);
+ OSTaskNameSet(PriShell, (unsigned char *)"shell", &ERROR);
 }
 
 int main() {
@@ -75,26 +85,16 @@ void initHardware() {
   initIIC();
   initMPU6050();
   initHMC();
+  /* initMotor(); */
+
+  initDMA(m0, m1, sizeof(m0));
   initRec();
-  initMotor();
-
-  caliGyro();
-}
-
-void updateThro() {
-  while (1) {
-    if (recData.linedUp) {
-      fourMotor[0] = recData.chs[2] - 1000;
-      setThro(fourMotor);
-    }
-    OSTimeDly(2);
-  }
 }
 
 void initSystickPsv() {
   // set overall priority group to
   // 4bit preemt, 4bit sub
-  SCB->AIRCR |= (0b101 << 8);
+  NVIC_SetPriorityGrouping(5);
   // set up systick
   // /8 scale
   SysTick->CTRL &= ~(1 << 2);

@@ -3,19 +3,19 @@
 
 #include <math.h>
 
-typedef double quaternion_t[4];
-typedef double sencorData_t[3];
-typedef double DCM_t[3][3];
-void normalize(double *v, int dim);
-void vecCrossProd(double *out, double *v1, double *v2);
+typedef float quaternion_t[4];
+typedef float sencorData_t[3];
+typedef float DCM_t[3][3];
+void normalize(float *v, int dim);
+void vecCrossProd(float *out, float *v1, float *v2);
 void DCM2quat(quaternion_t out, DCM_t R);
 void quat2DCM(quaternion_t q, DCM_t R);
-void DCMTrans(double out[3], DCM_t R, double vect[3]);
-void squrMxVec(double *out, double **M, double *v, int dim);
-double vecMod(int n, double v[n]);
-void quatMulQuat(double *q, double *p, double *out);
-void vec2Quat(double *vec, double *quat);
-void quatConj(double *q, double *conq);
-void quat2Vec(double *quat, double *vec);
+void DCMTrans(float out[3], DCM_t R, float vect[3]);
+void squrMxVec(float *out, float **M, float *v, int dim);
+float vecMod(int n, float *v);
+void quatMulQuat(float *q, float *p, float *out);
+void vec2Quat(float *vec, float *quat);
+void quatConj(float *q, float *conq);
+void quat2Vec(float *quat, float *vec);
 
 #endif
